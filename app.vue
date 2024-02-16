@@ -58,7 +58,7 @@
   </aside>
   <main class="pl-72 relative min-h-screen">
     <div class="px-8">
-      <form class="flex-1 relative border-b py-4" action="#" method="GET">
+      <form class="flex-1 relative border-b" action="#" method="GET">
         <label for="search-field" class="sr-only">Search</label>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
           class="text-gray-400 w-5 h-full left-0 inset-y-0 absolute pointer-events-none">
@@ -66,7 +66,7 @@
             d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
             clip-rule="evenodd"></path>
         </svg>
-        <input id="search-field" class="text-sm text-gray-900 pl-8 pr-0 py-0 border-none w-full h-full block outline-0"
+        <input id="search-field" class="text-sm text-gray-900 pl-8 pr-0 py-4 border-none w-full h-full block outline-0"
           placeholder="Search..." type="search" name="search">
       </form>
     </div>

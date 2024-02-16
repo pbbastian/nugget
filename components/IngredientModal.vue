@@ -1,6 +1,6 @@
 <template>
     <TransitionRoot as="template" :show="open">
-        <Dialog as="div" class="relative z-50" @close="open = false">
+        <Dialog as="div" class="relative z-50" @close="$emit('closeModal')">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-6 flex items-center justify-end gap-x-6">
-                                        <button type="button" @click="open = false"
+                                        <button type="button" @click="$emit('closeModal')"
                                             class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
                                         <button type="submit"
                                             class="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400">Save</button>
@@ -123,8 +123,8 @@
 </template>
   
 <script setup>
-import { ref } from 'vue'
+import { defineProps } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-const open = ref(true)
+const props = defineProps(['open']);
 </script>

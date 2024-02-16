@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold leading-7 text-orange-950 sm:truncate sm:text-3xl sm:tracking-tight ">Ingredients
             </h2>
         </div>
-        <button class="py-2 px-3 text-white bg-orange-400 rounded-md hover:bg-orange-300 transition-color duration-500" @click="open = true">Add
+        <button class="py-2 px-3 text-white bg-orange-400 rounded-md hover:bg-orange-300 transition-color duration-500" @click="modalOpen = true">Add
             new Ingredient</button>
     </div>
     <div class="mt-6">
@@ -116,9 +116,11 @@
         </li>
     </ul>
 </div>
-<IngredientModal /></template>
+<IngredientModal :open="modalOpen" @close-modal="modalOpen = false"/></template>
   
 <script setup>
 import { Icon } from '@iconify/vue';
 import IngredientModal from "../components/IngredientModal.vue";
+
+const modalOpen = ref(false);
 </script>
