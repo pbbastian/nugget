@@ -1,7 +1,7 @@
 <template>
     <div class="lg:flex lg:items-center lg:justify-between">
         <div class="min-w-0 flex-1">
-            <h2 class="text-2xl font-bold leading-7 text-orange-950 sm:truncate sm:text-3xl sm:tracking-tight ">Ingredients
+            <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">Ingredients
             </h2>
         </div>
         <button class="py-2 px-3 text-white bg-orange-400 rounded-md hover:bg-orange-300 transition-color duration-500" @click="modalOpen = true">Add
@@ -12,7 +12,7 @@
             <li class="grid grid-cols-5 gap-x-6 py-5">
                 <div class="col-span-2 flex min-w-0 gap-x-4">
                     <div class="min-w-0 flex-auto">
-                        <p class="text-sm font-semibold leading-6 text-gray-900">Hakket Oksekød <span>(15g pr. tbsp)</span>
+                        <p class="text-sm font-semibold leading-6 text-orange-950">Hakket Oksekød <span>(15g pr. tbsp)</span>
                         </p>
                         <p class="mt-1 truncate text-xs leading-5 text-gray-500">Rema 1000</p>
                     </div>
@@ -47,7 +47,7 @@
             <li class="grid grid-cols-5 gap-x-6 py-5">
                 <div class="col-span-2 flex min-w-0 gap-x-4">
                     <div class="min-w-0 flex-auto">
-                        <p class="text-sm font-semibold leading-6 text-gray-900">Hakket Oksekød <span>(15g pr. tbsp)</span>
+                        <p class="text-sm font-semibold leading-6 text-orange-950">Hakket Oksekød <span>(15g pr. tbsp)</span>
                         </p>
                         <p class="mt-1 truncate text-xs leading-5 text-gray-500">Rema 1000</p>
                     </div>
@@ -82,7 +82,7 @@
             <li class="grid grid-cols-5 gap-x-6 py-5">
                 <div class="col-span-2 flex min-w-0 gap-x-4">
                     <div class="min-w-0 flex-auto">
-                        <p class="text-sm font-semibold leading-6 text-gray-900">Hakket Oksekød <span>(15g pr. tbsp)</span>
+                        <p class="text-sm font-semibold leading-6 text-orange-950">Hakket Oksekød <span>(15g pr. tbsp)</span>
                         </p>
                         <p class="mt-1 truncate text-xs leading-5 text-gray-500">Rema 1000</p>
                     </div>
