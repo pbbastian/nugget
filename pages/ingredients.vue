@@ -36,10 +36,10 @@
                     </div>
                 </div>
                 <div class="col-span-1 flex items-center justify-end gap-2">
-                    <button class="p-1.5 hover:opacity-60 transition-color">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="modalOpen = true">
                         <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
                     </button>
-                    <button class="p-1.5 hover:opacity-60 transition-color">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteModalOpen = true">
                         <Icon icon="teenyicons:bin-outline" class="text-red-400 h-6 w-6" />
                     </button>
                 </div>
@@ -71,10 +71,10 @@
                     </div>
                 </div>
                 <div class="col-span-1 flex items-center justify-end gap-2">
-                    <button class="p-1.5 hover:opacity-60 transition-color">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="modalOpen = true">
                         <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
                     </button>
-                    <button class="p-1.5 hover:opacity-60 transition-color">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteModalOpen = true">
                         <Icon icon="teenyicons:bin-outline" class="text-red-400 h-6 w-6" />
                     </button>
                 </div>
@@ -106,21 +106,26 @@
                     </div>
                 </div>
                 <div class="col-span-1 flex items-center justify-end gap-2">
-                    <button class="p-1.5 hover:opacity-60 transition-color">
-                    <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
-                </button>
-                <button class="p-1.5 hover:opacity-60 transition-color">
-                    <Icon icon="teenyicons:bin-outline" class="text-red-400 h-6 w-6" />
-                </button>
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="modalOpen = true">
+                        <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
+                    </button>
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteModalOpen = true">
+                        <Icon icon="teenyicons:bin-outline" class="text-red-400 h-6 w-6" />
+                    </button>
             </div>
         </li>
     </ul>
 </div>
-<IngredientModal :open="modalOpen" @close-modal="modalOpen = false"/></template>
+<IngredientModal :open="modalOpen" @close-modal="modalOpen = false"/>
+<DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false"/>
+</template>
+
   
 <script setup>
 import { Icon } from '@iconify/vue';
-import IngredientModal from "../components/IngredientModal.vue";
+import IngredientModal from "../components/modals/IngredientModal.vue";
+import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const modalOpen = ref(false);
+const deleteModalOpen = ref(false);
 </script>

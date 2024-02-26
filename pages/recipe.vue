@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
-            <button type="button"
+            <button type="button" @click="deleteModalOpen = true"
                 class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50">
                 <Icon icon="teenyicons:bin-outline" class="text-red-400 h-5 w-5" />
                 Delete
@@ -57,11 +57,68 @@
                     <p class="text-xs text-orange-950/50">fibers</p>
                 </div>
             </div>
+            <div class="w-full px-12 py-16 grid grid-cols-3 gap-10 text-orange-950/70 leading-loose">
+                <div class="col-span-1 relative">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-semibold">Ingredients</h3>
+                        <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
+                            <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
+                        </button>
+                    </div>
 
+                    <h4 class="font-bold mt-4">Tærtebund</h4>
+                    <ul>
+                        <li>100 g. smør</li>
+                        <li>100 g. hvedemel</li>
+                        <li>80 g. grahamsmel</li>
+                        <li>1 stk. æg</li>
+                    </ul>
+
+                    <h4 class="font-bold mt-4">Fyld</h4>
+                    <ul>
+                        <li>300 g. hakket oksekød</li>
+                        <li>0,5 brev tacokrydderi</li>
+                        <li>0,5 stk. rød peberfrugt</li>
+                        <li>0,25 bundt forårsløg</li>
+                        <li>100 g. majs på dåse</li>
+                        <li>4 stk. æg</li>
+                        <li>100 g. creme fraiche</li>
+                        <li>salt/peber</li>
+                        <li>50 g. cheddar</li>
+                    </ul>
+                </div>
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-semibold mb-6">Steps</h3>
+                    <ol class="grid gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
+                        <li>Først laves tærtedejen. Skær smør i små tern.</li>
+                        <li>Bland alle ingredienserne i en skål. Start med at samle dejen sammen med hænderne.</li>
+                        <li>Smuldr alle ingredienserne sammen og bliv ved med at arbejde med dejen til den samler sig.</li>
+                        <li>Du kan evt. tilsætte lidt vand, hvis du har svært ved at samle dejen.</li>
+                        <li>Når du har en ensartet dej, så formes den til en kugle, som trykkes flad (så er den nem at rulle ud). Pak den ind i husholdningsfilm.</li>
+                        <li>Sæt dejen på køl i 30 min.</li>
+                        <li>Imens den er på køl, så kan du forberede fyldet.</li>
+                        <li>Varm en gryde op med fedtstof.</li>
+                        <li>Kom hakket oksekød i og lad det stege til det har fået farve over det hele. Tilsæt så tacokrydderi og vendt det godt rundt. Tag kødet fra og lad det køle en smule af.</li>
+                        <li>Hak peberfrugt og forårsløg fint. Dræn majs.</li>
+                        <li>Pisk æg sammen med creme fraiche og salt/peber. Riv cheddar og vend i æggemassen.</li>
+                        <li>Tænd ovnen på 190 grader varmluft.</li>
+                        <li>Rul tærtedejen ud i lidt hvedemel til en cirkel, så den passer med et tærtefad på ca. 24-26 cm. i diameter. Kom bunden over i fadet og pres den godt ud mod kanterne. Skær evt. overskydende dej af. Prik bunden med en gaffel.</li>
+                        <li>Forbag bunden i den forvarmet ovn i 10 minutter.</li>
+                        <li>Tag herefter bunden ud.</li>
+                        <li>Fordel fyld og æggeblandingen på bunden.</li>
+                        <li>Bag tærten ved 180 grader varmluft i 25-30 minutter. Hold øje med den efter 20 minutter, da der kan være forskel på ovne.</li>
+                        <li>Tag tærten ud og lad den køle af 5-10 minutter inden den spises. Pynt evt. med lidt forårsløg på toppen.</li>
+                    </ol>
+                </div>
+            </div>
         </article>
     </div>
+    <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false"/>
 </template>
   
 <script setup>
 import { Icon } from '@iconify/vue';
+import DeleteModal from "../components/modals/DeleteModal.vue";
+
+const deleteModalOpen = ref(false);
 </script>
