@@ -1,7 +1,7 @@
 <template>
-  <div class="">
-    <aside class="fixed inset-y-0 z-50 w-72 h-screen overflow-hidden px-6 pt-8 border-r flex flex-col gap-12">
-      <div class="w-3/4 h-auto">
+  <div>
+    <aside class="bg-white fixed max-lg:inset-x-0 lg:inset-y-0 z-50 lg:w-72 lg:h-screen overflow-hidden px-6 pt-2 lg:pt-8 max-lg:pb-2 max-lg:border-b lg:border-r max-lg:shadow-sm flex max-lg:justify-between lg:flex-col gap-12">
+      <a href="/" class="w-[140px] lg:w-3/4 h-auto">
         <svg width="100%" height="100%" viewBox="0 0 370.30769230769226 65.10369641791941" class="looka-1j8o68f">
           <defs id="SvgjsDefs3360"></defs>
           <g id="SvgjsG3361" featurekey="symbolFeature-0"
@@ -24,39 +24,39 @@
             </path>
           </g>
         </svg>
-      </div>
-      <div class="flex flex-col justify-between h-full">
+      </a>
+      <div class="flex lg:flex-col justify-between h-full">
         <nav>
-          <ul class="flex flex-col gap-2 font-semibold text-gray-700 -mx-3">
+          <ul class="flex lg:flex-col gap-2 font-semibold text-gray-700 -mx-3">
             <li>
               <a href="/"
-                class="group flex items-center gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300">
+                class="group flex items-center gap-2 lg:gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300">
                 <Icon icon="ph:bowl-food-light"
-                  class="w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300" />
+                  class="max-sm:hidden w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300" />
                 Recipes
               </a>
             </li>
             <li>
               <a href="/ingredients"
-                class="group flex items-center gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300">
+                class="group flex items-center gap-2 lg:gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300">
                 <Icon icon="fluent:food-carrot-20-regular"
-                  class="w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300" />
+                  class="max-sm:hidden w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300" />
                 Ingredients
               </a>
             </li>
           </ul>
         </nav>
-        <a href="#"
+        <!-- <a href="#"
           class="text-gray-900 font-semibold text-sm flex items-center gap-4 -mx-6 px-6 py-4 hover:bg-orange-50">
           <img class="h-8 w-8 rounded-full"
           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
           alt="">
         <span class="sr-only">Your profile</span>
         <span aria-hidden="true">Peter Bay Bastian</span>
-      </a>
+      </a> -->
     </div>
   </aside>
-  <main class="pl-72 relative min-h-screen">
+  <main class="lg:pl-72 relative lg:min-h-screen max-lg:pt-16">
     <div class="px-8">
       <form class="flex-1 relative border-b" action="#" method="GET">
         <label for="search-field" class="sr-only">Search</label>
@@ -70,7 +70,7 @@
           placeholder="Search..." type="search" name="search">
       </form>
     </div>
-    <div class="px-8 py-10 @container">
+    <div class="px-8 py-6 sm:py-10 @container max-w-screen-xl mx-auto">
       <NuxtPage />
     </div>
   </main>

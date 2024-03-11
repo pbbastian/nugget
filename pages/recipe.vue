@@ -33,63 +33,72 @@
         </div>
     </div>
     <div class="mt-6">
-        <div class="relative h-80 w-full overflow-hidden rounded-t-xl">
+        <div class="relative h-40 md:h-80 w-full overflow-hidden rounded-t-xl">
             <img class="absolute inset-0 w-full h-full object-cover"
                 src="https://images.unsplash.com/photo-1543352632-5a4b24e4d2a6?q=80&w=3725&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="fooood">
-        </div>
-        <article class="bg-orange-50 min-h-36 relative">
-            <div class="absolute -top-14 left-1/2 -translate-x-1/2 bg-orange-50 flex gap-x-8 gap-y-4 flex-wrap @[300px]/grid:flex-nowrap justify-center text-center px-12 py-2 rounded-t-md">
-                <div>
-                    <p class="font-medium text-orange-400">600</p>
-                    <p class="text-xs text-orange-950/50">kcal</p>
-                </div>
-                <div>
-                    <p class="font-medium text-orange-400">60</p>
-                    <p class="text-xs text-orange-950/50">protein</p>
-                </div>
-                <div>
-                    <p class="font-medium text-orange-400">10</p>
-                    <p class="text-xs text-orange-950/50">fat</p>
-                </div>
-                <div>
-                    <p class="font-medium text-orange-400">4</p>
-                    <p class="text-xs text-orange-950/50">fibers</p>
-                </div>
-            </div>
-            <div class="w-full px-12 py-16 grid grid-cols-3 gap-10 text-orange-950/70 leading-loose">
-                <div class="col-span-1 relative">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-semibold">Ingredients</h3>
-                        <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
-                            <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
-                        </button>
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 bg-orange-50 flex gap-8 justify-center text-center px-4 @[300px]/grid:px-12 py-2 rounded-t-md">
+                    <div>
+                        <p class="font-medium text-orange-400">600</p>
+                        <p class="text-xs text-orange-950/50">kcal</p>
                     </div>
-
-                    <h4 class="font-bold mt-4">Tærtebund</h4>
-                    <ul>
-                        <li>100 g. smør</li>
-                        <li>100 g. hvedemel</li>
-                        <li>80 g. grahamsmel</li>
-                        <li>1 stk. æg</li>
-                    </ul>
-
-                    <h4 class="font-bold mt-4">Fyld</h4>
-                    <ul>
-                        <li>300 g. hakket oksekød</li>
-                        <li>0,5 brev tacokrydderi</li>
-                        <li>0,5 stk. rød peberfrugt</li>
-                        <li>0,25 bundt forårsløg</li>
-                        <li>100 g. majs på dåse</li>
-                        <li>4 stk. æg</li>
-                        <li>100 g. creme fraiche</li>
-                        <li>salt/peber</li>
-                        <li>50 g. cheddar</li>
-                    </ul>
+                    <div>
+                        <p class="font-medium text-orange-400">60</p>
+                        <p class="text-xs text-orange-950/50">protein</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-orange-400">10</p>
+                        <p class="text-xs text-orange-950/50">fat</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-orange-400">4</p>
+                        <p class="text-xs text-orange-950/50">fibers</p>
+                    </div>
                 </div>
-                <div class="col-span-2">
-                    <h3 class="text-2xl font-semibold mb-6">Steps</h3>
-                    <ol class="grid gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
+        </div>
+        <article class="bg-orange-50">
+            <div class="w-full px-6 md:px-12 py-8 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 text-orange-950/70 leading-loose">
+                <div class="md:col-span-1">
+                    <div class="md:sticky top-20 lg:top-8 bg-orange-50">
+                        <div class="flex items-center justify-between mb-3 md:mb-6">
+                            <button @click="showIngredientsList = !showIngredientsList;" class="text-2xl font-semibold">Ingredients</button>
+                            <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
+                                <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
+                            </button>
+                        </div>
+                        <Collapse :when="showIngredientsList" :baseHeight="50" class="v-collapse">
+                            <div class="grid gap-4 lg:gap-8">
+                                <div>
+                                    <h4 class="font-bold">Tærtebund</h4>
+                                    <ul class="grid gap-0.5 lg:gap-1">
+                                        <li>100 g. smør</li>
+                                        <li>100 g. hvedemel</li>
+                                        <li>80 g. grahamsmel</li>
+                                        <li>1 stk. æg</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Fyld</h4>
+                                    <ul class="grid gap-1">
+                                        <li>300 g. hakket oksekød</li>
+                                        <li>0,5 brev tacokrydderi</li>
+                                        <li>0,5 stk. rød peberfrugt</li>
+                                        <li>0,25 bundt forårsløg</li>
+                                        <li>100 g. majs på dåse</li>
+                                        <li>4 stk. æg</li>
+                                        <li>100 g. creme fraiche</li>
+                                        <li>salt/peber</li>
+                                        <li>50 g. cheddar</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div v-if="!showIngredientsList" class="absolute bottom-0 w-full h-20 bg-gradient-to-t from-orange-50 to-transparent"></div>
+                        </Collapse>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-semibold  mb-3 md:mb-6">Steps</h3>
+                    <ol class="grid gap-3 lg:gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
                         <li>Først laves tærtedejen. Skær smør i små tern.</li>
                         <li>Bland alle ingredienserne i en skål. Start med at samle dejen sammen med hænderne.</li>
                         <li>Smuldr alle ingredienserne sammen og bliv ved med at arbejde med dejen til den samler sig.</li>
@@ -115,10 +124,19 @@
     </div>
     <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false"/>
 </template>
-  
-<script setup>
-import { Icon } from '@iconify/vue';
-import DeleteModal from "../components/modals/DeleteModal.vue";
 
-const deleteModalOpen = ref(false);
+<style>
+.v-collapse {
+  transition: height 500ms cubic-bezier(0.33, 1, 0.68, 1);
+  position: relative;
+}
+</style>
+
+<script setup>
+    import { Icon } from '@iconify/vue';
+    import { Collapse } from 'vue-collapsed';
+    import DeleteModal from "../components/modals/DeleteModal.vue";
+
+    const deleteModalOpen = ref(false);
+    const showIngredientsList = ref(true);
 </script>
