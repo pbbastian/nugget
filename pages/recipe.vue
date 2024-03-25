@@ -25,11 +25,11 @@
                 <Icon icon="lets-icons:folder-dublicate-light" class="text-gray-700 h-6 w-6" />
                 Duplicate
             </button>
-            <button type="button"
+            <a href="/edit"
                 class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <Icon icon="circum:edit" class="text-gray-700 h-6 w-6" />
                 Edit
-            </button>
+        </a>
         </div>
     </div>
     <div class="mt-6">
