@@ -84,9 +84,12 @@
                 </div>
                 <div class="md:col-span-2">
                     <h3 class="text-2xl font-semibold  mb-3 md:mb-6">Steps</h3>
-                    <ol class="grid gap-3 lg:gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
-                        <li v-for="step in data.recipe.steps">{{ step.text }}</li>
-                    </ol>
+                    <div v-for="step in data.recipe.steps">
+                        <h4 class="font-bold" v-if="step.name">{{ step.name }}</h4>
+                        <ol class="grid gap-3 lg:gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
+                            <li v-for="step in step.items">{{ step.text }}</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </article>
