@@ -10,6 +10,18 @@ export interface Recipe {
     protein: number,
 }
 
+export interface RecipesResult {
+    recipes: Recipe[],
+}
+
 export async function useRecipes() {
-    return await useFetch<Recipe>('/api/recipes');
+    return await useFetch<RecipesResult>('/api/recipes');
 };
+
+export interface RecipeResult {
+    recipe?: Recipe,
+}
+
+export async function useRecipe(id: number) {
+    return await useFetch<RecipeResult>(`/api/recipes/${id}`);
+}
