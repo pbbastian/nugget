@@ -1,7 +1,14 @@
 <template>
-    <div class="lg:flex lg:items-center lg:justify-between">
+    <div class="lg:flex lg:items-start lg:justify-between">
         <div class="min-w-0 flex-1">
             <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">Recipes</h2>
+        </div>
+        <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
+            <a href="/edit"
+                class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-sm ring-1 ring-inset ring-orange-400 hover:bg-orange-50 transition-colors duration-300">
+                <Icon icon="lets-icons:add-round" class="text-orange-500 h-6 w-6" />
+                Add recipe
+        </a>
         </div>
     </div>
     <div class="grid mt-3 sm:mt-6 grid-cols-1 @md:grid-cols-2 @3xl:grid-cols-3 @6xl:grid-cols-4 gap-6 @3xl:gap-10">
