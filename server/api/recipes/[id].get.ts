@@ -1,19 +1,33 @@
 import { z } from "zod";
+import { sql } from "squid/pg";
 
 const routeSchema = z.object({
-  id: z.coerce.number().int().gte(0)
+    id: z.coerce.number().int().gte(0)
 });
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, routeSchema.parse);
-  const res = await pool.query('SELECT * FROM recipes WHERE id = $1', [params.id]);
-  if (res.rowCount == 0) {
-    setResponseStatus(event, 404);
-    return {
-      recipe: null
-    };
-  }
-  return {
-    recipe: res.rows[0],
-  };
+    const params = await getValidatedRouterParams(event, routeSchema.parse);
+    
+    const recipes = await pool.query(sql`
+        SELECT * FROM "recipes"
+        WHERE "id" = ${params.id}
+    `);
+    
+    if (recipes.rowCount == 0) {
+        setResponseStatus(event, 404);
+        return {
+            recipe: null
+        };
+    }
+    
+    const recipe = recipes.rows[0];
+    const steps = await pool.query(sql`
+        SELECT "id", "text"
+        FROM "recipe_steps"
+        WHERE "recipe" = ${params.id}
+        ORDER BY "order"
+    `);
+    recipe.steps = steps.rows;
+    
+    return { recipe };
 });
