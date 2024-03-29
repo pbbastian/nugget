@@ -22,22 +22,32 @@ export default defineEventHandler(async (event) => {
     
     const recipe = recipes.rows[0];
 
-    const steps = await pool.query(sql`
-        SELECT "id", "text"
-        FROM "recipe_steps"
-        WHERE "recipe" = ${params.id}
-        ORDER BY "order"
+    const stepSections = await pool.query(sql`
+        SELECT s.id, s.name
+        FROM recipe_step_sections s
+        WHERE s.recipe = ${params.id}
+        ORDER BY s.order
     `);
-    recipe.steps = steps.rows;
+    recipe.steps = stepSections.rows;
 
-    const sections = await pool.query(sql`
+    for (let section of recipe.steps) {
+        const steps = await pool.query(sql`
+            SELECT rs.id, rs.text
+            FROM recipe_steps rs
+            WHERE rs.section = ${section.id}
+            ORDER BY rs.order
+        `);
+        section.items = steps.rows;
+    }
+
+    const ingredientSections = await pool.query(sql`
         SELECT s.id, s.name
         FROM recipe_ingredient_sections s
         WHERE s.recipe = ${params.id}
         ORDER BY s.order
     `);
 
-    recipe.ingredients = sections.rows;
+    recipe.ingredients = ingredientSections.rows;
 
     for (let section of recipe.ingredients) {
         const ingredients = await pool.query(sql`
