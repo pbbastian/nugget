@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
     }
     
     const recipe = recipes.rows[0];
+
     const steps = await pool.query(sql`
         SELECT "id", "text"
         FROM "recipe_steps"
@@ -28,6 +29,15 @@ export default defineEventHandler(async (event) => {
         ORDER BY "order"
     `);
     recipe.steps = steps.rows;
-    
+
+    const ingredients = await pool.query(sql`
+        SELECT ri.id, ri.ingredient, i.name, ri.amount, ri.unit, i.weight
+        FROM recipe_ingredients ri
+        JOIN ingredients i ON ri.ingredient = i.id
+        WHERE ri.recipe = ${params.id}
+        ORDER BY ri.order
+    `);
+    recipe.ingredients = ingredients.rows;
+
     return { recipe };
 });
