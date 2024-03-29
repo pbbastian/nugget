@@ -17,7 +17,9 @@ export interface IngredientsResult {
 }
 
 export async function useIngredients() {
-    return await useFetch<IngredientsResult>('/api/ingredients');
+    return await useFetch<IngredientsResult>('/api/ingredients', {
+        default: () => ({} as IngredientsResult),
+    });
 }
 
 export interface IngredientResult {
@@ -25,5 +27,7 @@ export interface IngredientResult {
 }
 
 export async function useIngredient(id: number) {
-    return await useFetch<IngredientResult>(`/api/ingredients/${id}`);
+    return await useFetch<IngredientResult>(`/api/ingredients/${id}`, {
+        default: () => ({} as IngredientResult),
+    });
 }

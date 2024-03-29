@@ -15,7 +15,9 @@ export interface RecipesResult {
 }
 
 export async function useRecipes() {
-    return await useFetch<RecipesResult>('/api/recipes');
+    return await useFetch<RecipesResult>('/api/recipes', {
+        default: () => ({} as RecipesResult),
+    });
 };
 
 export interface RecipeResult {
@@ -27,7 +29,9 @@ interface IDictionary {
 }
 
 export async function useRecipe(id: number) {
-    let result = await useFetch<RecipeResult>(`/api/recipes/${id}`);
+    let result = await useFetch<RecipeResult>(`/api/recipes/${id}`, {
+        default: () => ({} as RecipeResult),
+    });
 
     let delta: IDictionary = {};
 
