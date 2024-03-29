@@ -21,7 +21,7 @@ export async function useIngredients() {
 }
 
 export interface IngredientResult {
-    ingredient: Ingredient | null
+    ingredient: Ingredient
 }
 
 export async function useIngredient(id: number) {

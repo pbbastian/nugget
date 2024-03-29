@@ -19,9 +19,34 @@ export async function useRecipes() {
 };
 
 export interface RecipeResult {
-    recipe: Recipe | null,
+    recipe: Recipe,
+}
+
+interface IDictionary {
+    [index: string]: any;
 }
 
 export async function useRecipe(id: number) {
-    return await useFetch<RecipeResult>(`/api/recipes/${id}`);
+    let result = await useFetch<RecipeResult>(`/api/recipes/${id}`);
+
+    let delta: IDictionary = {};
+
+    watch(result.data, (newData, oldData) => {
+        let newRecipe = newData?.recipe!;
+        let oldRecipe = oldData?.recipe!;
+        for (const key in newRecipe) {
+            let k = key as keyof Recipe;
+            if (newRecipe[k] !== oldRecipe[k]) {
+                delta[k] = newRecipe[k];
+            }
+            // if (value !== oldRecipe)
+        }
+    });
+
+    return {
+        save() {
+            
+        },
+        ...result
+    };
 }
