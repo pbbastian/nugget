@@ -30,14 +30,25 @@ export default defineEventHandler(async (event) => {
     `);
     recipe.steps = steps.rows;
 
-    const ingredients = await pool.query(sql`
-        SELECT ri.id, ri.ingredient, i.name, ri.amount, ri.unit, i.weight
-        FROM recipe_ingredients ri
-        JOIN ingredients i ON ri.ingredient = i.id
-        WHERE ri.recipe = ${params.id}
-        ORDER BY ri.order
+    const sections = await pool.query(sql`
+        SELECT s.id, s.name
+        FROM recipe_ingredient_sections s
+        WHERE s.recipe = ${params.id}
+        ORDER BY s.order
     `);
-    recipe.ingredients = ingredients.rows;
+
+    recipe.ingredients = sections.rows;
+
+    for (let section of recipe.ingredients) {
+        const ingredients = await pool.query(sql`
+            SELECT ri.id, ri.ingredient, i.name, ri.amount, ri.unit, i.weight
+            FROM recipe_ingredients ri
+            JOIN ingredients i ON ri.ingredient = i.id
+            WHERE ri.section = ${section.id}
+            ORDER BY ri.order
+        `);
+        section.items = ingredients.rows;
+    }
 
     return { recipe };
 });
