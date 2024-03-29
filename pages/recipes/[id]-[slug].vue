@@ -71,24 +71,10 @@
                         </div>
                         <Collapse :when="showIngredientsList" :baseHeight="50" class="v-collapse">
                             <div class="grid gap-4 lg:gap-8">
-                                <div>
-                                    <h4 class="font-bold">Tærtebund</h4>
+                                <div v-for="category in data.recipe.ingredients">
+                                    <h4 v-if="category.name" class="font-bold">{{ category.name }}</h4>
                                     <ul class="grid gap-0.5 lg:gap-1">
-                                        <li v-for="ingredient in data.recipe.ingredients">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">Fyld</h4>
-                                    <ul class="grid gap-1">
-                                        <li>300 g. hakket oksekød</li>
-                                        <li>0,5 brev tacokrydderi</li>
-                                        <li>0,5 stk. rød peberfrugt</li>
-                                        <li>0,25 bundt forårsløg</li>
-                                        <li>100 g. majs på dåse</li>
-                                        <li>4 stk. æg</li>
-                                        <li>100 g. creme fraiche</li>
-                                        <li>salt/peber</li>
-                                        <li>50 g. cheddar</li>
+                                        <li v-for="ingredient in category.items">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
                                     </ul>
                                 </div>
                             </div>
