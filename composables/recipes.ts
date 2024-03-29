@@ -1,5 +1,6 @@
 export interface Recipe {
     name: string,
+    slug: string,
     image: string,
     portions: number,
     energy: number,
