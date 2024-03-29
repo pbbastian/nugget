@@ -74,10 +74,7 @@
                                 <div>
                                     <h4 class="font-bold">Tærtebund</h4>
                                     <ul class="grid gap-0.5 lg:gap-1">
-                                        <li>100 g. smør</li>
-                                        <li>100 g. hvedemel</li>
-                                        <li>80 g. grahamsmel</li>
-                                        <li>1 stk. æg</li>
+                                        <li v-for="ingredient in data.recipe.ingredients">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
                                     </ul>
                                 </div>
                                 <div>
