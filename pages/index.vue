@@ -17,7 +17,7 @@
                 class="z-10 absolute top-2 right-2 py-1.5 px-4 bg-orange-400 rounded-md shadow-md text-white">
                 {{ recipe.portions }} portions
         </div>
-            <a :href="'/recipes/' + recipe.id">
+            <a :href="'/recipes/' + recipe.id + '-' + recipe.slug">
                 <div class="relative h-52 w-full overflow-hidden">
                     <img class="absolute inset-0 w-full h-full object-cover"
                         :src="recipe.image || 'https://images.unsplash.com/photo-1543352632-5a4b24e4d2a6?q=80&w=3725&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
@@ -33,10 +33,6 @@
                         <div>
                             <p class="font-medium text-orange-400">{{ Math.round(recipe.protein) || 0 }}</p>
                             <p class="text-xs text-orange-950/40">protein</p>
-                        </div>
-                        <div>
-                            <p class="font-medium text-orange-400">{{ Math.round(recipe.fat) || 0 }}</p>
-                            <p class="text-xs text-orange-950/40">fat</p>
                         </div>
                         <div>
                             <p class="font-medium text-orange-400">{{ Math.round(recipe.fibres) || 0 }}</p>
