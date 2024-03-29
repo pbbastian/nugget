@@ -30,7 +30,7 @@
                             <div class="mt-2">
                                 <div
                                     class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
-                                    <input type="text" name="recipename" id="recipename"
+                                    <input type="text" name="recipename" id="recipename" :value="data.recipe.name"
                                         class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         placeholder="Nuggets med fritter" />
                                 </div>
@@ -43,7 +43,7 @@
                             <div class="mt-2">
                                 <div
                                     class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md">
-                                    <input type="number" name="portions" id="portions"
+                                    <input type="number" name="portions" id="portions" :value="data.recipe.portions"
                                         class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         placeholder="4" />
                                 </div>
@@ -56,8 +56,13 @@
                             <div
                                 class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                 <div class="text-center">
-                                    <Icon icon="f7:photo-fill" class="mx-auto h-12 w-12 text-gray-300"
-                                        aria-hidden="true" />
+                                    <Icon v-if="!data.recipe.image" icon="f7:photo-fill"
+                                        class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                                    <div v-else class="mx-auto h-24 w-40 relative rounded-md overflow-hidden">
+                                        <img class="absolute inset-0 w-full h-full object-cover"
+                                            :src="data.recipe.image"
+                                            alt="fooood">
+                                    </div>
                                     <div class="mt-4 flex text-sm leading-6 text-gray-600">
                                         <label for="cover-photo"
                                             class="relative cursor-pointer rounded-md bg-white font-semibold text-orange-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-orange-500 focus-within:ring-offset-2 hover:text-orange-600">
@@ -76,14 +81,16 @@
                 <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-lg font-semibold leading-7 text-gray-900">Ingredients</h2>
                     <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div  v-for="(ingredient, index) in ingredients" class="col-span-full grid grid-cols-4 gap-2 sm:gap-6">
+                        <div v-for="(ingredient, index) in ingredients"
+                            class="col-span-full grid grid-cols-4 gap-2 sm:gap-6">
                             <div class="col-span-full sm:col-span-2 w-full">
                                 <p class="block text-sm font-medium leading-6 text-gray-900">Ingredient</p>
                                 <div class="mt-2">
                                     <Combobox v-model="selected">
                                         <div class="relative mt-1">
-                                            <div
-                                            block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:max-w-xs sm:text-sm sm:leading-6
+                                            <div block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                                ring-inset ring-gray-300 focus:ring-2 focus:ring-inset
+                                                focus:ring-orange-500 sm:max-w-xs sm:text-sm sm:leading-6
                                                 class="relative w-full cursor-default overflow-hidden rounded-md bg-white text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border border-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6">
                                                 <ComboboxInput
                                                     class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
@@ -149,9 +156,9 @@
                                     </select>
 
                                     <button @click="ingredients.splice(index, 1)" type="button">
-                                    <Icon icon="teenyicons:bin-outline"
-                                        class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5" />
-                                </button>
+                                        <Icon icon="teenyicons:bin-outline"
+                                            class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +186,7 @@
                                 </button>
                             </div>
                             <div class="mt-2">
-                                <textarea :id="'step' + index" :name="'step' + step" rows="3"
+                                <textarea :id="'step' + index" :name="'step' + step" rows="3" :value="step.text"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"></textarea>
                             </div>
                         </div>
@@ -218,9 +225,14 @@ import {
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import DeleteModal from "../components/modals/DeleteModal.vue";
 
+const route = useRoute()
+
+const { data, pending, error, refresh } = await useRecipe(route.params.id);
+
 const deleteModalOpen = ref(false);
 
-let steps = ref(['']);
+let steps = ref(data.value.recipe.steps);
+
 let ingredients = ref(['']);
 
 const people = [
@@ -250,7 +262,7 @@ const units = ['stk', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']
 
 const addStep = () => {
     steps.value.push('');
-}; 
+};
 
 const addIngredient = () => {
     ingredients.value.push('');
