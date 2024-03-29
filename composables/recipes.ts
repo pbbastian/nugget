@@ -19,7 +19,7 @@ export async function useRecipes() {
 };
 
 export interface RecipeResult {
-    recipe?: Recipe,
+    recipe: Recipe | null,
 }
 
 export async function useRecipe(id: number) {
