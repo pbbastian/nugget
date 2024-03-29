@@ -102,24 +102,7 @@
                 <div class="md:col-span-2">
                     <h3 class="text-2xl font-semibold  mb-3 md:mb-6">Steps</h3>
                     <ol class="grid gap-3 lg:gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
-                        <li>Først laves tærtedejen. Skær smør i små tern.</li>
-                        <li>Bland alle ingredienserne i en skål. Start med at samle dejen sammen med hænderne.</li>
-                        <li>Smuldr alle ingredienserne sammen og bliv ved med at arbejde med dejen til den samler sig.</li>
-                        <li>Du kan evt. tilsætte lidt vand, hvis du har svært ved at samle dejen.</li>
-                        <li>Når du har en ensartet dej, så formes den til en kugle, som trykkes flad (så er den nem at rulle ud). Pak den ind i husholdningsfilm.</li>
-                        <li>Sæt dejen på køl i 30 min.</li>
-                        <li>Imens den er på køl, så kan du forberede fyldet.</li>
-                        <li>Varm en gryde op med fedtstof.</li>
-                        <li>Kom hakket oksekød i og lad det stege til det har fået farve over det hele. Tilsæt så tacokrydderi og vendt det godt rundt. Tag kødet fra og lad det køle en smule af.</li>
-                        <li>Hak peberfrugt og forårsløg fint. Dræn majs.</li>
-                        <li>Pisk æg sammen med creme fraiche og salt/peber. Riv cheddar og vend i æggemassen.</li>
-                        <li>Tænd ovnen på 190 grader varmluft.</li>
-                        <li>Rul tærtedejen ud i lidt hvedemel til en cirkel, så den passer med et tærtefad på ca. 24-26 cm. i diameter. Kom bunden over i fadet og pres den godt ud mod kanterne. Skær evt. overskydende dej af. Prik bunden med en gaffel.</li>
-                        <li>Forbag bunden i den forvarmet ovn i 10 minutter.</li>
-                        <li>Tag herefter bunden ud.</li>
-                        <li>Fordel fyld og æggeblandingen på bunden.</li>
-                        <li>Bag tærten ved 180 grader varmluft i 25-30 minutter. Hold øje med den efter 20 minutter, da der kan være forskel på ovne.</li>
-                        <li>Tag tærten ud og lad den køle af 5-10 minutter inden den spises. Pynt evt. med lidt forårsløg på toppen.</li>
+                        <li v-for="step in data.recipe.steps">{{ step.text }}</li>
                     </ol>
                 </div>
             </div>
