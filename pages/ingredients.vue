@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:flex lg:items-center lg:justify-between">
+    <div class="flex max-md:flex-col max-md:items-start lg:items-center lg:justify-between gap-4">
         <div class="min-w-0 flex-1">
             <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
                 Ingredients
