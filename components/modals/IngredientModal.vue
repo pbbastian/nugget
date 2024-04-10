@@ -1,5 +1,5 @@
 <template>
-    <TransitionRoot as="template" :show="open">
+    <TransitionRoot as="template" :show="props.id != null" @after-leave="ingredient = null" v-if="ingredient != null">
         <Dialog as="div" class="relative z-50" @close="$emit('closeModal')">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -28,7 +28,7 @@
                                                 <label for="name"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                                                 <div class="mt-2">
-                                                    <input type="text" name="name" id="name" placeholder="Beef"
+                                                    <input type="text" name="name" id="name" placeholder="Beef" v-model="ingredient.name"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -37,7 +37,7 @@
                                                 <label for="vendor"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Vendor</label>
                                                 <div class="mt-2">
-                                                    <input type="text" name="vendor" id="vendor" placeholder="Rema1000"
+                                                    <input type="text" name="vendor" id="vendor" placeholder="Rema1000" v-model="ingredient.vendor"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -109,7 +109,7 @@
                                     <div class="mt-6 flex items-center justify-end gap-x-6">
                                         <button type="button" @click="$emit('closeModal')"
                                             class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-                                        <button type="submit"
+                                        <button type="button" :disabled="saving" @click="save().then(() => emit('closeModal'))"
                                             class="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400">Save</button>
                                     </div>
                                 </form>
@@ -122,8 +122,17 @@
     </TransitionRoot>
 </template>
   
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-const props = defineProps(['open']);
+const props = defineProps<{
+    id: number | null,
+}>();
+
+const emit = defineEmits<{
+    closeModal: [],
+}>();
+
+const { ingredient, saving, save } = await useIngredient(computed(() => props.id));
+
 </script>

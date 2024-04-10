@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="max-md:order-2 col-span-2 md:col-span-1 flex items-center justify-end gap-2">
-                    <button class="p-1.5 hover:opacity-60 transition-color" @click="modalOpen = true">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="editId = ingredient.id">
                         <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
                     </button>
                     <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteModalOpen = true">
@@ -54,7 +54,7 @@
             </li>
         </ul>
     </div>
-    <IngredientModal :open="modalOpen" @close-modal="modalOpen = false" />
+    <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
     <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false" />
 </template>
 
@@ -66,6 +66,6 @@ import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const { data, pending, error, refresh } = await useIngredients();
 
-const modalOpen = ref(false);
+const editId = ref(null);
 const deleteModalOpen = ref(false);
 </script>
