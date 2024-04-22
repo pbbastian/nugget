@@ -43,28 +43,19 @@
                                             </div>
 
                                             <div class="sm:col-span-4">
-                                                <label for="unit"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Unit</label>
+                                                <label for="density"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Density (g/ml) (optional)</label>
                                                 <div class="mt-2">
-                                                    <select id="unit" name="unit"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6">
-                                                        <option>gram</option>
-                                                        <option>tbsp</option>
-                                                        <option>tsp</option>
-                                                        <option>ml</option>
-                                                        <option>cl</option>
-                                                        <option>dl</option>
-                                                        <option>l</option>
-                                                    </select>
+                                                    <input id="density" name="density" type="number" placeholder="None" v-model="ingredient.density"
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
 
                                             <div class="sm:col-span-4">
-                                                <label for="email"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Weight pr.
-                                                    Unit (gram)</label>
+                                                <label for="weight"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Weight (g/pc) (optional)</label>
                                                 <div class="mt-2">
-                                                    <input id="email" name="email" type="number" placeholder="500"
+                                                    <input id="weight" name="weight" type="number" placeholder="None" v-model="ingredient.weight"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -73,7 +64,7 @@
                                                 <label for="calories"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Calories</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="calories" id="calories" placeholder="700"
+                                                    <input type="number" name="calories" id="calories" placeholder="700" v-model="ingredient.energy"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -82,7 +73,7 @@
                                                 <label for="protein"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Protein</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="protein" id="protein" placeholder="30"
+                                                    <input type="number" name="protein" id="protein" placeholder="30" v-model="ingredient.protein"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -91,7 +82,7 @@
                                                 <label for="fat"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Fat</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="fat" id="fat" placeholder="15"
+                                                    <input type="number" name="fat" id="fat" placeholder="15" v-model="ingredient.fat"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -100,7 +91,7 @@
                                                 <label for="fibers"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Fibers</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="fibers" id="fibers" placeholder="4"
+                                                    <input type="number" name="fibers" id="fibers" placeholder="4" v-model="ingredient.fibres"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>

@@ -9,7 +9,13 @@ const bodySchema = z.object({
     action: z.enum(['update']),
     ingredient: z.object({
         name: z.string(),
-        vendor: z.string(),
+        vendor: z.string().nullable(),
+        density: z.number().nullable(),
+        weight: z.number().nullable(),
+        energy: z.number().nullable(),
+        protein: z.number().nullable(),
+        fat: z.number().nullable(),
+        fibres: z.number().nullable(),
     }).partial().default({}),
 });
 
