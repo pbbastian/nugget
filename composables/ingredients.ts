@@ -45,7 +45,6 @@ export async function useIngredient(id: Ref<number | null>) {
             await $fetch(`/api/ingredients/${id.value}`, {
                 method: 'POST',
                 body: {
-                    action: 'update',
                     ingredient: change,
                 }
             });
