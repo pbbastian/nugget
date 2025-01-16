@@ -2,7 +2,7 @@ import { z } from "zod";
 import { sql, spreadInsert } from "squid/pg";
 
 const bodySchema = z.object({
-    ingredient: ingredientSchema,
+    recipe: recipeSchema,
 });
 
 export default defineEventHandler(async (event) => {
@@ -10,19 +10,19 @@ export default defineEventHandler(async (event) => {
 
     let result = await pool.query(sql`
         INSERT INTO ingredients
-        ${spreadInsert(body.ingredient)}
+        ${spreadInsert(body.recipe)}
         RETURNING "id"
     `);
 
     if (result.rowCount == 0) {
         setResponseStatus(event, 500);
         return {
-            ingredient: null
+            recipe: null
         };
     }
 
     return {
-        ingredient: {
+        recipe: {
             id: result.rows[0].id
         }
     };

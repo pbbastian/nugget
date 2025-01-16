@@ -8,6 +8,24 @@ export interface Recipe {
     carbs: number,
     fibres: number,
     protein: number,
+    ingredients: {
+        id?: number,
+        name: string,
+        items: {
+            id?: number,
+            name: string,
+            amount: number,
+            unit: string,
+        }[]
+    }[],
+    steps: {
+        id?: number,
+        name: string,
+        items: {
+            id?: number,
+            text: string,
+        }[]
+    }[]
 }
 
 export interface RecipesResult {
@@ -24,33 +42,16 @@ export interface RecipeResult {
     recipe: Recipe,
 }
 
-interface IDictionary {
-    [index: string]: any;
-}
-
-export async function useRecipe(id: number) {
-    let result = await useFetch<RecipeResult>(`/api/recipes/${id}`, {
-        default: () => ({} as RecipeResult),
-    });
-
-    let delta: IDictionary = {};
-
-    watch(result.data, (newData, oldData) => {
-        let newRecipe = newData?.recipe!;
-        let oldRecipe = oldData?.recipe!;
-        for (const key in newRecipe) {
-            let k = key as keyof Recipe;
-            if (newRecipe[k] !== oldRecipe[k]) {
-                delta[k] = newRecipe[k];
-            }
-            // if (value !== oldRecipe)
-        }
-    });
-
-    return {
-        save() {
-            
-        },
-        ...result
-    };
-}
+export const useRecipe = useApi<Recipe>("recipes", "recipe", {
+    name: "",
+    slug: "",
+    image: "",
+    portions: 0,
+    energy: 0,
+    fat: 0,
+    carbs: 0,
+    fibres: 0,
+    protein: 0,
+    ingredients: [],
+    steps: [],
+});

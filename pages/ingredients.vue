@@ -6,7 +6,7 @@
             </h2>
         </div>
         <button class="py-2 px-3 text-white bg-orange-400 rounded-md hover:bg-orange-300 transition-color duration-500"
-            @click="modalOpen = true">Add
+            @click="editId = 'add'">Add
             new Ingredient</button>
     </div>
     <div class="mt-6">
@@ -47,15 +47,15 @@
                     <button class="p-1.5 hover:opacity-60 transition-color" @click="editId = ingredient.id">
                         <Icon icon="circum:edit" class="text-orange-950 h-6 w-6" />
                     </button>
-                    <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteModalOpen = true">
+                    <button class="p-1.5 hover:opacity-60 transition-color" @click="deleteId = ingredient.id">
                         <Icon icon="teenyicons:bin-outline" class="text-red-400 h-6 w-6" />
                     </button>
                 </div>
             </li>
         </ul>
     </div>
-    <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
-    <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false" />
+    <IngredientModal :id="editId" :state="modalState" @close-modal="editId = null; refresh()" />
+    <DeleteModal :id="deleteId" @close-modal="deleteId = null; refresh()" />
 </template>
 
 
@@ -67,5 +67,5 @@ import DeleteModal from "../components/modals/DeleteModal.vue";
 const { data, pending, error, refresh } = await useIngredients();
 
 const editId = ref(null);
-const deleteModalOpen = ref(false);
+const deleteId = ref(null);
 </script>

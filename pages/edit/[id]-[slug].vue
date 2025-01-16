@@ -17,7 +17,7 @@
             </button>
         </div>
     </div>
-    <div class="mt-6">
+    <div class="mt-6" v-if="data != null">
         <form>
             <div class="space-y-12">
                 <div class="border-b border-gray-900/10 pb-12">
@@ -30,7 +30,7 @@
                             <div class="mt-2">
                                 <div
                                     class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
-                                    <input type="text" name="recipename" id="recipename" :value="data.recipe.name"
+                                    <input type="text" name="recipename" id="recipename" :value="data.name"
                                         class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         placeholder="Nuggets med fritter" />
                                 </div>
@@ -43,7 +43,7 @@
                             <div class="mt-2">
                                 <div
                                     class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md">
-                                    <input type="number" name="portions" id="portions" :value="data.recipe.portions"
+                                    <input type="number" name="portions" id="portions" :value="data.portions"
                                         class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         placeholder="4" />
                                 </div>
@@ -56,11 +56,11 @@
                             <div
                                 class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                 <div class="text-center">
-                                    <Icon v-if="!data.recipe.image" icon="f7:photo-fill"
+                                    <Icon v-if="!data.image" icon="f7:photo-fill"
                                         class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
                                     <div v-else class="mx-auto h-24 w-40 relative rounded-md overflow-hidden">
                                         <img class="absolute inset-0 w-full h-full object-cover"
-                                            :src="data.recipe.image"
+                                            :src="data.image"
                                             alt="fooood">
                                     </div>
                                     <div class="mt-4 flex text-sm leading-6 text-gray-600">
@@ -212,7 +212,7 @@
     <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import {
     Combobox,
@@ -226,11 +226,11 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const route = useRoute()
-const { data, pending, error, refresh } = await useRecipe(route.params.id);
+const { data, saving, save } = await useRecipe(toRef(route.params, 'id'));
 
 const deleteModalOpen = ref(false);
 
-let steps = ref(data.value.recipe.steps);
+let steps = ref(data.value?.steps);
 
 let ingredients = ref(['']);
 
@@ -260,7 +260,7 @@ let filteredPeople = computed(() =>
 const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']
 
 const addStep = () => {
-    steps.value.push({id: '-1', text: ''});
+    steps.value?.push({text: ''});
 };
 
 const addIngredient = () => {

@@ -1,5 +1,5 @@
 <template>
-    <TransitionRoot as="template" :show="props.id != null" @after-leave="ingredient = null" v-if="ingredient != null">
+    <TransitionRoot as="template" :show="props.id !== null" @after-leave="data = null" v-if="data != null">
         <Dialog as="div" class="relative z-50" @close="$emit('closeModal')">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -28,7 +28,7 @@
                                                 <label for="name"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                                                 <div class="mt-2">
-                                                    <input type="text" name="name" id="name" placeholder="Beef" v-model="ingredient.name"
+                                                    <input type="text" name="name" id="name" placeholder="Beef" v-model="data.name"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -37,7 +37,7 @@
                                                 <label for="vendor"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Vendor</label>
                                                 <div class="mt-2">
-                                                    <input type="text" name="vendor" id="vendor" placeholder="Rema1000" v-model="ingredient.vendor"
+                                                    <input type="text" name="vendor" id="vendor" placeholder="Rema1000" v-model="data.vendor"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -46,7 +46,7 @@
                                                 <label for="density"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Density (g/ml) (optional)</label>
                                                 <div class="mt-2">
-                                                    <input id="density" name="density" type="number" placeholder="None" v-model="ingredient.density"
+                                                    <input id="density" name="density" type="number" placeholder="None" v-model="data.density"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@
                                                 <label for="weight"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Weight (g/pc) (optional)</label>
                                                 <div class="mt-2">
-                                                    <input id="weight" name="weight" type="number" placeholder="None" v-model="ingredient.weight"
+                                                    <input id="weight" name="weight" type="number" placeholder="None" v-model="data.weight"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -64,7 +64,7 @@
                                                 <label for="calories"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Calories</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="calories" id="calories" placeholder="700" v-model="ingredient.energy"
+                                                    <input type="number" name="calories" id="calories" placeholder="700" v-model="data.energy"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -73,7 +73,7 @@
                                                 <label for="protein"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Protein</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="protein" id="protein" placeholder="30" v-model="ingredient.protein"
+                                                    <input type="number" name="protein" id="protein" placeholder="30" v-model="data.protein"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                                 <label for="fat"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Fat</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="fat" id="fat" placeholder="15" v-model="ingredient.fat"
+                                                    <input type="number" name="fat" id="fat" placeholder="15" v-model="data.fat"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
                                                 <label for="fibers"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Fibers</label>
                                                 <div class="mt-2">
-                                                    <input type="number" name="fibers" id="fibers" placeholder="4" v-model="ingredient.fibres"
+                                                    <input type="number" name="fibers" id="fibers" placeholder="4" v-model="data.fibres"
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6" />
                                                 </div>
                                             </div>
@@ -117,13 +117,13 @@
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps<{
-    id: number | null,
+    id: 'add' | number | null,
 }>();
 
 const emit = defineEmits<{
     closeModal: [],
 }>();
 
-const { ingredient, saving, save } = await useIngredient(computed(() => props.id));
+const { data, saving, save } = await useIngredient(toRef(props, 'id'));
 
 </script>
