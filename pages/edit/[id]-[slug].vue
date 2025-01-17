@@ -50,29 +50,22 @@
                             </div>
                         </div>
 
-                        <div class="col-span-full">
-                            <p class="block text-sm font-medium leading-6 text-gray-900">Recipe
-                                photo</p>
-                            <div
-                                class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <div class="text-center">
-                                    <Icon v-if="!data.image" icon="f7:photo-fill"
-                                        class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                                    <div v-else class="mx-auto h-24 w-40 relative rounded-md overflow-hidden">
-                                        <img class="absolute inset-0 w-full h-full object-cover"
-                                            :src="data.image"
-                                            alt="fooood">
-                                    </div>
-                                    <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <label for="cover-photo"
-                                            class="relative cursor-pointer rounded-md bg-white font-semibold text-orange-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-orange-500 focus-within:ring-offset-2 hover:text-orange-600">
-                                            <span>Upload a file</span>
-                                            <input id="cover-photo" name="cover-photo" type="file" class="sr-only" />
-                                        </label>
-                                        <p class="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                        <div class="sm:col-span-full">
+                            <label for="portions"
+                                   class="block text-sm font-medium leading-6 text-gray-900">Recipe photo</label>
+                            <div class="mt-2">
+                                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
+                                    <input type="url" name="image" id="image" :value="data.image"
+                                           class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                    />
                                 </div>
+                            </div>
+                            <Icon v-if="!data.image" icon="f7:photo-fill"
+                                  class="h-40 w-full text-gray-300" aria-hidden="true" />
+                            <div v-else class="mt-3 h-32 sm:h-52 w-full relative rounded-md overflow-hidden">
+                                <img class="absolute inset-0 w-full h-full object-cover"
+                                     :src="data.image"
+                                     alt="fooood">
                             </div>
                         </div>
                     </div>
@@ -84,56 +77,30 @@
                         <div v-for="(ingredient, index) in ingredients"
                             class="col-span-full grid grid-cols-4 gap-2 sm:gap-6">
                             <div class="col-span-full sm:col-span-2 w-full">
-                                <p class="block text-sm font-medium leading-6 text-gray-900">Ingredient</p>
-                                <div class="mt-2">
-                                    <Combobox v-model="selected">
-                                        <div class="relative mt-1">
-                                            <div block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
-                                                ring-inset ring-gray-300 focus:ring-2 focus:ring-inset
-                                                focus:ring-orange-500 sm:max-w-xs sm:text-sm sm:leading-6
-                                                class="relative w-full cursor-default overflow-hidden rounded-md bg-white text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border border-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6">
-                                                <ComboboxInput
-                                                    class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                                                    :displayValue="(person) => person.name"
-                                                    @change="query = $event.target.value" />
-                                                <ComboboxButton
-                                                    class="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                    <ChevronUpDownIcon class="h-5 w-5 text-gray-400"
-                                                        aria-hidden="true" />
-                                                </ComboboxButton>
-                                            </div>
-                                            <TransitionRoot leave="transition ease-in duration-100"
-                                                leaveFrom="opacity-100" leaveTo="opacity-0" @after-leave="query = ''">
-                                                <ComboboxOptions
-                                                    class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                    <div v-if="filteredPeople.length === 0 && query !== ''"
-                                                        class="relative cursor-default select-none px-4 py-2 text-gray-700">
-                                                        Nothing found.
+                                <Combobox as="div" v-model="selectedPerson" @update:modelValue="query = ''">
+                                    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Ingredient</ComboboxLabel>
+                                    <div class="relative mt-2">
+                                        <ComboboxInput class="block w-full rounded-md bg-white py-1.5 pl-3 pr-12 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-transparent sm:text-sm/6" @change="query = $event.target.value" @blur="query = ''" :display-value="(person) => person?.name" />
+                                        <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                                            <ChevronUpDownIcon class="size-5 text-gray-400" aria-hidden="true" />
+                                        </ComboboxButton>
+
+                                        <ComboboxOptions v-if="filteredPeople.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                            <ComboboxOption v-for="person in filteredPeople" :key="person.username" :value="person" as="template" v-slot="{ active, selected }">
+                                                <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-orange-500 text-white outline-none' : 'text-gray-900']">
+                                                    <div class="flex">
+                                                        <span :class="['truncate', selected && 'font-semibold']"> {{ person.name }} </span>
+                                                        <span :class="['ml-2 truncate text-gray-500', active ? 'text-orange-200' : 'text-gray-500']"> {{ person.username }} </span>
                                                     </div>
 
-                                                    <ComboboxOption v-for="person in filteredPeople" as="template"
-                                                        :key="person.id" :value="person" v-slot="{ selected, active }">
-                                                        <li class="relative cursor-pointer select-none py-2 pl-10 pr-4 transition-colors duration-300"
-                                                            :class="{
-                                                                'bg-orange-500 text-white': active,
-                                                                'text-gray-900': !active,
-                                                            }">
-                                                            <span class="block truncate"
-                                                                :class="{ 'font-medium': selected, 'font-normal': !selected }">
-                                                                {{ person.name }}
-                                                            </span>
-                                                            <span v-if="selected"
-                                                                class="absolute inset-y-0 left-0 flex items-center pl-3 transition-colors duration-300"
-                                                                :class="{ 'text-white': active, 'text-orange-500': !active }">
-                                                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                            </span>
-                                                        </li>
-                                                    </ComboboxOption>
-                                                </ComboboxOptions>
-                                            </TransitionRoot>
-                                        </div>
-                                    </Combobox>
-                                </div>
+                                                    <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-orange-500']">
+                                                          <CheckIcon class="size-5" aria-hidden="true" />
+                                                        </span>
+                                                </li>
+                                            </ComboboxOption>
+                                        </ComboboxOptions>
+                                    </div>
+                                </Combobox>
                             </div>
                             <div class="col-span-2 sm:col-span-1 w-full">
                                 <label for="amount"
@@ -216,11 +183,11 @@
 import { Icon } from '@iconify/vue';
 import {
     Combobox,
-    ComboboxInput,
     ComboboxButton,
-    ComboboxOptions,
+    ComboboxInput,
+    ComboboxLabel,
     ComboboxOption,
-    TransitionRoot,
+    ComboboxOptions,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import DeleteModal from "../components/modals/DeleteModal.vue";
@@ -235,26 +202,22 @@ let steps = ref(data.value?.steps);
 let ingredients = ref(['']);
 
 const people = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
+    { id: 1, name: 'Wade Cooper', username: '@lesliealexander' },
+    { id: 2, name: 'Arlene Mccoy', username: '@lesliealexander' },
+    { id: 3, name: 'Devon Webb', username: '@lesliealexander' },
+    { id: 4, name: 'Tom Cook', username: '@lesliealexander' },
+    { id: 5, name: 'Tanya Fox', username: '@lesliealexander' },
+    { id: 6, name: 'Hellen Schmidt', username: '@lesliealexander' },
 ]
 
-let selected = ref(people[0])
-let query = ref('')
-
-let filteredPeople = computed(() =>
+const query = ref('')
+const selectedPerson = ref(null)
+const filteredPeople = computed(() =>
     query.value === ''
         ? people
-        : people.filter((person) =>
-            person.name
-                .toLowerCase()
-                .replace(/\s+/g, '')
-                .includes(query.value.toLowerCase().replace(/\s+/g, ''))
-        )
+        : people.filter((person) => {
+            return person.name.toLowerCase().includes(query.value.toLowerCase())
+        }),
 )
 
 const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']

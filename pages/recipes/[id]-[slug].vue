@@ -67,18 +67,20 @@
             <div class="w-full px-6 md:px-12 py-8 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 text-orange-950/70 leading-loose">
                 <div class="md:col-span-1">
                     <div class="md:sticky top-20 lg:top-8 bg-orange-50">
-                        <div class="flex items-center justify-between mb-3 md:mb-6">
+                        <div class="flex items-center justify-between mb-3">
                             <button @click="showIngredientsList = !showIngredientsList;" class="text-2xl font-semibold">Ingredients</button>
-                            <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
-                                <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
-                            </button>
+                            <!-- Ingredients copy button
+                                <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
+                                    <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
+                                </button>
+                            -->
                         </div>
                         <Collapse :when="showIngredientsList" :baseHeight="50" class="v-collapse">
-                            <div class="grid gap-4 lg:gap-8">
+                            <div class="grid gap-4">
                                 <div v-for="category in data.ingredients">
                                     <h4 v-if="category.name" class="font-bold">{{ category.name }}</h4>
-                                    <ul class="grid gap-0.5 lg:gap-1">
-                                        <li v-for="ingredient in category.items">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
+                                    <ul class="grid gap-1 lg:gap-3">
+                                        <li class="leading-normal" v-for="ingredient in category.items">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -87,12 +89,14 @@
                     </div>
                 </div>
                 <div class="md:col-span-2">
-                    <h3 class="text-2xl font-semibold  mb-3 md:mb-6">Steps</h3>
-                    <div v-for="section in data.steps">
-                        <h4 class="font-bold" v-if="section.name">{{ section.name }}</h4>
-                        <ol class="grid gap-3 lg:gap-6 list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
-                            <li v-for="step in section.items">{{ step.text }}</li>
-                        </ol>
+                    <h3 class="text-2xl font-semibold  mb-3">Steps</h3>
+                    <div class="grid gap-6">
+                        <div v-for="section in data.steps">
+                            <h4 class="font-bold" v-if="section.name">{{ section.name }}</h4>
+                            <ol class="grid gap-3 lg:gap-4 leading-normal list-decimal list-inside marker:font-semibold marker:text-orange-950/80">
+                                <li v-for="step in section.items">{{ step.text }}</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
