@@ -5,19 +5,16 @@ const routeSchema = z.object({
     id: z.coerce.number().int().gte(0)
 });
 
-const bodySchema = z.object({
-    ingredient: ingredientSchema.partial().default({}),
-});
+const bodySchema = ingredientSchema.partial().default({});
 
 export default defineEventHandler(async (event) => {
     const params = await getValidatedRouterParams(event, routeSchema.parse);
     const body = await readValidatedBody(event, bodySchema.parse);
 
-    (body.ingredient as any).updatedAt = sql.raw('current_timestamp');
-
+    let fields = { updatedAt: sql.raw('current_timestamp'), ...body };
     let result = await pool.query(sql`
         UPDATE ingredients
-        SET ${spreadUpdate(body.ingredient)}
+        SET ${spreadUpdate(fields)}
         WHERE "id" = ${params.id}
     `);
 

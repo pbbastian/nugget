@@ -133,6 +133,14 @@ const emit = defineEmits<{
     closeModal: [],
 }>();
 
-const { data, saving, save } = await useIngredient(toRef(props, 'id'));
+const { data, refresh, clear } = await useAPI<Ingredient>(computed(() => `ingredients/${props.id}`), { immediate: false, watch: false });
+watch(toRef(props, 'id'), (value, _) => {
+    if (value) {
+        refresh();
+    } else {
+        clear();
+    }
+});
+const { saving, save } = useEdit("ingredients", data);
 
 </script>

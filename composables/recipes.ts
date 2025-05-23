@@ -1,3 +1,27 @@
+interface RecipeIngredient {
+    id?: number
+    amount: number
+    unit: string
+    ingredient: Ingredient
+}
+
+export interface IngredientSection {
+    id?: number
+    name: string
+    items: RecipeIngredient[]
+}
+
+export interface RecipeStep {
+    id?: number
+    text: string
+}
+
+export interface StepSection {
+    id?: number,
+    name: string,
+    items: RecipeStep[]
+}
+
 export interface Recipe {
     id?: number,
     name: string,
@@ -9,50 +33,11 @@ export interface Recipe {
     carbs: number,
     fibres: number,
     protein: number,
-    ingredients: {
-        id?: number,
-        name: string,
-        items: {
-            id?: number,
-            name: string,
-            amount: number,
-            unit: string,
-        }[]
-    }[],
-    steps: {
-        id?: number,
-        name: string,
-        items: {
-            id?: number,
-            text: string,
-        }[]
-    }[]
+    ingredients: IngredientSection[],
+    steps: StepSection[]
 }
 
 export interface RecipesResult {
     recipes: Recipe[],
 }
 
-export async function useRecipes() {
-    return await useFetch<RecipesResult>('/api/recipes', {
-        default: () => ({} as RecipesResult),
-    });
-};
-
-export interface RecipeResult {
-    recipe: Recipe,
-}
-
-export const useRecipe = useApi<Recipe>("recipes", "recipe", {
-    name: "",
-    slug: "",
-    image: "",
-    portions: 0,
-    energy: 0,
-    fat: 0,
-    carbs: 0,
-    fibres: 0,
-    protein: 0,
-    ingredients: [],
-    steps: [],
-});

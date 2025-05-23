@@ -2,7 +2,7 @@ import { z } from "zod";
 import { sql, spreadInsert } from "squid/pg";
 
 const bodySchema = z.object({
-    recipe: recipeSchema,
+    recipe: Recipe,
 });
 
 export default defineEventHandler(async (event) => {

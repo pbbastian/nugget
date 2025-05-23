@@ -77,10 +77,10 @@
                         </div>
                         <Collapse :when="showIngredientsList" :baseHeight="50" class="v-collapse">
                             <div class="grid gap-4">
-                                <div v-for="category in data.ingredients">
-                                    <h4 v-if="category.name" class="font-bold">{{ category.name }}</h4>
+                                <div v-for="section in data.ingredients">
+                                    <h4 v-if="section.name" class="font-bold">{{ section.name }}</h4>
                                     <ul class="grid gap-1 lg:gap-3">
-                                        <li class="leading-normal" v-for="ingredient in category.items">{{ ingredient.amount }} {{ ingredient.unit }}. {{ ingredient.name }}</li>
+                                        <li class="leading-normal" v-for="ingredient in section.items">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient.name }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -119,8 +119,7 @@
 
     const route = useRoute()
 
-    const { data, saving, save } = await useRecipe(toRef(route.params, 'id'));
-    console.log(toRef(route.params, 'id').value);
+    const { data, refresh, clear } = await useAPI<Recipe>(computed(() => `recipes/${route.params.id}`));
 
     const deleteModalOpen = ref(false);
     const showIngredientsList = ref(true);

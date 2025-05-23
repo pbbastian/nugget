@@ -20,5 +20,5 @@ export default defineEventHandler(async (event) => {
         };
     }
 
-    return { ingredient: ingredients.rows[0] };
+    return ingredients.rows[0];
 })

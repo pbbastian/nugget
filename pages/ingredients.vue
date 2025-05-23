@@ -9,7 +9,7 @@
             @click="editId = 'add'">Add
             new Ingredient</button>
     </div>
-    <div class="mt-6">
+    <div class="mt-6" v-if="data">
         <ul role="list" class="divide-y divide-gray-100">
             <li v-for="ingredient in data.ingredients" class="grid grid-cols-5 gap-2 md:gap-6 py-5">
                 <div class="max-md:order-1 col-span-3 md:col-span-2 flex min-w-0 gap-x-4">
@@ -23,23 +23,23 @@
                 </div>
                 <div class="max-md:order-3 col-span-full md:col-span-2 flex gap-x-6 md:gap-x-8 justify-center md:justify-start text-center">
                     <div>
-                        <p class="font-medium text-orange-400">{{ Math.round(ingredient.energy) || 0 }}</p>
+                        <p class="font-medium text-orange-400">{{ ingredient.energy ? Math.round(ingredient.energy) : '-' }}</p>
                         <p class="text-xs text-orange-950/40">kcal</p>
                     </div>
                     <div>
-                        <p class="font-medium text-orange-400">{{ Math.round(ingredient.protein) || 0 }}</p>
+                        <p class="font-medium text-orange-400">{{ ingredient.protein ? Math.round(ingredient.protein) : '-' }}</p>
                         <p class="text-xs text-orange-950/40">protein</p>
                     </div>
                     <div>
-                        <p class="font-medium text-orange-400">{{ Math.round(ingredient.fibres) || 0 }}</p>
+                        <p class="font-medium text-orange-400">{{ ingredient.fibres ? Math.round(ingredient.fibres) : '-' }}</p>
                         <p class="text-xs text-orange-950/40">fibres</p>
                     </div>
                     <div>
-                        <p class="font-medium text-orange-400">{{ Math.round(ingredient.carbs) || 0 }}</p>
+                        <p class="font-medium text-orange-400">{{ ingredient.carbs ? Math.round(ingredient.carbs) : '-' }}</p>
                         <p class="text-xs text-orange-950/40">carbs</p>
                     </div>
                     <div>
-                        <p class="font-medium text-orange-400">{{ Math.round(ingredient.fat) || 0 }}</p>
+                        <p class="font-medium text-orange-400">{{ ingredient.fat ? Math.round(ingredient.fat) : '-' }}</p>
                         <p class="text-xs text-orange-950/40">fat</p>
                     </div>
                 </div>
@@ -54,18 +54,18 @@
             </li>
         </ul>
     </div>
-    <IngredientModal :id="editId" :state="modalState" @close-modal="editId = null; refresh()" />
+    <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
     <DeleteModal :id="deleteId" @close-modal="deleteId = null; refresh()" />
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import IngredientModal from "../components/modals/IngredientModal.vue";
 import DeleteModal from "../components/modals/DeleteModal.vue";
 
-const { data, pending, error, refresh } = await useIngredients();
+const { data, pending, error, refresh } = await useAPI<IngredientsResult>("ingredients");
 
-const editId = ref(null);
-const deleteId = ref(null);
+const editId: Ref<any> = ref(null);
+const deleteId: Ref<any> = ref(null);
 </script>

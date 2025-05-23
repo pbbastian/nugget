@@ -17,12 +17,6 @@ export interface IngredientsResult {
     ingredients: Ingredient[]
 }
 
-export async function useIngredients() {
-    return await useFetch<IngredientsResult>('/api/ingredients', {
-        default: () => ({} as IngredientsResult),
-    });
-}
-
 export const useIngredient = useApi<Ingredient>("ingredients", "ingredient", {
     name: "",
     energy: null,

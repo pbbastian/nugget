@@ -11,7 +11,7 @@
         </a>
         </div>
     </div>
-    <div class="grid mt-3 sm:mt-6 grid-cols-1 @md:grid-cols-2 @3xl:grid-cols-3 @6xl:grid-cols-4 gap-6 @3xl:gap-10">
+    <div v-if="data" class="grid mt-3 sm:mt-6 grid-cols-1 @md:grid-cols-2 @3xl:grid-cols-3 @6xl:grid-cols-4 gap-6 @3xl:gap-10">
         <article v-for="recipe in data.recipes" class="relative rounded-md bg-white border hover:shadow-md transition-all duration-500">
             <div class="z-10 absolute top-2 right-2 py-1.5 px-4 bg-orange-400 rounded-md shadow-md text-white">
                 {{ recipe.portions }} portions
@@ -47,5 +47,5 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
-const { data, pending, error, refresh } = await useRecipes();
+const { data, pending, error, refresh } = await useAPI<RecipesResult>('recipes');
 </script>

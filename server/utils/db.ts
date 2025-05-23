@@ -22,13 +22,3 @@ export const ingredientSchema = z.object({
     fibres: z.number().nullable(),
 });
 
-export const recipeSchema = z.object({
-    name: z.string(),
-    image: z.string().nullable(),
-    portions: z.number().nullable(),
-    energy: z.number().nullable(),
-    fat: z.number().nullable(),
-    carbs: z.number().nullable(),
-    fibres: z.number().nullable(),
-    protein: z.number().nullable(),
-});
