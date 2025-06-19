@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { sql } from "squid/pg";
+import { Recipe } from "~/shared/utils/schema";
 
 const routeSchema = z.object({
     id: z.coerce.number().int().gte(0)

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { sql, spreadInsert } from "squid/pg";
+import { Recipe } from "~/shared/utils/schema";
 
 const bodySchema = z.object({
     recipe: Recipe,
