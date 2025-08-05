@@ -23,8 +23,6 @@ export default defineEventHandler(async (event) => {
     }
 
     return {
-        recipe: {
-            id: result.rows[0].id
-        }
+        id: result.rows[0].id
     };
 });

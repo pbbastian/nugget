@@ -184,10 +184,9 @@ export function useApi<T extends object>(plural: string, singular: string, defau
 
 export function useAPI<T>(
     resource: Ref<string> | string,
-    options?: UseFetchOptions<T>
+    options: UseFetchOptions<T> = {}
 ) {
     return useFetch(resource, {
-
         ...options,
         $fetch: useNuxtApp().$api as typeof $fetch
     })

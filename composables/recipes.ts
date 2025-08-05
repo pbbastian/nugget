@@ -2,7 +2,7 @@ interface RecipeIngredient {
     id?: number
     amount: number
     unit: string
-    ingredient: Ingredient
+    ingredient: Ingredient | null
 }
 
 export interface IngredientSection {
@@ -35,6 +35,15 @@ export interface Recipe {
     protein: number,
     ingredients: IngredientSection[],
     steps: StepSection[]
+}
+
+export interface RecipeResult {
+    recipe: Recipe | null
+}
+
+export interface EditRecipeResult {
+    recipe: Recipe | null,
+    ingredients: Ingredient[]
 }
 
 export interface RecipesResult {

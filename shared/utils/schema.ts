@@ -7,7 +7,7 @@ export const RecipeStep = z.object({
 
 export const RecipeStepSection = z.object({
     id: z.number().optional(),
-    text: z.string().nullable(),
+    name: z.string().nullable(),
     items: z.array(RecipeStep),
 });
 
@@ -24,11 +24,12 @@ export const RecipeIngredient = z.object({
 
 export const RecipeIngredientSection = z.object({
     id: z.number().optional(),
-    name: z.string().optional(),
+    name: z.string().nullable(),
     items: z.array(RecipeIngredient),
 });
 
 export const Recipe = z.object({
+    id: z.number().optional(),
     name: z.string(),
     image: z.string().nullable(),
     portions: z.number().nullable(),
