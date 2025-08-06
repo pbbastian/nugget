@@ -23,10 +23,10 @@ export interface StepSection {
 }
 
 export interface Recipe {
-    id?: number,
+    id?: number | 'add',
     name: string,
-    slug: string,
-    image: string,
+    slug?: string,
+    image: string | null,
     portions: number,
     energy: number,
     fat: number,

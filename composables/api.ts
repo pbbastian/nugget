@@ -208,6 +208,7 @@ function visit(obj: any, f: (value: any) => any) {
 export function useEdit(
     resource: string | (() => string),
     data: Ref<{ id?: any } | null>,
+    createCallback?: (id: any, slug: any) => Promise<void>
 ) {
     let saving = ref(false);
     return {
@@ -224,6 +225,9 @@ export function useEdit(
                 let seen = new WeakSet();
                 let count = 0;
                 let body = structuredClone(toRaw(data.value));
+                if (isCreate) {
+                    delete body.id;
+                }
                 visit(body, (value) => {
                     if (typeof value === 'object' && value && !Array.isArray(value)) {
                         if (seen.has(value)) {
@@ -239,10 +243,13 @@ export function useEdit(
                     }
                     return value;
                 });
-                await $fetch(url, {
+                const result: any = await $fetch(url, {
                     method: isCreate ? 'POST' : 'PUT',
                     body
                 });
+                if (isCreate && createCallback) {
+                    await createCallback(result.id, result.slug);
+                }
             } finally {
                 saving.value = false;
             }

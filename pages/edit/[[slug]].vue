@@ -241,12 +241,40 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 // import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const route = useRoute()
-const { data } = await useFetch<EditRecipeResult>(computed(() => `recipes/${route.params.id}?ingredients=all`), {
-    $fetch: useNuxtApp().$api,
-    default: () => ({ recipe: null, ingredients: [] }),
+const divider = route.params.slug.indexOf("-");
+const id = divider != -1 ? route.params.slug.slice(0, divider) : null;
+const recipe: Ref<Recipe | null> = ref(null);
+const ingredients: Ref<Ingredient[]> = ref([]);
+if (id) {
+    const { data } = await useFetch<EditRecipeResult>(`recipes/${id}?ingredients=all`, {
+        $fetch: useNuxtApp().$api,
+        default: () => ({ recipe: null, ingredients: [] }),
+    });
+    recipe.value = data.value.recipe;
+    ingredients.value = data.value.ingredients;
+} else {
+    const { data } = await useFetch<IngredientsResult>(`ingredients`, {
+        $fetch: useNuxtApp().$api,
+        default: () => ({ ingredients: [] }),
+    });
+    recipe.value = {
+        id: 'add',
+        name: "",
+        image: null,
+        portions: 4,
+        energy: 0,
+        fat: 0,
+        carbs: 0,
+        fibres: 0,
+        protein: 0,
+        ingredients: [],
+        steps: []
+    };
+    ingredients.value = data.value.ingredients;
+}
+const { saving, save } = useEdit("recipes", recipe, async (id, slug) => {
+    await navigateTo(`edit/${id}-${slug}`);
 });
-const { recipe, ingredients } = toRefs(data.value);
-const { saving, save } = useEdit("recipes", recipe);
 const deleteModalOpen = ref(false);
 
 const query = ref('');
