@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
         promises.push(client.query(sql`
             UPDATE recipe_ingredients ri
             SET weight = 0.0
-            FROM ingredients i WHERE i.id = ${params.id}
+            WHERE ri.ingredient = ${params.id}
         `));
 
         promises.push(client.query(sql`
