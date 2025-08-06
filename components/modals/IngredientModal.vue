@@ -135,7 +135,20 @@ const emit = defineEmits<{
 
 const { data, refresh, clear } = await useAPI<Ingredient>(computed(() => `ingredients/${props.id}`), { immediate: false, watch: false });
 watch(toRef(props, 'id'), (value, _) => {
-    if (value) {
+    if (value === 'add') {
+        data.value = reactive({
+            id: 'add',
+            name: '',
+            energy: null,
+            fat: null,
+            carbs: null,
+            fibres: null,
+            protein: null,
+            density: null,
+            weight: null,
+            vendor: null,
+        });
+    } else if (value) {
         refresh();
     } else {
         clear();
