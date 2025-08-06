@@ -10,6 +10,10 @@
     "postinstall": "nuxt prepare",
     "migrate": "node-pg-migrate -j ts --tsconfig tsconfig.migrations.json --envPath=.env --tsx true"
   },
+  "engines": {
+    "node": ">=v23.10.0",
+    "npm": ">=11.4.2"
+  },
   "devDependencies": {
     "@iconify/vue": "^4.1.1",
     "@nuxtjs/tailwindcss": "^6.10.4",
