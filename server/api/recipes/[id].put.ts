@@ -120,36 +120,36 @@ export default defineEventHandler(async (event) => {
         }
 
         promises.push(client.query(sql`
-            WITH ingredients AS (
-            	SELECT
-            	  r.id AS recipe,
-            	  CASE
-            	  	WHEN ri.unit = 'pk' OR ri.unit = 'stk' THEN ri.amount * i.weight / 100.0
-            	  	WHEN ri.unit = 'g' THEN ri.amount / 100.0
-            	  	WHEN ri.unit = 'kg' THEN ri.amount * 10.0
-            	  	WHEN ri.unit = 'ml' THEN i.density * ri.amount / 100.0
-            	  	WHEN ri.unit = 'cl' THEN i.density * ri.amount / 10.0
-            	  	WHEN ri.unit = 'dl' THEN i.density * ri.amount
-            	  	WHEN ri.unit = 'l' THEN i.density * ri.amount * 10.0
-            	  	WHEN ri.unit = 'knsp' THEN i.density * ri.amount * 0.25 / 100.0
-            	  	WHEN ri.unit = 'tsk' THEN i.density * ri.amount * 5.0 / 100.0
-            	  	WHEN ri.unit = 'spsk' THEN i.density * ri.amount * 15.0 / 100.0
-            	  END AS weight, i.energy, i.fat, i.carbs, i.fibres, i.protein
-            	FROM recipes r
-            	JOIN recipe_ingredients ri on ri.recipe = r.id
-            	JOIN ingredients i ON ri.ingredient = i.id
-              WHERE r.id = ${params.id}
-            )
+            UPDATE recipe_ingredients ri
+            SET weight =
+                CASE
+                    WHEN ri.unit = 'pk' OR ri.unit = 'stk' THEN ri.amount * i.weight
+                    WHEN ri.unit = 'g' THEN ri.amount
+                    WHEN ri.unit = 'kg' THEN ri.amount * 1000.0
+                    WHEN ri.unit = 'ml' THEN i.density * ri.amount
+                    WHEN ri.unit = 'cl' THEN i.density * ri.amount * 10.0
+                    WHEN ri.unit = 'dl' THEN i.density * ri.amount
+                    WHEN ri.unit = 'l' THEN i.density * ri.amount * 1000.0
+                    WHEN ri.unit = 'knsp' THEN i.density * ri.amount * 0.25
+                    WHEN ri.unit = 'tsk' THEN i.density * ri.amount * 5.0
+                    WHEN ri.unit = 'spsk' THEN i.density * ri.amount * 15.0
+                END
+            FROM ingredients i WHERE i.id = ri.ingredient
+            AND ri.recipe = ${params.id}
+        `));
+
+        promises.push(client.query(sql`
             UPDATE recipes as r
             SET (energy, fat, carbs, fibres, protein) = (
             	SELECT
-            		sum(weight * energy) / r.portions as energy,
-            		sum(weight * fat) / r.portions as fat,
-            		sum(weight * carbs) / r.portions as carbs,
-            		sum(weight * fibres) / r.portions as fibres,
-            		sum(weight * protein) / r.portions as protein
-            	FROM ingredients i
-            	WHERE i.recipe = r.id
+            		sum(ri.weight * i.energy) / (r.portions * 100.0),
+            		sum(ri.weight * i.fat) / (r.portions * 100.0),
+            		sum(ri.weight * i.carbs) / (r.portions * 100.0),
+            		sum(ri.weight * i.fibres) / (r.portions * 100.0),
+            		sum(ri.weight * i.protein) / (r.portions * 100.0)
+            	FROM recipe_ingredients ri
+            	JOIN ingredients i ON i.id = ri.ingredient
+            	WHERE ri.recipe = r.id
             )
             WHERE r.id = ${params.id}
         `));
