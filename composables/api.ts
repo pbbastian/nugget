@@ -256,3 +256,10 @@ export function useEdit(
         }
     }
 }
+
+export async function useDelete(resource: string, id: string | number | null) {
+    const url = `/api/${resource}/${id}`;
+    await $fetch(url, {
+        method: 'DELETE'
+    });
+}

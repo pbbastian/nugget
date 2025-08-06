@@ -55,7 +55,7 @@
         </ul>
     </div>
     <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
-    <DeleteModal :id="deleteId" @close-modal="deleteId = null; refresh()" />
+    <DeleteModal resource="ingredients" :id="deleteId" @on-delete="onDelete" @on-cancel="deleteId = null" />
 </template>
 
 
@@ -68,4 +68,9 @@ const { data, pending, error, refresh } = await useAPI<IngredientsResult>("ingre
 
 const editId: Ref<any> = ref(null);
 const deleteId: Ref<any> = ref(null);
+
+async function onDelete() {
+    deleteId.value = null;
+    refresh();
+}
 </script>

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
-            <button type="button" @click="deleteModalOpen = true"
+            <button type="button" @click="deleteId = route.params.id"
                 class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50">
                 <Icon icon="teenyicons:bin-outline" class="text-red-400 h-5 w-5" />
                 Delete
@@ -80,7 +80,7 @@
                                 <div v-for="section in recipe.ingredients">
                                     <h4 v-if="section.name" class="font-bold">{{ section.name }}</h4>
                                     <ul class="grid gap-1 lg:gap-3">
-                                        <li class="leading-normal" v-for="ingredient in section.items">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient.name }}</li>
+                                        <li class="leading-normal" v-for="ingredient in section.items">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient?.name }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
             </div>
         </article>
     </div>
-    <!-- <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false"/> -->
+    <DeleteModal resource="recipes" :id="deleteId" @on-delete="onDelete" @on-cancel="deleteId = null" />
 </template>
 
 <style>
@@ -119,11 +119,18 @@ import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const route = useRoute()
 
-const { data, refresh, clear } = await useFetch<RecipeResult>(computed(() => `recipes/${route.params.id}`), {
+const { data } = await useFetch<RecipeResult>(`recipes/${route.params.id}`, {
     $fetch: useNuxtApp().$api,
     default: () => ({ recipe: null }),
 });
 const { recipe } = toRefs(data.value);
+
+const deleteId: Ref<any> = ref(null);
+
+async function onDelete() {
+    deleteId.value = null;
+    await navigateTo("/");
+}
 
 const deleteModalOpen = ref(false);
 const showIngredientsList = ref(true);

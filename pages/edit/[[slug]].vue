@@ -5,12 +5,12 @@
             </h2>
         </div>
         <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
-            <button type="button" @click="deleteModalOpen = true"
+            <button type="button" v-if="id != null" @click="deleteId = id"
                 class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50">
                 <Icon icon="teenyicons:bin-outline" class="text-red-400 h-5 w-5" />
                 Delete
             </button>
-            <button type="button"
+            <button type="button" v-if="id != null"
                 class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <Icon icon="lets-icons:folder-dublicate-light" class="text-gray-700 h-6 w-6" />
                 Duplicate
@@ -224,7 +224,7 @@
             </div>
         </form>
     </div>
-    <!-- <DeleteModal :open="deleteModalOpen" @close-delete-modal="deleteModalOpen = false" /> -->
+    <DeleteModal resource="recipes" :id="deleteId" @on-delete="onDelete" @on-cancel="deleteId = null" />
 </template>
 
 <script setup lang="ts">
@@ -238,7 +238,7 @@ import {
     ComboboxOptions,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-// import DeleteModal from "../components/modals/DeleteModal.vue";
+import DeleteModal from "../components/modals/DeleteModal.vue";
 
 const route = useRoute()
 const divider = route.params.slug.indexOf("-");
@@ -275,7 +275,14 @@ if (id) {
 const { saving, save } = useEdit("recipes", recipe, async (id, slug) => {
     await navigateTo(`edit/${id}-${slug}`);
 });
-const deleteModalOpen = ref(false);
+
+
+const deleteId: Ref<any> = ref(null);
+
+async function onDelete() {
+    deleteId.value = null;
+    await navigateTo("/");
+}
 
 const query = ref('');
 const filteredIngredients = computed(() =>
