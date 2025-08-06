@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         await client.query("BEGIN");
         let promises: Promise<any>[] = [];
 
-        let fields = { updatedAt: sql.raw('current_timestamp'), ...body };
+        let fields = { updatedAt: sql.raw('DEFAULT'), ...body };
         let resultPromise = client.query(sql`
             UPDATE ingredients
             SET ${spreadUpdate(fields)}

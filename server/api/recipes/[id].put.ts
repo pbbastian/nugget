@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
             name: recipe.name,
             image: recipe.image,
             portions: recipe.portions,
+            updatedAt: sql.raw("DEFAULT"),
         };
         promises.push(client.query(sql`
             UPDATE recipes
