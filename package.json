@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build && node-pg-migrate -j ts --tsconfig tsconfig.migrations.json --tsx true",
+    "build": "nuxt build && node-pg-migrate -j ts --tsconfig tsconfig.migrations.json --tsx true up",
     "dev": "nuxt dev --inspect",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
