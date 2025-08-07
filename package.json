@@ -3,16 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build && node-pg-migrate -j ts --tsconfig tsconfig.migrations.json --tsx true up",
+    "build": "nuxt build && node-pg-migrate -j ts --tsconfig tsconfig.migrations.json up",
     "dev": "nuxt dev --inspect",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "migrate": "node-pg-migrate -j ts --tsconfig ./tsconfig.migrations.json --envPath=.env"
-  },
-  "engines": {
-    "node": ">=v23.10.0",
-    "npm": ">=11.4.2"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.1",
@@ -23,7 +19,6 @@
     "dotenv": "^16.3.1",
     "nuxt": "^3.9.3",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
     "typescript": "^5.8.2",
     "vue": "^3.4.10",
     "vue-router": "^4.2.5"
