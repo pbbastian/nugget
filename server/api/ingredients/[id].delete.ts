@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { sql, spreadInsert } from "squid/pg";
+import { sql, spreadInsert } from "squid/pg.js";
 
 const routeSchema = z.object({
     id: z.coerce.number().int().gte(0)

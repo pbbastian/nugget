@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "migrate": "node-pg-migrate -j ts --tsconfig tsconfig.migrations.json --envPath=.env --tsx true"
+    "migrate": "node-pg-migrate -j ts --tsconfig ./tsconfig.migrations.json --envPath=.env"
   },
   "engines": {
     "node": ">=v23.10.0",

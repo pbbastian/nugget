@@ -1,9 +1,7 @@
 import { z } from "zod";
-import pg, { PoolClient } from 'pg'
-import { spreadInsert, sql } from "squid/pg";
+import pg, { type PoolClient } from 'pg'
+import { spreadInsert, sql } from "squid/pg.js";
 import { Recipe } from "~/shared/utils/schema";
-
-// export default defineNuxtPlugin(() => {});
 
 export const pool: pg.Pool = new pg.Pool();
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type MigrationBuilder, type ColumnDefinitions } from 'node-pg-migrate';
-import { sql } from "squid/pg";
+import { sql } from "squid/pg.js";
 
 export const shorthands: ColumnDefinitions | undefined = undefined;
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { sql, spreadInsert } from "squid/pg";
+import { sql, spreadInsert } from "squid/pg.js";
 
 const bodySchema = ingredientSchema.partial().default({});
 

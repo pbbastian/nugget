@@ -1,5 +1,4 @@
-import { z } from "zod";
-import { sql, spreadInsert } from "squid/pg";
+import { sql, spreadInsert } from "squid/pg.js";
 import { Recipe } from "~/shared/utils/schema";
 import { resolveRefs } from "~/shared/utils/api";
 import { updateRecipeItems } from "~/server/utils/db";

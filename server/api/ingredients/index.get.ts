@@ -1,4 +1,4 @@
-import { sql } from "squid/pg";
+import { sql } from "squid/pg.js";
 
 export default defineEventHandler(async (event) => {
     const ingredients = await pool.query(sql`

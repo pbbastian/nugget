@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { sql } from "squid/pg";
-import { QueryResult } from "pg";
+import { sql } from "squid/pg.js";
 import { dedupe } from "~/shared/utils/api";
 
 let routeSchema = z.object({
