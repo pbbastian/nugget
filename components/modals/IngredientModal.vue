@@ -133,25 +133,12 @@ const { saving, save } = useEdit('ingredients', data)
 
                       <div class="sm:col-span-2">
                         <label
-                          for="protein"
+                          for="fat"
                           class="block text-sm font-medium leading-6 text-gray-900"
-                        >Protein</label>
+                        >Fat</label>
                         <div class="mt-2">
                           <input
-                            id="protein" v-model="data.protein" type="number" name="protein" placeholder="30"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
-                          >
-                        </div>
-                      </div>
-
-                      <div class="sm:col-span-2">
-                        <label
-                          for="fibers"
-                          class="block text-sm font-medium leading-6 text-gray-900"
-                        >Fibers</label>
-                        <div class="mt-2">
-                          <input
-                            id="fibers" v-model="data.fibres" type="number" name="fibers" placeholder="4"
+                            id="fat" v-model="data.fat" type="number" name="fat" placeholder="15"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
                           >
                         </div>
@@ -172,12 +159,25 @@ const { saving, save } = useEdit('ingredients', data)
 
                       <div class="sm:col-span-2">
                         <label
-                          for="fat"
+                          for="fibers"
                           class="block text-sm font-medium leading-6 text-gray-900"
-                        >Fat</label>
+                        >Fibers</label>
                         <div class="mt-2">
                           <input
-                            id="fat" v-model="data.fat" type="number" name="fat" placeholder="15"
+                            id="fibers" v-model="data.fibres" type="number" name="fibers" placeholder="4"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                          >
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label
+                          for="protein"
+                          class="block text-sm font-medium leading-6 text-gray-900"
+                        >Protein</label>
+                        <div class="mt-2">
+                          <input
+                            id="protein" v-model="data.protein" type="number" name="protein" placeholder="30"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
                           >
                         </div>
