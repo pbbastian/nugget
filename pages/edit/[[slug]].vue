@@ -287,63 +287,75 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
 
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-lg font-semibold leading-7 text-gray-900">
-            Steps
+            Step sections
           </h2>
-          <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="col-span-full">
-              <div>
-                <label for="section-name" class="block text-sm font-medium leading-6 text-gray-900">
-                  Section name <span>{{ sectionIndex + 1 }}</span>
+          <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
+            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-6 rounded-md rounded-tr-none bg-orange-50 p-6">
+              <button
+                class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500"
+                type="button"
+                @click="recipe.steps.splice(sectionIndex, 1)"
+              >
+                <Icon
+                  icon="teenyicons:bin-outline"
+                  class="size-4 text-white"
+                />
+              </button>
+              <div class="grid gap-1">
+                <label
+                  :for="`section-name-${sectionIndex}`"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Section name
                 </label>
-                <div class="mt-2">
-                  <div
-                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
-                  >
-                    <input
-                      id="section-name" v-model="section.name" type="text" name="section-name"
-                      class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                <input
+                  :id="`section-name-${sectionIndex}`"
+                  v-model="section.name"
+                  type="text"
+                  name="section-name"
+                  class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                >
+              </div>
+              <div>
+                <h3 class="text-base font-semibold leading-7 text-gray-900">
+                  Steps
+                </h3>
+                <div class="mt-2 grid gap-5">
+                  <div v-for="(step, stepIndex) in section.items" :key="stepIndex">
+                    <div class="flex items-end justify-between">
+                      <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
+                        Step <span>{{ stepIndex + 1 }}</span>
+                      </label>
+                      <button type="button" @click="section.items.splice(stepIndex, 1)">
+                        <Icon
+                          icon="teenyicons:bin-outline"
+                          class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
+                        />
+                      </button>
+                    </div>
+                    <div class="mt-1">
+                      <textarea
+                        :id="`step${stepIndex}`" v-model="step.text" :name="`step${stepIndex}`" rows="3"
+                        class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-full">
+                    <button
+                      type="button"
+                      class="flex w-full items-center justify-center rounded-md border border-orange-300 px-2.5 py-1.5 text-sm text-orange-300 transition-colors hover:border-orange-500 hover:text-orange-500"
+                      @click="section.items.push({ text: '' })"
                     >
+                      <Icon icon="lets-icons:add-round" class="size-6 text-inherit" />
+                      Add step
+                    </button>
                   </div>
                 </div>
-                <button type="button" @click="recipe.steps.splice(sectionIndex, 1)">
-                  <Icon
-                    icon="teenyicons:bin-outline"
-                    class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
-                  />
-                </button>
-              </div>
-              <div v-for="(step, stepIndex) in section.items" :key="stepIndex">
-                <div class="flex items-end justify-between">
-                  <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
-                    Step <span>{{ stepIndex + 1 }}</span>
-                  </label>
-                  <button type="button" @click="section.items.splice(stepIndex, 1)">
-                    <Icon
-                      icon="teenyicons:bin-outline"
-                      class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
-                    />
-                  </button>
-                </div>
-                <div class="mt-2">
-                  <textarea
-                    :id="`step${stepIndex}`" v-model="step.text" :name="`step${stepIndex}`" rows="3"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div class="col-span-full flex justify-end">
-                <button
-                  type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-                  @click="section.items.push({ text: '' })"
-                >
-                  <Icon icon="lets-icons:add-round" class="size-6 text-white" />
-                  Add step
-                </button>
               </div>
             </div>
-            <div class="col-span-full flex justify-end">
+            <div class="col-span-full">
               <button
-                type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                type="button" class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
                 <Icon icon="lets-icons:add-round" class="size-6 text-white" />
