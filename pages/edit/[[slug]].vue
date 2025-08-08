@@ -74,22 +74,22 @@
                 <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-lg font-semibold leading-7 text-gray-900">Ingredients</h2>
                     <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div v-for="(section, sectionIndex) in recipe.ingredients" class="col-span-full">
+                        <div v-for="(section, sectionIndex) in recipe.ingredients" class="col-span-full bg-orange-50 rounded-md p-6">
                             <div>
-                                <label for="section-name" class="block text-sm font-medium leading-6 text-gray-900">
-                                    Section name <span>{{ sectionIndex + 1 }}</span>
-                                </label>
-                                <div class="mt-2">
-                                    <div
-                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md">
-                                        <input type="text" name="section-name" id="section-name" v-model="section.name"
-                                            class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" />
-                                    </div>
+                                <div class="mt-2 flex items-center gap-2 sm:gap-4">
+                                    <input
+                                        type="text"
+                                        name="section-name"
+                                        id="section-name"
+                                        v-model="section.name"
+                                        placeholder="Section name"
+                                        class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                                    />
+                                    <button @click="recipe.ingredients.splice(sectionIndex, 1)" type="button">
+                                        <Icon icon="teenyicons:bin-outline"
+                                              class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5" />
+                                    </button>
                                 </div>
-                                <button @click="recipe.ingredients.splice(sectionIndex, 1)" type="button">
-                                    <Icon icon="teenyicons:bin-outline"
-                                        class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5" />
-                                </button>
                             </div>
                             <div v-for="(ingredient, index) in section.items" class="grid grid-cols-4 gap-2 sm:gap-6">
                                 <div class="col-span-full sm:col-span-2 w-full">
@@ -125,7 +125,7 @@
                                         <div
                                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md">
                                             <input type="number" name="amount" id="amount" v-model="ingredient.amount"
-                                                class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" />
+                                                class=" block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                 </div>
