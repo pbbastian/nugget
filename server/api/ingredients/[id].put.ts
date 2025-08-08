@@ -1,29 +1,29 @@
-import { z } from "zod";
-import { sql, spreadUpdate } from "squid/pg.js";
+import { spreadUpdate, sql } from 'squid/pg.js'
+import { z } from 'zod'
 
 const routeSchema = z.object({
-    id: z.coerce.number().int().gte(0)
-});
+  id: z.coerce.number().int().gte(0),
+})
 
-const bodySchema = ingredientSchema.partial().default({});
+const bodySchema = ingredientSchema.partial().default({})
 
 export default defineEventHandler(async (event) => {
-    const params = await getValidatedRouterParams(event, routeSchema.parse);
-    const body = await readValidatedBody(event, bodySchema.parse);
+  const params = await getValidatedRouterParams(event, routeSchema.parse)
+  const body = await readValidatedBody(event, bodySchema.parse)
 
-    const client = await pool.connect();
-    try {
-        await client.query("BEGIN");
-        let promises: Promise<any>[] = [];
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    const promises: Promise<any>[] = []
 
-        let fields = { updatedAt: sql.raw('DEFAULT'), ...body };
-        let resultPromise = client.query(sql`
+    const fields = { updatedAt: sql.raw('DEFAULT'), ...body }
+    const resultPromise = client.query(sql`
             UPDATE ingredients
             SET ${spreadUpdate(fields)}
             WHERE "id" = ${params.id}
-        `);
+        `)
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             UPDATE recipe_ingredients ri
             SET weight =
                 CASE
@@ -39,9 +39,9 @@ export default defineEventHandler(async (event) => {
                     WHEN ri.unit = 'spsk' THEN i.density * ri.amount * 15.0
                 END
             FROM ingredients i WHERE i.id = ${params.id}
-        `));
+        `))
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             UPDATE recipes as r
             SET (energy, fat, carbs, fibres, protein) = (
             	SELECT
@@ -55,26 +55,24 @@ export default defineEventHandler(async (event) => {
             	WHERE ri.recipe = r.id
             )
             WHERE r.id = (SELECT DISTINCT ri.recipe FROM recipe_ingredients ri WHERE ri.ingredient = ${params.id})
-        `));
+        `))
 
-        let result = await resultPromise;
-        await Promise.all(promises);
+    const result = await resultPromise
+    await Promise.all(promises)
 
-        if (result.rowCount == 0) {
-            setResponseStatus(event, 404);
-            await client.query("ROLLBACK");
-        }
-        else {
-            await client.query("COMMIT");
-        }
-    } catch (e) {
-        await client.query("ROLLBACK");
-        throw e;
-    } finally {
-        client.release();
+    if (result.rowCount == 0) {
+      setResponseStatus(event, 404)
+      await client.query('ROLLBACK')
     }
-
-
-    
-    return;
+    else {
+      await client.query('COMMIT')
+    }
+  }
+  catch (e) {
+    await client.query('ROLLBACK')
+    throw e
+  }
+  finally {
+    client.release()
+  }
 })

@@ -99,4 +99,3 @@ To apply new migrations or update the database schema, use the following command
 ```
 
 Ensure that PostgreSQL is running and your `.env` file is correctly configured before running the command.
-

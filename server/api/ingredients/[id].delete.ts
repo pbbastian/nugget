@@ -1,24 +1,24 @@
-import { z } from "zod";
-import { sql, spreadInsert } from "squid/pg.js";
+import { sql } from 'squid/pg.js'
+import { z } from 'zod'
 
 const routeSchema = z.object({
-    id: z.coerce.number().int().gte(0)
-});
+  id: z.coerce.number().int().gte(0),
+})
 
 export default defineEventHandler(async (event) => {
-    const params = await getValidatedRouterParams(event, routeSchema.parse);
-    const client = await pool.connect();
-    try {
-        await client.query("BEGIN");
-        let promises: Promise<any>[] = [];
+  const params = await getValidatedRouterParams(event, routeSchema.parse)
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    const promises: Promise<any>[] = []
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             UPDATE recipe_ingredients ri
             SET weight = 0.0
             WHERE ri.ingredient = ${params.id}
-        `));
+        `))
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             UPDATE recipes as r
             SET (energy, fat, carbs, fibres, protein) = (
             	SELECT
@@ -32,24 +32,26 @@ export default defineEventHandler(async (event) => {
             	WHERE ri.recipe = r.id
             )
             WHERE r.id = (SELECT DISTINCT ri.recipe FROM recipe_ingredients ri WHERE ri.ingredient = ${params.id})
-        `));
+        `))
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             DELETE FROM recipe_ingredients ri
             WHERE ri.ingredient = ${params.id}
-        `));
+        `))
 
-        promises.push(client.query(sql`
+    promises.push(client.query(sql`
             DELETE FROM ingredients
             WHERE "id" = ${params.id}
-        `));
+        `))
 
-        await Promise.all(promises);
-        await client.query("COMMIT");
-    } catch (e) {
-        await client.query("ROLLBACK");
-        throw e;
-    } finally {
-        client.release();
-    }
-});
+    await Promise.all(promises)
+    await client.query('COMMIT')
+  }
+  catch (e) {
+    await client.query('ROLLBACK')
+    throw e
+  }
+  finally {
+    client.release()
+  }
+})
