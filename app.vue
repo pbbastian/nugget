@@ -4,8 +4,8 @@ import { Icon } from '@iconify/vue'
 
 <template>
   <div>
-    <aside class="bg-white fixed max-lg:inset-x-0 lg:inset-y-0 z-50 lg:w-72 lg:h-screen overflow-hidden px-6 pt-2 lg:pt-8 max-lg:pb-2 max-lg:border-b lg:border-r max-lg:shadow-sm flex max-lg:justify-between lg:flex-col gap-12">
-      <a href="/" class="w-[140px] lg:w-3/4 h-auto">
+    <aside class="fixed z-50 flex gap-12 overflow-hidden bg-white px-6 pt-2 max-lg:inset-x-0 max-lg:justify-between max-lg:border-b max-lg:pb-2 max-lg:shadow-sm lg:inset-y-0 lg:h-screen lg:w-72 lg:flex-col lg:border-r lg:pt-8">
+      <a href="/" class="h-auto w-[140px] lg:w-3/4">
         <svg width="100%" height="100%" viewBox="0 0 370.30769230769226 65.10369641791941" class="looka-1j8o68f">
           <defs id="SvgjsDefs3360" />
           <g
@@ -33,17 +33,17 @@ import { Icon } from '@iconify/vue'
           </g>
         </svg>
       </a>
-      <div class="flex lg:flex-col justify-between h-full">
+      <div class="flex h-full justify-between lg:flex-col">
         <nav>
-          <ul class="flex lg:flex-col gap-2 font-semibold text-gray-700 -mx-3">
+          <ul class="-mx-3 flex gap-2 font-semibold text-gray-700 lg:flex-col">
             <li>
               <a
                 href="/"
-                class="group flex items-center gap-2 lg:gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300"
+                class="transition-color group flex items-center gap-2 rounded-md p-2 duration-300 hover:bg-orange-50 hover:text-orange-400 lg:gap-3"
               >
                 <Icon
                   icon="ph:bowl-food-light"
-                  class="max-sm:hidden w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300"
+                  class="transition-color size-6 text-gray-400 duration-300 group-hover:text-orange-400 max-sm:hidden"
                 />
                 Recipes
               </a>
@@ -51,11 +51,11 @@ import { Icon } from '@iconify/vue'
             <li>
               <a
                 href="/ingredients"
-                class="group flex items-center gap-2 lg:gap-3 p-2 rounded-md hover:bg-orange-50 hover:text-orange-400 transition-color duration-300"
+                class="transition-color group flex items-center gap-2 rounded-md p-2 duration-300 hover:bg-orange-50 hover:text-orange-400 lg:gap-3"
               >
                 <Icon
                   icon="fluent:food-carrot-20-regular"
-                  class="max-sm:hidden w-6 h-6 text-gray-400 group-hover:text-orange-400 transition-color duration-300"
+                  class="transition-color size-6 text-gray-400 duration-300 group-hover:text-orange-400 max-sm:hidden"
                 />
                 Ingredients
               </a>
@@ -72,13 +72,13 @@ import { Icon } from '@iconify/vue'
       </a> -->
       </div>
     </aside>
-    <main class="lg:pl-72 relative lg:min-h-screen max-lg:pt-16">
+    <main class="relative max-lg:pt-16 lg:min-h-screen lg:pl-72">
       <div class="px-8">
-        <form class="flex-1 relative border-b" action="#" method="GET">
+        <form class="relative flex-1 border-b" action="#" method="GET">
           <label for="search-field" class="sr-only">Search</label>
           <svg
             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-            class="text-gray-400 w-5 h-full left-0 inset-y-0 absolute pointer-events-none"
+            class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
           >
             <path
               fill-rule="evenodd"
@@ -87,12 +87,12 @@ import { Icon } from '@iconify/vue'
             />
           </svg>
           <input
-            id="search-field" class="text-sm text-gray-900 pl-8 pr-0 py-4 border-none w-full h-full block outline-0"
+            id="search-field" class="block size-full border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0"
             placeholder="Search..." type="search" name="search"
           >
         </form>
       </div>
-      <div class="px-8 py-6 sm:py-10 @container max-w-screen-xl mx-auto">
+      <div class="mx-auto max-w-screen-xl px-8 py-6 @container sm:py-10">
         <NuxtPage />
       </div>
     </main>

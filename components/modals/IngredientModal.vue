@@ -55,17 +55,17 @@ const { saving, save } = useEdit('ingredients', data)
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-11/12 sm:max-w-3xl"
+              class="relative w-11/12 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-3xl"
             >
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <form class="space-y-6" action="#" method="POST">
                   <div class="border-b border-gray-900/10 pb-12">
-                    <h2 class="text-base font-semibold leading-7 text-orange-950 mb-6">
+                    <h2 class="mb-6 text-base font-semibold leading-7 text-orange-950">
                       Ingredient
                       Information
                     </h2>
 
-                    <div class="border-t border-gray-900/10 pt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-10">
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
                       <div class="sm:col-span-5">
                         <label
                           for="name"

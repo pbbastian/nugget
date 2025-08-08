@@ -79,14 +79,14 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
         v-if="id != null" type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50"
         @click="deleteId = id"
       >
-        <Icon icon="teenyicons:bin-outline" class="text-red-400 h-5 w-5" />
+        <Icon icon="teenyicons:bin-outline" class="size-5 text-red-400" />
         Delete
       </button>
       <button
         v-if="id != null" type="button"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
-        <Icon icon="lets-icons:folder-dublicate-light" class="text-gray-700 h-6 w-6" />
+        <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
         Duplicate
       </button>
     </div>
@@ -151,9 +151,9 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 v-if="!recipe.image" icon="f7:photo-fill"
                 class="h-40 w-full text-gray-300" aria-hidden="true"
               />
-              <div v-else class="mt-3 h-32 sm:h-52 w-full relative rounded-md overflow-hidden">
+              <div v-else class="relative mt-3 h-32 w-full overflow-hidden rounded-md sm:h-52">
                 <img
-                  class="absolute inset-0 w-full h-full object-cover"
+                  class="absolute inset-0 size-full object-cover"
                   :src="recipe.image"
                   alt="fooood"
                 >
@@ -167,7 +167,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
             Ingredients
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.ingredients" class="col-span-full bg-orange-50 rounded-md p-6">
+            <div v-for="(section, sectionIndex) in recipe.ingredients" class="col-span-full rounded-md bg-orange-50 p-6">
               <div>
                 <div class="mt-2 flex items-center gap-2 sm:gap-4">
                   <input
@@ -181,13 +181,13 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                   <button type="button" @click="recipe.ingredients.splice(sectionIndex, 1)">
                     <Icon
                       icon="teenyicons:bin-outline"
-                      class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5"
+                      class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
                     />
                   </button>
                 </div>
               </div>
               <div v-for="(ingredient, index) in section.items" class="grid grid-cols-4 gap-2 sm:gap-6">
-                <div class="col-span-full sm:col-span-2 w-full">
+                <div class="col-span-full w-full sm:col-span-2">
                   <Combobox v-model="section.items[index].ingredient" as="div" @update:model-value="query = ''">
                     <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">
                       Ingredient
@@ -215,7 +215,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                     </div>
                   </Combobox>
                 </div>
-                <div class="col-span-2 sm:col-span-1 w-full">
+                <div class="col-span-2 w-full sm:col-span-1">
                   <label
                     for="amount"
                     class="block text-sm font-medium leading-6 text-gray-900"
@@ -231,7 +231,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                     </div>
                   </div>
                 </div>
-                <div class="col-span-2 sm:col-span-1 w-full">
+                <div class="col-span-2 w-full sm:col-span-1">
                   <label for="unit" class="block text-sm font-medium leading-6 text-gray-900">Unit</label>
                   <div class="mt-2 flex items-center gap-2 sm:gap-4">
                     <select
@@ -246,7 +246,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                     <button type="button" @click="section.items.splice(index, 1)">
                       <Icon
                         icon="teenyicons:bin-outline"
-                        class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5"
+                        class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
                       />
                     </button>
                   </div>
@@ -254,20 +254,20 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
               </div>
               <div class="col-span-full flex justify-end">
                 <button
-                  type="button" class="rounded-md flex items-center gap-2 bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-colors duration-500"
+                  type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-500 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                   @click="section.items.push({ amount: 0, unit: units[0], ingredient: null })"
                 >
-                  <Icon icon="lets-icons:add-round" class="text-white h-6 w-6" />
+                  <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                   Add ingredient
                 </button>
               </div>
             </div>
             <div class="col-span-full flex justify-end">
               <button
-                type="button" class="rounded-md flex items-center gap-2 bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-colors duration-500"
+                type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-500 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.ingredients.push({ name: '', items: [] })"
               >
-                <Icon icon="lets-icons:add-round" class="text-white h-6 w-6" />
+                <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                 Add section
               </button>
             </div>
@@ -297,19 +297,19 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 <button type="button" @click="recipe.steps.splice(sectionIndex, 1)">
                   <Icon
                     icon="teenyicons:bin-outline"
-                    class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5"
+                    class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
                   />
                 </button>
               </div>
               <div v-for="(step, stepIndex) in section.items">
-                <div class="flex justify-between items-end">
+                <div class="flex items-end justify-between">
                   <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
                     Step <span>{{ stepIndex + 1 }}</span>
                   </label>
                   <button type="button" @click="section.items.splice(stepIndex, 1)">
                     <Icon
                       icon="teenyicons:bin-outline"
-                      class="text-red-400 hover:text-red-600 transition-colors duration-300 h-5 w-5"
+                      class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
                     />
                   </button>
                 </div>
@@ -322,20 +322,20 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
               </div>
               <div class="col-span-full flex justify-end">
                 <button
-                  type="button" class="rounded-md flex items-center gap-2 bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-colors duration-500"
+                  type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-500 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                   @click="section.items.push({ text: '' })"
                 >
-                  <Icon icon="lets-icons:add-round" class="text-white h-6 w-6" />
+                  <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                   Add step
                 </button>
               </div>
             </div>
             <div class="col-span-full flex justify-end">
               <button
-                type="button" class="rounded-md flex items-center gap-2 bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-colors duration-500"
+                type="button" class="flex items-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-500 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
-                <Icon icon="lets-icons:add-round" class="text-white h-6 w-6" />
+                <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                 Add section
               </button>
             </div>
@@ -351,7 +351,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
           Cancel
         </button>
         <button
-          v-if="!saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-colors duration-500"
+          v-if="!saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-500 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
           @click="save()"
         >
           Save
