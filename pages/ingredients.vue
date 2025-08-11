@@ -84,7 +84,7 @@ useHead({
             </p>
           </div>
         </div>
-        <div class="col-span-full flex justify-center gap-x-6 text-center max-md:order-3 md:col-span-2 md:justify-start md:gap-x-8">
+        <div class="col-span-full grid grid-cols-5 gap-x-4 text-center max-md:order-3 md:col-span-2">
           <div>
             <p class="font-medium text-orange-400">
               {{ ingredient.energy ? Math.round(ingredient.energy) : '-' }}
@@ -95,18 +95,10 @@ useHead({
           </div>
           <div>
             <p class="font-medium text-orange-400">
-              {{ ingredient.protein ? Math.round(ingredient.protein) : '-' }}
+              {{ ingredient.fat ? Math.round(ingredient.fat) : '-' }}
             </p>
             <p class="text-xs text-orange-950/40">
-              protein
-            </p>
-          </div>
-          <div>
-            <p class="font-medium text-orange-400">
-              {{ ingredient.fibres ? Math.round(ingredient.fibres) : '-' }}
-            </p>
-            <p class="text-xs text-orange-950/40">
-              fibres
+              fat
             </p>
           </div>
           <div>
@@ -119,10 +111,18 @@ useHead({
           </div>
           <div>
             <p class="font-medium text-orange-400">
-              {{ ingredient.fat ? Math.round(ingredient.fat) : '-' }}
+              {{ ingredient.fibres ? Math.round(ingredient.fibres) : '-' }}
             </p>
             <p class="text-xs text-orange-950/40">
-              fat
+              fibres
+            </p>
+          </div>
+          <div>
+            <p class="font-medium text-orange-400">
+              {{ ingredient.protein ? Math.round(ingredient.protein) : '-' }}
+            </p>
+            <p class="text-xs text-orange-950/40">
+              protein
             </p>
           </div>
         </div>
