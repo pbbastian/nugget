@@ -1,10 +1,33 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 
-const { data, pending, error, refresh } = await useAPI<RecipesResult>('recipes')
+const { data } = await useAPI<RecipesResult>('recipes')
+
+useHead({
+  title: 'Recipes | Nugget',
+})
 </script>
 
 <template>
+  <div class="sticky inset-x-0 top-0 pb-8 pt-4">
+    <form class="relative flex-1 border-b" action="#" method="GET">
+      <label for="search-field" class="sr-only">Search</label>
+      <svg
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <input
+        id="search-field" class="block size-full border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0"
+        placeholder="Search..." type="search" name="search"
+      >
+    </form>
+  </div>
   <div class="lg:flex lg:items-start lg:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
@@ -22,7 +45,7 @@ const { data, pending, error, refresh } = await useAPI<RecipesResult>('recipes')
     </div>
   </div>
   <div v-if="data" class="mt-3 grid grid-cols-1 gap-6 @md:grid-cols-2 @3xl:grid-cols-3 @3xl:gap-10 @6xl:grid-cols-4 sm:mt-6">
-    <article v-for="recipe in data.recipes" class="relative rounded-md border bg-white transition-all duration-500 hover:shadow-md">
+    <article v-for="recipe in data.recipes" :key="recipe.id" class="relative rounded-md border bg-white transition-all duration-500 hover:shadow-md">
       <div class="absolute right-2 top-2 z-10 rounded-md bg-orange-400 px-4 py-1.5 text-white shadow-md">
         {{ recipe.portions }} portions
       </div>

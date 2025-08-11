@@ -6,7 +6,7 @@ import DeleteModal from '../components/modals/DeleteModal.vue'
 
 const route = useRoute()
 const divider = route.params.slug.indexOf('-')
-const id = divider != -1 ? route.params.slug.slice(0, divider) : null
+const id = divider !== -1 ? route.params.slug.slice(0, divider) : null
 const recipe: Ref<Recipe | null> = ref(null)
 const ingredients: Ref<Ingredient[]> = ref([])
 if (id) {
@@ -58,30 +58,48 @@ const filteredIngredients = computed(() =>
 )
 
 const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']
+
+useHead({
+  title: `${recipe?.value?.name || 'Edit recipe'} | Nugget`,
+})
 </script>
 
 <template>
-  <div class="lg:flex lg:items-start lg:justify-between">
+  <div class="sticky inset-x-0 top-0 z-10 w-full border-b border-gray-900/10 bg-white py-6 lg:flex lg:items-start lg:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
-        Edit recipe
+        Edit {{ recipe?.name || 'recipe' }}
       </h2>
     </div>
     <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
       <button
-        v-if="id != null" type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50"
+        v-if="id != null" type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
         @click="deleteId = id"
       >
-        <Icon icon="teenyicons:bin-outline" class="size-5 text-red-400" />
+        <Icon icon="teenyicons:bin-outline" class="size-5 text-inherit" />
         Delete
       </button>
+      <button
+        type="button" class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+        @click="$router.go(-1)"
+      >
+        Back
+      </button>
+      <button
+        v-if="!saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+        @click="save()"
+      >
+        Save
+      </button>
+      <!--
+      Duplicate not possible yet
       <button
         v-if="id != null" type="button"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
         Duplicate
-      </button>
+      </button> -->
     </div>
   </div>
   <div v-if="recipe != null" class="mt-6">
@@ -96,13 +114,13 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
             <div class="sm:col-span-4">
               <label for="recipename" class="block text-sm font-medium leading-6 text-gray-900">Recipe
                 name</label>
-              <div class="mt-2">
+              <div class="mt-1">
                 <div
                   class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500"
                 >
                   <input
                     id="recipename" v-model="recipe.name" type="text" name="recipename"
-                    class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
                     placeholder="Nuggets med fritter"
                   >
                 </div>
@@ -114,13 +132,13 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 for="portions"
                 class="block text-sm font-medium leading-6 text-gray-900"
               >Portions</label>
-              <div class="mt-2">
+              <div class="mt-1">
                 <div
                   class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
                 >
                   <input
                     id="portions" v-model="recipe.portions" type="number" name="portions"
-                    class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
                     placeholder="4"
                   >
                 </div>
@@ -132,11 +150,11 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 for="portions"
                 class="block text-sm font-medium leading-6 text-gray-900"
               >Recipe photo</label>
-              <div class="mt-2">
+              <div class="mt-1">
                 <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
                   <input
                     id="image" v-model="recipe.image" type="url" name="image"
-                    class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
                   >
                 </div>
               </div>
@@ -160,7 +178,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
             Ingredient sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-6 rounded-md rounded-tr-none bg-orange-50 p-6">
+            <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
               <button class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500" type="button" @click="recipe.ingredients.splice(sectionIndex, 1)">
                 <Icon
                   icon="teenyicons:bin-outline"
@@ -185,10 +203,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 </div>
               </div>
               <div>
-                <h3 class="text-base font-semibold leading-7 text-gray-900">
-                  Ingredients
-                </h3>
-                <div class="mt-2 grid gap-4">
+                <div class="grid gap-6">
                   <div v-for="(ingredient, index) in section.items" :key="index" class="grid grid-cols-4 gap-2 sm:gap-6">
                     <div class="col-span-full w-full sm:col-span-2">
                       <Combobox v-model="section.items[index].ingredient" as="div" @update:model-value="query = ''">
@@ -285,12 +300,12 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
           </div>
         </div>
 
-        <div class="border-b border-gray-900/10 pb-12">
+        <div>
           <h2 class="text-lg font-semibold leading-7 text-gray-900">
             Step sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-6 rounded-md rounded-tr-none bg-orange-50 p-6">
+            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
               <button
                 class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500"
                 type="button"
@@ -317,10 +332,7 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
                 >
               </div>
               <div>
-                <h3 class="text-base font-semibold leading-7 text-gray-900">
-                  Steps
-                </h3>
-                <div class="mt-2 grid gap-5">
+                <div class="grid gap-5">
                   <div v-for="(step, stepIndex) in section.items" :key="stepIndex">
                     <div class="flex items-end justify-between">
                       <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
@@ -364,21 +376,6 @@ const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', '
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button" class="text-sm font-semibold leading-6 text-gray-900"
-          @click="$router.go(-1)"
-        >
-          Cancel
-        </button>
-        <button
-          v-if="!saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-          @click="save()"
-        >
-          Save
-        </button>
       </div>
     </form>
   </div>

@@ -20,13 +20,17 @@ async function onDelete() {
 
 const deleteModalOpen = ref(false)
 const showIngredientsList = ref(true)
+
+useHead({
+  title: `${recipe?.value?.name || 'Edit recipe'} | Nugget`,
+})
 </script>
 
 <template>
   <div v-if="recipe == null">
     null
   </div>
-  <div v-if="recipe != null" class="lg:flex lg:items-start lg:justify-between">
+  <div v-if="recipe != null" class="pt-6 lg:flex lg:items-start lg:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
         {{ recipe.name }}
@@ -62,13 +66,15 @@ const showIngredientsList = ref(true)
         <Icon icon="teenyicons:bin-outline" class="size-5 text-red-400" />
         Delete
       </button>
+      <!--
+      Duplicate not possible yet
       <button
         type="button"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
         Duplicate
-      </button>
+      </button> -->
       <a
         :href="`/edit/${route.params.id}-${route.params.slug}`"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
