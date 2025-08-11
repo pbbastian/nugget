@@ -5,6 +5,8 @@ import { Icon } from '@iconify/vue'
 const props = defineProps<{
   resource: string
   id: number | string | null
+  title: string | null
+  paragraph: string | null
 }>()
 
 const emit = defineEmits<{
@@ -40,11 +42,11 @@ const emit = defineEmits<{
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
-                      Delete ingredient?
+                      {{ title }}
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">
-                        Are you sure you want to delete the ingredient? It will be removed from all recipes.
+                        {{ paragraph }}
                       </p>
                     </div>
                   </div>

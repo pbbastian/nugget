@@ -379,5 +379,12 @@ useHead({
       </div>
     </form>
   </div>
-  <DeleteModal :id="deleteId" resource="recipes" @on-delete="onDelete" @on-cancel="deleteId = null" />
+  <DeleteModal
+    :id="deleteId"
+    title="Delete recipe?"
+    paragraph="Are you sure you want to delete the recipe? The actions can't be undone."
+    resource="recipes"
+    @on-delete="onDelete"
+    @on-cancel="deleteId = null"
+  />
 </template>

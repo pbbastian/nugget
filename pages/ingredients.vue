@@ -102,5 +102,12 @@ useHead({
     </ul>
   </div>
   <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
-  <DeleteModal :id="deleteId" resource="ingredients" @on-delete="onDelete" @on-cancel="deleteId = null" />
+  <DeleteModal
+    :id="deleteId"
+    title="Delete ingredient?"
+    paragraph="Are you sure you want to delete the ingredient? It will be removed from all recipes."
+    resource="ingredients"
+    @on-delete="onDelete"
+    @on-cancel="deleteId = null"
+  />
 </template>
