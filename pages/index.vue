@@ -1,7 +1,25 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { computed, ref } from 'vue'
 
 const { data } = await useAPI<RecipesResult>('recipes')
+
+const portions = ref<number | null>(null)
+const searchQuery = ref('')
+
+const filteredRecipes = computed(() => {
+  if (!data.value)
+    return []
+
+  return data.value.recipes.filter((recipe) => {
+    const matchesPortions = !portions.value || recipe.portions === portions.value
+    const matchesSearch
+      = !searchQuery.value
+        || recipe.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    return matchesPortions && matchesSearch
+  })
+})
 
 useHead({
   title: 'Recipes | Nugget',
@@ -23,8 +41,12 @@ useHead({
         />
       </svg>
       <input
-        id="search-field" class="block size-full border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0"
-        placeholder="Search..." type="search" name="search"
+        id="search-field"
+        v-model="searchQuery"
+        class="block size-full rounded-md border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500"
+        placeholder="Search..."
+        type="search"
+        name="search"
       >
     </form>
   </div>
@@ -44,8 +66,31 @@ useHead({
       </a>
     </div>
   </div>
+  <div class="flex justify-between pt-6">
+    <div>
+      <input
+        id="portions"
+        v-model.number="portions"
+        type="number"
+        name="portions"
+        placeholder="portions"
+        class="block w-32 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+      >
+    </div>
+    <button
+      type="button"
+      class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+      @click="portions = null; searchQuery = ''"
+    >
+      Clear filters
+    </button>
+  </div>
   <div v-if="data" class="mt-3 grid grid-cols-1 gap-6 @md:grid-cols-2 @3xl:grid-cols-3 @3xl:gap-10 @6xl:grid-cols-4 sm:mt-6">
-    <article v-for="recipe in data.recipes" :key="recipe.id" class="relative rounded-md border bg-white transition-all duration-500 hover:shadow-md">
+    <article
+      v-for="recipe in filteredRecipes"
+      :key="recipe.id"
+      class="relative rounded-md border bg-white transition-all duration-500 hover:shadow-md"
+    >
       <div class="absolute right-2 top-2 z-10 rounded-md bg-orange-400 px-4 py-1.5 text-white shadow-md">
         {{ recipe.portions }} portions
       </div>
