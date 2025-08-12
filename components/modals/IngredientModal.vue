@@ -60,11 +60,14 @@ const { saving, save, success } = useEdit('ingredients', data)
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <form class="space-y-6" action="#" method="POST">
                   <div class="border-b border-gray-900/10 pb-12">
-                    <h2 class="mb-6 text-base font-semibold leading-7 text-orange-950">
-                      Ingredient
-                      Information
+                    <h2 class="mb-2 text-base font-semibold leading-7 text-orange-950">
+                      Ingredient Information
                     </h2>
-
+                    <div v-if="!success">
+                      <p class="mb-2 text-sm text-red-400">
+                        There was an error when saving the ingredient. Please try again
+                      </p>
+                    </div>
                     <div class="grid grid-cols-1 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
                       <div class="sm:col-span-5">
                         <label
@@ -193,7 +196,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                     </button>
                     <button
                       type="button" :disabled="saving" class="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-                      @click="save().then(() => emit('closeModal'))"
+                      @click="save().then(() => { if (success) emit('closeModal') })"
                     >
                       Save
                     </button>
