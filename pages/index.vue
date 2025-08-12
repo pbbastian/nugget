@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-  <div class="sticky inset-x-0 top-0 pb-8 pt-4">
+  <div class="sticky inset-x-0 top-10 pb-8 pt-4 lg:top-0">
     <form class="relative flex-1 border-b" action="#" method="GET">
       <label for="search-field" class="sr-only">Search</label>
       <svg
@@ -50,13 +50,13 @@ useHead({
       >
     </form>
   </div>
-  <div class="lg:flex lg:items-start lg:justify-between">
+  <div class="sm:flex sm:items-center sm:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Recipes
       </h2>
     </div>
-    <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
+    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
       <a
         href="/edit"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-sm ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
@@ -89,7 +89,7 @@ useHead({
     <article
       v-for="recipe in filteredRecipes"
       :key="recipe.id"
-      class="relative rounded-md border bg-white transition-all duration-500 hover:shadow-md"
+      class="relative overflow-hidden rounded-md border bg-white transition-all duration-500 hover:shadow-md"
     >
       <div class="absolute right-2 top-2 z-10 rounded-md bg-orange-400 px-4 py-1.5 text-white shadow-md">
         {{ recipe.portions }} portions

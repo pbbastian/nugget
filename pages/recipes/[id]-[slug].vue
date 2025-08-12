@@ -30,35 +30,13 @@ useHead({
   <div v-if="recipe == null">
     null
   </div>
-  <div v-if="recipe != null" class="pt-6 lg:flex lg:items-start lg:justify-between">
+  <div v-if="recipe != null" class="pt-6 sm:flex sm:items-center sm:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
         {{ recipe.name }}
       </h2>
-      <div class="mt-3 hidden sm:flex-wrap sm:space-x-2">
-        <button
-          class="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-500 ring-1 ring-inset ring-orange-500/10 hover:opacity-50"
-        >
-          Kylling
-        </button>
-        <button
-          class="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-500 ring-1 ring-inset ring-orange-500/10 hover:opacity-50"
-        >
-          Aftensmad
-        </button>
-        <button
-          class="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-500 ring-1 ring-inset ring-orange-500/10 hover:opacity-50"
-        >
-          Skinny
-        </button>
-        <button
-          class="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-500 ring-1 ring-inset ring-orange-500/10 hover:opacity-50"
-        >
-          Ris
-        </button>
-      </div>
     </div>
-    <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
+    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
       <button
         type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50"
         @click="deleteId = route.params.id"

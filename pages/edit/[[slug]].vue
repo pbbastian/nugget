@@ -65,13 +65,13 @@ useHead({
 </script>
 
 <template>
-  <div class="sticky inset-x-0 top-0 z-10 w-full border-b border-gray-900/10 bg-white py-6 lg:flex lg:items-start lg:justify-between">
+  <div class="sticky inset-x-0 top-12 z-10 w-full border-b border-gray-900/10 bg-white py-6 sm:flex sm:items-center sm:justify-between lg:top-0">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
-        {{ recipe?.name || 'recipe' }}
+        {{ recipe?.name || 'Create new recipe' }}
       </h2>
     </div>
-    <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
+    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
       <button
         v-if="id != null" type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
         @click="deleteId = id"
