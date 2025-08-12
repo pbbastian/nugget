@@ -118,7 +118,7 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
                 WHEN ri.unit = 'kg' THEN ri.amount * 1000.0
                 WHEN ri.unit = 'ml' THEN i.density * ri.amount
                 WHEN ri.unit = 'cl' THEN i.density * ri.amount * 10.0
-                WHEN ri.unit = 'dl' THEN i.density * ri.amount
+                WHEN ri.unit = 'dl' THEN i.density * ri.amount * 100.0
                 WHEN ri.unit = 'l' THEN i.density * ri.amount * 1000.0
                 WHEN ri.unit = 'knsp' THEN i.density * ri.amount * 0.25
                 WHEN ri.unit = 'tsk' THEN i.density * ri.amount * 5.0
