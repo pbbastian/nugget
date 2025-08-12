@@ -1,3 +1,4 @@
+import slugify from 'slugify'
 import { spreadUpdate, sql } from 'squid/pg.js'
 import { z } from 'zod'
 import { updateRecipeItems } from '~/server/utils/db'
@@ -20,8 +21,11 @@ export default defineEventHandler(async (event) => {
     await client.query('BEGIN')
     const promises: Promise<any>[] = []
 
+    const slug = slugify(recipe.name, { lower: true, strict: true })
+
     const recipeFields = {
       name: recipe.name,
+      slug,
       image: recipe.image,
       portions: recipe.portions,
       updatedAt: sql.raw('DEFAULT'),
@@ -36,6 +40,8 @@ export default defineEventHandler(async (event) => {
 
     await Promise.all(promises)
     await client.query('COMMIT')
+
+    return { id: params.id, slug }
   }
   catch (e) {
     await client.query('ROLLBACK')
@@ -44,6 +50,4 @@ export default defineEventHandler(async (event) => {
   finally {
     client.release()
   }
-
-  return {}
 })
