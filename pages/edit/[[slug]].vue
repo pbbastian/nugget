@@ -68,7 +68,7 @@ useHead({
   <div class="sticky inset-x-0 top-0 z-10 w-full border-b border-gray-900/10 bg-white py-6 lg:flex lg:items-start lg:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
-        Edit {{ recipe?.name || 'recipe' }}
+        {{ recipe?.name || 'recipe' }}
       </h2>
     </div>
     <div class="mt-5 flex gap-4 lg:ml-4 lg:mt-0">
