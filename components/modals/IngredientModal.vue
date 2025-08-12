@@ -32,7 +32,7 @@ watch(toRef(props, 'id'), (value, _) => {
     clear()
   }
 })
-const { saving, save } = useEdit('ingredients', data)
+const { saving, save, success } = useEdit('ingredients', data)
 </script>
 
 <template>

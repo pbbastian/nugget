@@ -218,8 +218,10 @@ export function useEdit(
   createCallback?: (id: any, slug: any) => Promise<void>,
 ) {
   const saving = ref(false)
+  const success = ref(true)
   return {
     saving,
+    success,
     async save() {
       if (data.value == null) { throw new Error('Cannot save before data is loaded') }
       if (saving.value) { throw new Error('A save request is already in progress') }
@@ -258,6 +260,11 @@ export function useEdit(
         if (isCreate && createCallback) {
           await createCallback(result.id, result.slug)
         }
+        success.value = true
+      }
+      catch (e) {
+        success.value = false
+        console.error(e)
       }
       finally {
         saving.value = false

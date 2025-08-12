@@ -7,6 +7,7 @@ import DeleteModal from '../components/modals/DeleteModal.vue'
 const route = useRoute()
 const divider = route.params.slug.indexOf('-')
 const id = divider !== -1 ? route.params.slug.slice(0, divider) : null
+const slug = divider !== -1 ? route.params.slug.slice(divider) : null
 const recipe: Ref<Recipe | null> = ref(null)
 const ingredients: Ref<Ingredient[]> = ref([])
 if (id) {
@@ -37,8 +38,10 @@ else {
   }
   ingredients.value = data.value.ingredients
 }
-const { saving, save } = useEdit('recipes', recipe, async (id, slug) => {
-  await navigateTo(`edit/${id}-${slug}`)
+const { saving, save, success } = useEdit('recipes', recipe, async (newId, newSlug) => {
+  if (newId != id || newSlug != slug) {
+    await navigateTo(`edit/${newId}-${newSlug}`)
+  }
 })
 
 const deleteId: Ref<any> = ref(null)
@@ -80,13 +83,13 @@ useHead({
         Delete
       </button>
       <button
-        type="button" class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-        @click="$router.go(-1)"
+        v-if="id != null" type="button" class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+        @click="$router.push(`/recipes/${route.params.slug}`)"
       >
-        Back
+        View
       </button>
       <button
-        v-if="!saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+        :disabled="saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
         @click="save()"
       >
         Save
