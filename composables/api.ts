@@ -215,7 +215,7 @@ function visit(obj: any, f: (value: any) => any) {
 export function useEdit(
   resource: string | (() => string),
   data: Ref<{ id?: any } | null>,
-  createCallback?: (id: any, slug: any) => Promise<void>,
+  callback?: (id: any, slug: any) => Promise<void>,
 ) {
   const saving = ref(false)
   const success = ref(true)
@@ -234,9 +234,7 @@ export function useEdit(
         const seen = new WeakSet()
         let count = 0
         const body = structuredClone(toRaw(data.value))
-        if (isCreate) {
-          delete body.id
-        }
+        delete body.id
         visit(body, (value) => {
           if (typeof value === 'object' && value && !Array.isArray(value)) {
             if (seen.has(value)) {
@@ -257,8 +255,8 @@ export function useEdit(
           method: isCreate ? 'POST' : 'PUT',
           body,
         })
-        if (isCreate && createCallback) {
-          await createCallback(result.id, result.slug)
+        if (callback) {
+          await callback(result.id, result.slug)
         }
         success.value = true
       }

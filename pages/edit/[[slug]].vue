@@ -5,9 +5,10 @@ import { Icon } from '@iconify/vue'
 import DeleteModal from '../components/modals/DeleteModal.vue'
 
 const route = useRoute()
+const router = useRouter()
 const divider = route.params.slug.indexOf('-')
 const id = divider !== -1 ? route.params.slug.slice(0, divider) : null
-const slug = divider !== -1 ? route.params.slug.slice(divider) : null
+const slug = divider !== -1 ? route.params.slug.slice(divider + 1) : null
 const recipe: Ref<Recipe | null> = ref(null)
 const ingredients: Ref<Ingredient[]> = ref([])
 if (id) {
@@ -39,8 +40,8 @@ else {
   ingredients.value = data.value.ingredients
 }
 const { saving, save, success } = useEdit('recipes', recipe, async (newId, newSlug) => {
-  if (newId != id || newSlug != slug) {
-    await navigateTo(`edit/${newId}-${newSlug}`)
+  if (newSlug != slug) {
+    await router.replace(`/edit/${newId}-${newSlug}`)
   }
 })
 
