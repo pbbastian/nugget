@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-  <div class="sticky inset-x-0 top-10 pb-8 pt-4 lg:top-0">
+  <div class="sticky inset-x-0 top-10 z-30 -mx-1 mb-8 bg-white px-1 pt-4 lg:top-0">
     <form class="relative flex-1 border-b" action="#" method="GET">
       <label for="search-field" class="sr-only">Search</label>
       <svg
