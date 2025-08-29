@@ -78,20 +78,29 @@ useHead({
       </div>
       <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
         <button
-          v-if="id != null" type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
+          v-if="id != null"
+          type="button"
+          class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
+          tabindex="0"
           @click="deleteId = id"
         >
           <Icon icon="teenyicons:bin-outline" class="size-5 text-inherit" />
           Delete
         </button>
         <button
-          v-if="id != null" type="button" class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+          v-if="id != null"
+          type="button"
+          tabindex="0"
+          class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
           @click="$router.push(`/recipes/${route.params.slug}`)"
         >
           View
         </button>
         <button
-          :disabled="saving" type="button" class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50"
+          :disabled="saving"
+          type="button"
+          tabindex="0"
+          class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50"
           @click="save()"
         >
           Save
@@ -190,7 +199,10 @@ useHead({
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
             <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
-              <button class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500" type="button" @click="recipe.ingredients.splice(sectionIndex, 1)">
+              <button
+                tabindex="0"
+                class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500" type="button" @click="recipe.ingredients.splice(sectionIndex, 1)"
+              >
                 <Icon
                   icon="teenyicons:bin-outline"
                   class="size-4 text-white"
@@ -277,7 +289,11 @@ useHead({
                           </option>
                         </select>
 
-                        <button type="button" @click="section.items.splice(index, 1)">
+                        <button
+                          type="button"
+                          tabindex="0"
+                          @click="section.items.splice(index, 1)"
+                        >
                           <Icon
                             icon="teenyicons:bin-outline"
                             class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
@@ -289,6 +305,7 @@ useHead({
                   <div class="col-span-full mt-2">
                     <button
                       type="button"
+                      tabindex="0"
                       class="flex w-full items-center justify-center rounded-md border border-orange-300 px-2.5 py-1.5 text-sm text-orange-300 transition-colors hover:border-orange-500 hover:text-orange-500"
                       @click="section.items.push({ amount: 0, unit: units[0], ingredient: null })"
                     >
@@ -301,7 +318,9 @@ useHead({
             </div>
             <div class="col-span-full">
               <button
-                type="button" class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                tabindex="0"
+                type="button"
+                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.ingredients.push({ name: '', items: [] })"
               >
                 <Icon icon="lets-icons:add-round" class="size-6 text-white" />
@@ -318,6 +337,7 @@ useHead({
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
             <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
               <button
+                tabindex="0"
                 class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500"
                 type="button"
                 @click="recipe.steps.splice(sectionIndex, 1)"
@@ -349,7 +369,11 @@ useHead({
                       <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
                         Step <span>{{ stepIndex + 1 }}</span>
                       </label>
-                      <button type="button" @click="section.items.splice(stepIndex, 1)">
+                      <button
+                        tabindex="0"
+                        type="button"
+                        @click="section.items.splice(stepIndex, 1)"
+                      >
                         <Icon
                           icon="teenyicons:bin-outline"
                           class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
@@ -366,6 +390,7 @@ useHead({
                   <div class="col-span-full">
                     <button
                       type="button"
+                      tabindex="0"
                       class="flex w-full items-center justify-center rounded-md border border-orange-300 px-2.5 py-1.5 text-sm text-orange-300 transition-colors hover:border-orange-500 hover:text-orange-500"
                       @click="section.items.push({ text: '' })"
                     >
@@ -378,7 +403,9 @@ useHead({
             </div>
             <div class="col-span-full">
               <button
-                type="button" class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                tabindex="0"
+                type="button"
+                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
                 <Icon icon="lets-icons:add-round" class="size-6 text-white" />
