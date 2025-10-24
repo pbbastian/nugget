@@ -40,4 +40,5 @@ export const Recipe = z.object({
   protein: z.number().nullable(),
   steps: z.array(RecipeStepSection),
   ingredients: z.array(RecipeIngredientSection),
+  ingredient_ids: z.array(z.number()).optional(),
 })

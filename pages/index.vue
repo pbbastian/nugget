@@ -2,10 +2,12 @@
 import { Icon } from '@iconify/vue'
 
 const { data } = await useAPI<RecipesResult>('recipes')
+const { data: ingredientsData } = await useAPI<{ ingredients: any[] }>('ingredients')
 
 const portions = ref<number | null>(null)
 const searchQuery = ref('')
 const sortBy = ref<'default' | 'name' | 'energy'>('default')
+const selectedIngredients = ref<number[]>([])
 
 const filteredRecipes = computed(() => {
   if (!data.value)
@@ -17,7 +19,12 @@ const filteredRecipes = computed(() => {
       = !searchQuery.value
         || recipe.name.toLowerCase().includes(searchQuery.value.toLowerCase())
 
-    return matchesPortions && matchesSearch
+    const matchesIngredients = selectedIngredients.value.length === 0
+      || selectedIngredients.value.every(ingredientId =>
+        recipe.ingredient_ids?.includes(ingredientId),
+      )
+
+    return matchesPortions && matchesSearch && matchesIngredients
   })
 
   if (sortBy.value === 'name') {
@@ -102,11 +109,17 @@ useHead({
         placeholder="portions"
         class="block w-32 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
       >
+      <IngredientMultiSelect
+        v-if="ingredientsData"
+        v-model="selectedIngredients"
+        :ingredients="ingredientsData.ingredients"
+        class="w-80"
+      />
     </div>
     <button
       type="button"
       class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-      @click="portions = null; searchQuery = ''; sortBy = 'default'"
+      @click="portions = null; searchQuery = ''; sortBy = 'default'; selectedIngredients = []"
     >
       Clear filters
     </button>

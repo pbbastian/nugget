@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { Icon } from '@iconify/vue'
 import DeleteModal from '../components/modals/DeleteModal.vue'
 
@@ -369,7 +368,7 @@ function calculateCalories(ingredient: any): number | null {
                             @blur="query = ''"
                           />
                           <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                            <ChevronUpDownIcon class="size-5 text-gray-400" aria-hidden="true" />
+                            <Icon icon="heroicons:chevron-up-down-20-solid" class="size-5 text-gray-400" aria-hidden="true" />
                           </ComboboxButton>
 
                           <ComboboxOptions v-if="filteredIngredients.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
@@ -381,7 +380,7 @@ function calculateCalories(ingredient: any): number | null {
                                 </div>
 
                                 <span v-if="selected" class="absolute inset-y-0 right-0 flex items-center pr-4" :class="[active ? 'text-white' : 'text-orange-500']">
-                                  <CheckIcon class="size-5" aria-hidden="true" />
+                                  <Icon icon="heroicons:check-20-solid" class="size-5" aria-hidden="true" />
                                 </span>
                               </li>
                             </ComboboxOption>

@@ -35,6 +35,7 @@ export interface Recipe {
   protein: number
   ingredients: IngredientSection[]
   steps: StepSection[]
+  ingredient_ids?: number[]
 }
 
 export interface RecipeResult {
