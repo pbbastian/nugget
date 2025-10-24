@@ -9,6 +9,17 @@ const searchQuery = ref('')
 const sortBy = ref<'default' | 'name' | 'energy'>('default')
 const selectedIngredients = ref<number[]>([])
 
+onMounted(() => {
+  const savedSortBy = localStorage.getItem('recipes-sortBy')
+  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name' || savedSortBy === 'energy')) {
+    sortBy.value = savedSortBy as 'default' | 'name' | 'energy'
+  }
+})
+
+watch(sortBy, (newValue) => {
+  localStorage.setItem('recipes-sortBy', newValue)
+})
+
 const filteredRecipes = computed(() => {
   if (!data.value)
     return []

@@ -1,21 +1,39 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import DeleteModal from '../components/modals/DeleteModal.vue'
 import IngredientModal from '../components/modals/IngredientModal.vue'
 
 const { data, refresh } = await useAPI<IngredientsResult>('ingredients')
 
 const searchQuery = ref('')
+const sortBy = ref<'default' | 'name'>('default')
+
+onMounted(() => {
+  const savedSortBy = localStorage.getItem('ingredients-sortBy')
+  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name')) {
+    sortBy.value = savedSortBy as 'default' | 'name'
+  }
+})
+
+watch(sortBy, (newValue) => {
+  localStorage.setItem('ingredients-sortBy', newValue)
+})
 
 const filteredIngredients = computed(() => {
   if (!data.value)
     return []
 
-  return data.value.ingredients.filter((ingredient) => {
+  let filtered = data.value.ingredients.filter((ingredient) => {
     return !searchQuery.value
       || ingredient.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   })
+
+  if (sortBy.value === 'name') {
+    filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  return filtered
 })
 
 const editId: Ref<any> = ref(null)
@@ -68,6 +86,21 @@ useHead({
       <Icon icon="lets-icons:add-round" class="size-6 text-orange-500" />
       Add Ingredient
     </button>
+  </div>
+  <div class="pt-6">
+    <select
+      id="sortBy"
+      v-model="sortBy"
+      name="sortBy"
+      class="block w-40 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+    >
+      <option value="default">
+        Default
+      </option>
+      <option value="name">
+        Name
+      </option>
+    </select>
   </div>
   <div v-if="data" class="mt-6">
     <ul role="list" class="divide-y divide-gray-100">
