@@ -39,8 +39,8 @@ else {
   }
   ingredients.value = data.value.ingredients
 }
-const { saving, save, success } = useEdit('recipes', recipe, async (newId, newSlug) => {
-  if (newSlug != slug) {
+const { saving, save } = useEdit('recipes', recipe, async (newId, newSlug) => {
+  if (newSlug !== slug) {
     await router.replace(`/edit/${newId}-${newSlug}`)
   }
 })
@@ -115,11 +115,6 @@ useHead({
           Duplicate
         </button> -->
       </div>
-    </div>
-    <div v-if="!success">
-      <p class="mt-2 text-sm text-red-400">
-        There was an error when saving the recipe. Please try again
-      </p>
     </div>
   </div>
   <div v-if="recipe != null" class="mt-6">

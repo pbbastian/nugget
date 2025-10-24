@@ -219,6 +219,7 @@ export function useEdit(
 ) {
   const saving = ref(false)
   const success = ref(true)
+  const { error: showError, success: showSuccess } = useToast()
   return {
     saving,
     success,
@@ -259,10 +260,12 @@ export function useEdit(
           await callback(result.id, result.slug)
         }
         success.value = true
+        const resourceName = resource === 'recipes' ? 'recipe' : 'ingredient'
+        showSuccess('Saved!', isCreate ? `Your ${resourceName} has been created` : 'Your changes have been saved')
       }
-      catch (e) {
+      catch {
         success.value = false
-        console.error(e)
+        showError('Error saving', 'An error occurred. Please try again.')
       }
       finally {
         saving.value = false

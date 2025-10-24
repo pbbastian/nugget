@@ -12,7 +12,21 @@ const props = defineProps<{
 const emit = defineEmits<{
   onDelete: []
   onCancel: []
+  closeModal: []
 }>()
+
+const { success: showSuccess, error: showError } = useToast()
+
+async function handleDelete() {
+  try {
+    await useDelete(props.resource, props.id!)
+    showSuccess('Deleted!', `The ${props.resource === 'recipes' ? 'recipe' : 'ingredient'} has been deleted`)
+    emit('onDelete')
+  }
+  catch {
+    showError('Error deleting', 'An error occurred. Please try again.')
+  }
+}
 </script>
 
 <template>
@@ -53,10 +67,10 @@ const emit = defineEmits<{
                 </div>
               </div>
               <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="useDelete(props.resource, props.id!).then(() => emit('onDelete'))">
+                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="handleDelete">
                   Delete
                 </button>
-                <button ref="cancelButtonRef" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="emit('onCancel')">
+                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="emit('onCancel')">
                   Cancel
                 </button>
               </div>

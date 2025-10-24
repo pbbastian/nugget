@@ -63,11 +63,6 @@ const { saving, save, success } = useEdit('ingredients', data)
                     <h2 class="mb-2 text-base font-semibold leading-7 text-orange-950">
                       Ingredient Information
                     </h2>
-                    <div v-if="!success">
-                      <p class="mb-2 text-sm text-red-400">
-                        There was an error when saving the ingredient. Please try again
-                      </p>
-                    </div>
                     <div class="grid grid-cols-1 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
                       <div class="sm:col-span-5">
                         <label

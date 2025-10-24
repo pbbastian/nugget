@@ -1,5 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue'
+import ToastContainer from '~/components/ToastContainer.vue'
 </script>
 
 <template>
@@ -52,5 +53,6 @@ import { Icon } from '@iconify/vue'
         <NuxtPage />
       </div>
     </main>
+    <ToastContainer />
   </div>
 </template>
