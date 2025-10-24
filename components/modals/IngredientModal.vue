@@ -86,7 +86,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                         <label
                           for="vendor"
                           class="block text-sm font-medium leading-6 text-gray-900"
-                        >Vendor</label>
+                        >Vendor (optional)</label>
                         <div class="mt-2">
                           <input
                             id="vendor" v-model="data.vendor" type="text" name="vendor" placeholder="Rema1000"

@@ -26,7 +26,7 @@ export const useIngredient = useApi<Ingredient>('ingredients', 'ingredient', {
   protein: null,
   density: null,
   weight: null,
-  vendor: '',
+  vendor: null,
 })
 
 export async function deleteIngredient(id: number | null) {

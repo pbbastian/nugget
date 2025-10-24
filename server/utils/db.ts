@@ -11,11 +11,12 @@ pool.on('error', (err, client) => {
   process.exit(-1)
 })
 
-const nullString = z.literal("").transform(() => null)
+const nullString = z.literal('').transform(() => null)
+const emptyString = z.null().transform(() => '')
 
 export const ingredientSchema = z.object({
   name: z.string(),
-  vendor: z.string().nullable(),
+  vendor: z.string().or(emptyString),
   density: z.number().nullable().or(nullString),
   weight: z.number().nullable().or(nullString),
   energy: z.number().nullable(),
