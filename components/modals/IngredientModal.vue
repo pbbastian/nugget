@@ -89,7 +89,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                         >Vendor (optional)</label>
                         <div class="mt-2">
                           <input
-                            id="vendor" v-model="data.vendor" type="text" name="vendor" placeholder="Rema1000"
+                            id="vendor" v-model="data.vendor" type="text" name="vendor" placeholder="Rema 1000"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
                           >
                         </div>
