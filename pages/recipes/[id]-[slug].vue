@@ -38,7 +38,7 @@ useHead({
     </div>
     <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
       <button
-        type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50"
+        type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-xs ring-1 ring-inset ring-red-400 hover:bg-red-50"
         @click="deleteId = route.params.id"
       >
         <Icon icon="teenyicons:bin-outline" class="size-5 text-red-400" />
@@ -48,14 +48,14 @@ useHead({
       Duplicate not possible yet
       <button
         type="button"
-        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
         Duplicate
       </button> -->
       <a
         :href="`/edit/${route.params.id}-${route.params.slug}`"
-        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <Icon icon="circum:edit" class="size-6 text-gray-700" />
         Edit

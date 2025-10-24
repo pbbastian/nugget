@@ -5,7 +5,7 @@ import ToastContainer from '~/components/ToastContainer.vue'
 
 <template>
   <div>
-    <aside class="fixed z-50 flex gap-12 overflow-hidden bg-white px-6 pt-2 max-lg:inset-x-0 max-lg:items-center max-lg:justify-between max-lg:border-b max-lg:pb-2 max-lg:shadow-sm lg:inset-y-0 lg:h-screen lg:w-72 lg:flex-col lg:border-r lg:pt-8">
+    <aside class="fixed z-50 flex gap-12 overflow-hidden bg-white px-6 pt-2 max-lg:inset-x-0 max-lg:items-center max-lg:justify-between max-lg:border-b max-lg:border-b-gray-300 max-lg:pb-2 max-lg:shadow-xs lg:inset-y-0 lg:h-screen lg:w-72 lg:flex-col lg:border-r lg:border-r-gray-300 lg:pt-8">
       <a href="/" class="h-auto w-[140px] lg:w-3/4">
         <img src="/svg/logo.svg" alt="Nugget logo">
       </a>

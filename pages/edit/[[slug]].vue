@@ -178,7 +178,7 @@ function calculateCalories(ingredient: any): number | null {
         <button
           v-if="id != null"
           type="button"
-          class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
+          class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-xs ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
           tabindex="0"
           @click="deleteId = id"
         >
@@ -198,7 +198,7 @@ function calculateCalories(ingredient: any): number | null {
           :disabled="saving"
           type="button"
           tabindex="0"
-          class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50"
+          class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50"
           @click="save()"
         >
           Save
@@ -220,7 +220,7 @@ function calculateCalories(ingredient: any): number | null {
                 name</label>
               <div class="mt-1">
                 <div
-                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500"
+                  class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500"
                 >
                   <input
                     id="recipename" v-model="recipe.name" type="text" name="recipename"
@@ -238,7 +238,7 @@ function calculateCalories(ingredient: any): number | null {
               >Portions</label>
               <div class="mt-1">
                 <div
-                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
+                  class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
                 >
                   <input
                     id="portions" v-model="recipe.portions" type="number" name="portions"
@@ -255,7 +255,7 @@ function calculateCalories(ingredient: any): number | null {
                 class="block text-sm font-medium leading-6 text-gray-900"
               >Recipe photo</label>
               <div class="mt-1">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
+                <div class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
                   <input
                     id="image" v-model="recipe.image" type="url" name="image"
                     class="block w-full"
@@ -395,7 +395,7 @@ function calculateCalories(ingredient: any): number | null {
                       >Amount</label>
                       <div class="mt-1">
                         <div
-                          class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
+                          class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
                         >
                           <input
                             id="amount" v-model="ingredient.amount" type="number" name="amount"
@@ -447,7 +447,7 @@ function calculateCalories(ingredient: any): number | null {
               <button
                 tabindex="0"
                 type="button"
-                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.ingredients.push({ name: '', items: [] })"
               >
                 <Icon icon="lets-icons:add-round" class="size-6 text-white" />
@@ -574,7 +574,7 @@ function calculateCalories(ingredient: any): number | null {
               <button
                 tabindex="0"
                 type="button"
-                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
                 <Icon icon="lets-icons:add-round" class="size-6 text-white" />

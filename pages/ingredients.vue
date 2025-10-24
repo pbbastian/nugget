@@ -51,7 +51,7 @@ useHead({
 
 <template>
   <div class="sticky inset-x-0 top-10 z-30 -mx-1 mb-8 bg-white px-1 pt-4 lg:top-0">
-    <form class="relative flex-1 border-b" action="#" method="GET">
+    <form class="relative flex-1 border-b border-b-gray-300" action="#" method="GET">
       <label for="search-field" class="sr-only">Search</label>
       <svg
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -75,12 +75,12 @@ useHead({
   </div>
   <div class="flex gap-4 pt-6 max-sm:flex-col max-sm:items-start lg:items-center lg:justify-between">
     <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
+      <h2 class="text-2xl font-bold leading-10 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Ingredients
       </h2>
     </div>
     <button
-      class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-sm ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
+      class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-xs ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
       @click="editId = 'add'"
     >
       <Icon icon="lets-icons:add-round" class="size-6 text-orange-500" />
