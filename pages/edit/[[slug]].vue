@@ -224,7 +224,7 @@ function calculateCalories(ingredient: any): number | null {
                 >
                   <input
                     id="recipename" v-model="recipe.name" type="text" name="recipename"
-                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                    class="block w-full"
                     placeholder="Nuggets med fritter"
                   >
                 </div>
@@ -242,7 +242,7 @@ function calculateCalories(ingredient: any): number | null {
                 >
                   <input
                     id="portions" v-model="recipe.portions" type="number" name="portions"
-                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                    class="block w-full"
                     placeholder="4"
                   >
                 </div>
@@ -258,7 +258,7 @@ function calculateCalories(ingredient: any): number | null {
                 <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
                   <input
                     id="image" v-model="recipe.image" type="url" name="image"
-                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                    class="block w-full"
                   >
                 </div>
               </div>
@@ -326,7 +326,7 @@ function calculateCalories(ingredient: any): number | null {
                     v-model="section.name"
                     type="text"
                     name="section-name"
-                    class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                    class="block w-full"
                   >
                 </div>
               </div>
@@ -362,7 +362,7 @@ function calculateCalories(ingredient: any): number | null {
                         </ComboboxLabel>
                         <div class="relative mt-1">
                           <ComboboxInput
-                            class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                            class="block w-full"
                             :display-value="(ingredient) => (ingredient as Ingredient)?.name"
                             @change="query = $event.target.value"
                             @blur="query = ''"
@@ -399,7 +399,7 @@ function calculateCalories(ingredient: any): number | null {
                         >
                           <input
                             id="amount" v-model="ingredient.amount" type="number" name="amount"
-                            class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                            class="block w-full"
                           >
                         </div>
                       </div>
@@ -409,7 +409,7 @@ function calculateCalories(ingredient: any): number | null {
                       <div class="mt-1 flex items-center gap-2 sm:gap-4">
                         <select
                           id="unit" v-model="ingredient.unit" name="unit"
-                          class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                          class="block w-full"
                         >
                           <option v-for="unit in units" :key="unit">
                             {{ unit }}
@@ -507,7 +507,7 @@ function calculateCalories(ingredient: any): number | null {
                   v-model="section.name"
                   type="text"
                   name="section-name"
-                  class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                  class="block w-full"
                 >
               </div>
               <div>
