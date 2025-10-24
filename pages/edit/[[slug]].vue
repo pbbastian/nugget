@@ -136,6 +136,35 @@ function moveStepDown(sectionIndex: number, itemIndex: number) {
 useHead({
   title: `${recipe?.value?.name || 'Edit recipe'} | Nugget`,
 })
+
+function calculateCalories(ingredient: any): number | null {
+  if (!ingredient?.ingredient?.energy || !ingredient.amount)
+    return null
+
+  const { energy, density = 1, weight } = ingredient.ingredient
+  const { amount, unit } = ingredient
+
+  const unitToGrams: Record<string, number | null> = {
+    g: amount,
+    kg: amount * 1000,
+    ml: amount * density,
+    cl: amount * 10 * density,
+    dl: amount * 100 * density,
+    l: amount * 1000 * density,
+    tsk: amount * 5,
+    spsk: amount * 15,
+    knsp: amount * 1,
+    stk: weight ? amount * weight : null,
+    pk: weight ? amount * weight : null,
+  }
+
+  const amountInGrams = unitToGrams[unit]
+  if (amountInGrams == null)
+    return null
+
+  const portions = recipe.value?.portions || 1
+  return Math.round((energy * amountInGrams) / 100 / portions)
+}
 </script>
 
 <template>
@@ -330,6 +359,7 @@ useHead({
                       <Combobox v-model="section.items[index].ingredient" as="div" @update:model-value="query = ''">
                         <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">
                           Ingredient
+                          <span v-if="calculateCalories(ingredient) !== null" class="text-gray-600"> ({{ calculateCalories(ingredient) }} kcal) </span>
                         </ComboboxLabel>
                         <div class="relative mt-1">
                           <ComboboxInput
