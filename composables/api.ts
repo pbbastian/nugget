@@ -263,9 +263,10 @@ export function useEdit(
         const resourceName = resource === 'recipes' ? 'recipe' : 'ingredient'
         showSuccess('Saved!', isCreate ? `Your ${resourceName} has been created` : 'Your changes have been saved')
       }
-      catch {
+      catch (error: any) {
         success.value = false
-        showError('Error saving', 'An error occurred. Please try again.')
+        const errorMessage = error?.data?.message || error?.message || 'An error occurred. Please try again.'
+        showError('Error saving', errorMessage)
       }
       finally {
         saving.value = false

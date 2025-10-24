@@ -23,8 +23,9 @@ async function handleDelete() {
     showSuccess('Deleted!', `The ${props.resource === 'recipes' ? 'recipe' : 'ingredient'} has been deleted`)
     emit('onDelete')
   }
-  catch {
-    showError('Error deleting', 'An error occurred. Please try again.')
+  catch (error: any) {
+    const errorMessage = error?.data?.message || error?.message || 'An error occurred. Please try again.'
+    showError('Error deleting', errorMessage)
   }
 }
 </script>
