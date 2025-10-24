@@ -31,7 +31,7 @@ export function useToast() {
     const newToast: Toast = {
       ...toast,
       id,
-      duration: toast.duration ?? 3000,
+      duration: toast.duration ?? 5000,
     }
 
     if (newToast.duration && newToast.duration > 0) {

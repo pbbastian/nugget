@@ -86,7 +86,8 @@ export default defineEventHandler(async (event) => {
       map.set(ingredient.id, ingredient)
     }
     for (const recipeIngredient of recipeIngredients) {
-      recipeIngredient.ingredient = map.get(recipeIngredient.ingredient)
+      const originalIngredient = map.get(recipeIngredient.ingredient)
+      recipeIngredient.ingredient = originalIngredient ? { ...originalIngredient } : null
     }
   }
 
