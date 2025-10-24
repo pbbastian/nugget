@@ -6,6 +6,7 @@ export interface Toast {
   title: string
   message?: string
   duration?: number
+  _timer?: ReturnType<typeof setTimeout>
 }
 
 const toasts = ref<Toast[]>([])
@@ -15,6 +16,12 @@ export function useToast() {
   const removeToast = (id: number) => {
     const index = toasts.value.findIndex(t => t.id === id)
     if (index !== -1) {
+      const toast = toasts.value[index]
+
+      if (toast._timer) {
+        clearTimeout(toast._timer)
+      }
+
       toasts.value.splice(index, 1)
     }
   }
@@ -22,23 +29,24 @@ export function useToast() {
   const addToast = (toast: Omit<Toast, 'id'>) => {
     const id = nextId++
     const newToast: Toast = {
-      id,
-      duration: 5000,
       ...toast,
+      id,
+      duration: toast.duration ?? 3000,
+    }
+
+    if (newToast.duration && newToast.duration > 0) {
+      newToast._timer = setTimeout(() => {
+        removeToast(id)
+      }, newToast.duration)
     }
 
     toasts.value.push(newToast)
 
-    // Limit to max 5 toasts
     if (toasts.value.length > 5) {
-      toasts.value.shift()
-    }
-
-    // Auto-dismiss after duration
-    if (newToast.duration && newToast.duration > 0) {
-      setTimeout(() => {
-        removeToast(id)
-      }, newToast.duration)
+      const removed = toasts.value.shift()
+      if (removed) {
+        removeToast(removed.id)
+      }
     }
 
     return id
