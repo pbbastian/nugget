@@ -63,6 +63,76 @@ const filteredIngredients = computed(() =>
 
 const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']
 
+function moveSection(sections: any[], index: number, direction: 'up' | 'down') {
+  if (direction === 'up' && index > 0) {
+    const temp = sections[index]
+    sections[index] = sections[index - 1]
+    sections[index - 1] = temp
+  }
+  else if (direction === 'down' && index < sections.length - 1) {
+    const temp = sections[index]
+    sections[index] = sections[index + 1]
+    sections[index + 1] = temp
+  }
+}
+
+function moveItem(items: any[], index: number, direction: 'up' | 'down') {
+  if (direction === 'up' && index > 0) {
+    const temp = items[index]
+    items[index] = items[index - 1]
+    items[index - 1] = temp
+  }
+  else if (direction === 'down' && index < items.length - 1) {
+    const temp = items[index]
+    items[index] = items[index + 1]
+    items[index + 1] = temp
+  }
+}
+
+function moveIngredientSectionUp(index: number) {
+  if (recipe.value)
+    moveSection(recipe.value.ingredients, index, 'up')
+}
+
+function moveIngredientSectionDown(index: number) {
+  if (recipe.value)
+    moveSection(recipe.value.ingredients, index, 'down')
+}
+
+function moveIngredientUp(sectionIndex: number, itemIndex: number) {
+  if (recipe.value) {
+    moveItem(recipe.value.ingredients[sectionIndex].items, itemIndex, 'up')
+  }
+}
+
+function moveIngredientDown(sectionIndex: number, itemIndex: number) {
+  if (recipe.value) {
+    moveItem(recipe.value.ingredients[sectionIndex].items, itemIndex, 'down')
+  }
+}
+
+function moveStepSectionUp(index: number) {
+  if (recipe.value)
+    moveSection(recipe.value.steps, index, 'up')
+}
+
+function moveStepSectionDown(index: number) {
+  if (recipe.value)
+    moveSection(recipe.value.steps, index, 'down')
+}
+
+function moveStepUp(sectionIndex: number, itemIndex: number) {
+  if (recipe.value) {
+    moveItem(recipe.value.steps[sectionIndex].items, itemIndex, 'up')
+  }
+}
+
+function moveStepDown(sectionIndex: number, itemIndex: number) {
+  if (recipe.value) {
+    moveItem(recipe.value.steps[sectionIndex].items, itemIndex, 'down')
+  }
+}
+
 useHead({
   title: `${recipe?.value?.name || 'Edit recipe'} | Nugget`,
 })
@@ -105,15 +175,6 @@ useHead({
         >
           Save
         </button>
-        <!--
-        Duplicate not possible yet
-        <button
-          v-if="id != null" type="button"
-          class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
-          Duplicate
-        </button> -->
       </div>
     </div>
   </div>
@@ -193,7 +254,28 @@ useHead({
             Ingredient sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
+            <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6 pl-12">
+              <div class="absolute left-2 top-8 flex flex-col gap-1">
+                <button
+                  v-if="sectionIndex > 0"
+                  type="button"
+                  tabindex="0"
+                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  @click="moveIngredientSectionUp(sectionIndex)"
+                >
+                  <Icon icon="heroicons:chevron-up-20-solid" class="size-5" />
+                </button>
+                <button
+                  v-if="sectionIndex < recipe.ingredients.length - 1"
+                  type="button"
+                  tabindex="0"
+                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  @click="moveIngredientSectionDown(sectionIndex)"
+                >
+                  <Icon icon="heroicons:chevron-down-20-solid" class="size-5" />
+                </button>
+              </div>
+
               <button
                 tabindex="0"
                 class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500" type="button" @click="recipe.ingredients.splice(sectionIndex, 1)"
@@ -222,7 +304,28 @@ useHead({
               </div>
               <div>
                 <div class="grid gap-6">
-                  <div v-for="(ingredient, index) in section.items" :key="index" class="grid grid-cols-4 gap-2 sm:gap-6">
+                  <div v-for="(ingredient, index) in section.items" :key="index" class="relative grid grid-cols-4 gap-2 sm:gap-6">
+                    <div class="absolute -left-10 top-8 flex flex-col gap-1">
+                      <button
+                        v-if="index > 0"
+                        type="button"
+                        tabindex="0"
+                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        @click="moveIngredientUp(sectionIndex, index)"
+                      >
+                        <Icon icon="heroicons:chevron-up-20-solid" class="size-4" />
+                      </button>
+                      <button
+                        v-if="index < section.items.length - 1"
+                        type="button"
+                        tabindex="0"
+                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        @click="moveIngredientDown(sectionIndex, index)"
+                      >
+                        <Icon icon="heroicons:chevron-down-20-solid" class="size-4" />
+                      </button>
+                    </div>
+
                     <div class="col-span-full w-full sm:col-span-2">
                       <Combobox v-model="section.items[index].ingredient" as="div" @update:model-value="query = ''">
                         <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">
@@ -330,7 +433,28 @@ useHead({
             Step sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
-            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6">
+            <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6 pl-12">
+              <div class="absolute left-2 top-8 flex flex-col gap-1">
+                <button
+                  v-if="sectionIndex > 0"
+                  type="button"
+                  tabindex="0"
+                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  @click="moveStepSectionUp(sectionIndex)"
+                >
+                  <Icon icon="heroicons:chevron-up-20-solid" class="size-5" />
+                </button>
+                <button
+                  v-if="sectionIndex < recipe.steps.length - 1"
+                  type="button"
+                  tabindex="0"
+                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  @click="moveStepSectionDown(sectionIndex)"
+                >
+                  <Icon icon="heroicons:chevron-down-20-solid" class="size-5" />
+                </button>
+              </div>
+
               <button
                 tabindex="0"
                 class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500"
@@ -359,7 +483,28 @@ useHead({
               </div>
               <div>
                 <div class="grid gap-5">
-                  <div v-for="(step, stepIndex) in section.items" :key="stepIndex">
+                  <div v-for="(step, stepIndex) in section.items" :key="stepIndex" class="group/item relative">
+                    <div class="absolute -left-10 top-8 flex flex-col gap-1">
+                      <button
+                        v-if="stepIndex > 0"
+                        type="button"
+                        tabindex="0"
+                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        @click="moveStepUp(sectionIndex, stepIndex)"
+                      >
+                        <Icon icon="heroicons:chevron-up-20-solid" class="size-4" />
+                      </button>
+                      <button
+                        v-if="stepIndex < section.items.length - 1"
+                        type="button"
+                        tabindex="0"
+                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        @click="moveStepDown(sectionIndex, stepIndex)"
+                      >
+                        <Icon icon="heroicons:chevron-down-20-solid" class="size-4" />
+                      </button>
+                    </div>
+
                     <div class="flex items-end justify-between">
                       <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
                         Step <span>{{ stepIndex + 1 }}</span>
