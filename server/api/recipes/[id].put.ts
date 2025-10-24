@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
-    const promises: Promise<any>[] = []
 
     const slug = slugify(recipe.name, { lower: true, strict: true })
 
@@ -30,15 +29,14 @@ export default defineEventHandler(async (event) => {
       portions: recipe.portions,
       updatedAt: sql.raw('DEFAULT'),
     }
-    promises.push(client.query(sql`
+    await client.query(sql`
             UPDATE recipes
             SET ${spreadUpdate(recipeFields)}
             WHERE "id" = ${params.id}
-        `))
+        `)
 
-    updateRecipeItems(client, params.id, recipe, promises)
+    await updateRecipeItems(client, params.id, recipe)
 
-    await Promise.all(promises)
     await client.query('COMMIT')
 
     return { id: params.id, slug }

@@ -37,10 +37,8 @@ export default defineEventHandler(async (event) => {
     }
 
     const id = result.rows[0].id
-    const promises: Promise<any>[] = []
-    updateRecipeItems(client, id, recipe, promises)
+    await updateRecipeItems(client, id, recipe)
 
-    await Promise.all(promises)
     await client.query('COMMIT')
 
     return { id, slug }

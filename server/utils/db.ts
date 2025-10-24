@@ -26,23 +26,23 @@ export const ingredientSchema = z.object({
   fibres: z.number().nullable(),
 })
 
-export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infer<typeof Recipe>, promises: Promise<any>[]) {
-  promises.push(client.query(sql`
+export async function updateRecipeItems(client: PoolClient, id: number, recipe: z.infer<typeof Recipe>) {
+  await client.query(sql`
         DELETE FROM recipe_steps
         WHERE "recipe" = ${id}
-    `))
-  promises.push(client.query(sql`
+    `)
+  await client.query(sql`
         DELETE FROM recipe_step_sections
         WHERE "recipe" = ${id}
-    `))
-  promises.push(client.query(sql`
+    `)
+  await client.query(sql`
         DELETE FROM recipe_ingredients
         WHERE "recipe" = ${id}
-    `))
-  promises.push(client.query(sql`
+    `)
+  await client.query(sql`
         DELETE FROM recipe_ingredient_sections
         WHERE "recipe" = ${id}
-    `))
+    `)
 
   let stepOrder = 0
   let stepSectionOrder = 0
@@ -54,10 +54,10 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
         text: step.text,
         recipe: id,
       }
-      promises.push(client.query(sql`
+      await client.query(sql`
                 INSERT INTO recipe_steps
                 ${spreadInsert(stepFields)}
-            `))
+            `)
 
       stepOrder += 1
       stepCount += 1
@@ -69,14 +69,15 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
       name: section.name,
       count: stepCount,
     }
-    promises.push(client.query(sql`
+    await client.query(sql`
             INSERT INTO recipe_step_sections
             ${spreadInsert(sectionFields)}
-        `))
+        `)
 
     stepSectionOrder += 1
   }
 
+  // Insert ingredients
   let ingredientOrder = 0
   let ingredientSectionOrder = 0
   for (const section of recipe.ingredients) {
@@ -88,11 +89,12 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
         amount: ingredient.amount,
         unit: ingredient.unit,
         recipe: id,
+        weight: 0.0,
       }
-      promises.push(client.query(sql`
+      await client.query(sql`
                 INSERT INTO recipe_ingredients
                 ${spreadInsert(ingredientFields)}
-            `))
+            `)
 
       ingredientOrder += 1
       ingredientCount += 1
@@ -104,34 +106,35 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
       name: section.name,
       count: ingredientCount,
     }
-    promises.push(client.query(sql`
+    await client.query(sql`
             INSERT INTO recipe_ingredient_sections
             ${spreadInsert(sectionFields)}
-        `))
+        `)
 
     ingredientSectionOrder += 1
   }
 
-  promises.push(client.query(sql`
+  await client.query(sql`
         UPDATE recipe_ingredients ri
         SET weight =
             CASE
-                WHEN ri.unit = 'pk' OR ri.unit = 'stk' THEN ri.amount * i.weight
+                WHEN ri.unit = 'pk' OR ri.unit = 'stk' THEN ri.amount * COALESCE(i.weight, 0)
                 WHEN ri.unit = 'g' THEN ri.amount
                 WHEN ri.unit = 'kg' THEN ri.amount * 1000.0
-                WHEN ri.unit = 'ml' THEN i.density * ri.amount
-                WHEN ri.unit = 'cl' THEN i.density * ri.amount * 10.0
-                WHEN ri.unit = 'dl' THEN i.density * ri.amount * 100.0
-                WHEN ri.unit = 'l' THEN i.density * ri.amount * 1000.0
-                WHEN ri.unit = 'knsp' THEN i.density * ri.amount * 0.25
-                WHEN ri.unit = 'tsk' THEN i.density * ri.amount * 5.0
-                WHEN ri.unit = 'spsk' THEN i.density * ri.amount * 15.0
+                WHEN ri.unit = 'ml' THEN COALESCE(i.density, 0) * ri.amount
+                WHEN ri.unit = 'cl' THEN COALESCE(i.density, 0) * ri.amount * 10.0
+                WHEN ri.unit = 'dl' THEN COALESCE(i.density, 0) * ri.amount * 100.0
+                WHEN ri.unit = 'l' THEN COALESCE(i.density, 0) * ri.amount * 1000.0
+                WHEN ri.unit = 'knsp' THEN COALESCE(i.density, 0) * ri.amount * 0.25
+                WHEN ri.unit = 'tsk' THEN COALESCE(i.density, 0) * ri.amount * 5.0
+                WHEN ri.unit = 'spsk' THEN COALESCE(i.density, 0) * ri.amount * 15.0
+                ELSE 0.0
             END
         FROM ingredients i WHERE i.id = ri.ingredient
         AND ri.recipe = ${id}
-    `))
+    `)
 
-  promises.push(client.query(sql`
+  await client.query(sql`
         UPDATE recipes as r
         SET (energy, fat, carbs, fibres, protein) = (
             SELECT
@@ -145,5 +148,5 @@ export function updateRecipeItems(client: PoolClient, id: number, recipe: z.infe
             WHERE ri.recipe = r.id
         )
         WHERE r.id = ${id}
-    `))
+    `)
 }
