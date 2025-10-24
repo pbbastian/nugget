@@ -14,16 +14,15 @@ export default defineEventHandler(async (event) => {
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
-    const promises: Promise<any>[] = []
 
     const fields = { updatedAt: sql.raw('DEFAULT'), ...body }
-    const resultPromise = client.query(sql`
+    const result = await client.query(sql`
             UPDATE ingredients
             SET ${spreadUpdate(fields)}
             WHERE "id" = ${params.id}
         `)
 
-    promises.push(client.query(sql`
+    await client.query(sql`
             UPDATE recipe_ingredients ri
             SET weight =
                 CASE
@@ -38,10 +37,12 @@ export default defineEventHandler(async (event) => {
                     WHEN ri.unit = 'tsk' THEN COALESCE(i.density, 0) * ri.amount * 5.0
                     WHEN ri.unit = 'spsk' THEN COALESCE(i.density, 0) * ri.amount * 15.0
                 END
-            FROM ingredients i WHERE i.id = ${params.id}
-        `))
+            FROM ingredients i 
+            WHERE i.id = ri.ingredient
+            AND ri.recipe IN (SELECT DISTINCT recipe FROM recipe_ingredients WHERE ingredient = ${params.id})
+        `)
 
-    promises.push(client.query(sql`
+    await client.query(sql`
             UPDATE recipes as r
             SET (energy, fat, carbs, fibres, protein) = (
                 SELECT
@@ -54,11 +55,8 @@ export default defineEventHandler(async (event) => {
                 JOIN ingredients i ON i.id = ri.ingredient
                 WHERE ri.recipe = r.id
             )
-            WHERE r.id = (SELECT DISTINCT ri.recipe FROM recipe_ingredients ri WHERE ri.ingredient = ${params.id})
-        `))
-
-    const result = await resultPromise
-    await Promise.all(promises)
+            WHERE r.id IN (SELECT DISTINCT ri.recipe FROM recipe_ingredients ri WHERE ri.ingredient = ${params.id})
+        `)
 
     if (result.rowCount === 0) {
       setResponseStatus(event, 404)
