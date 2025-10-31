@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
 import { Icon } from '@iconify/vue'
 
 const route = useRoute()
@@ -49,15 +48,6 @@ async function onDelete() {
   deleteId.value = null
   await navigateTo('/')
 }
-
-const query = ref('')
-const filteredIngredients = computed(() =>
-  query.value === ''
-    ? ingredients.value
-    : ingredients.value.filter((ingredient) => {
-        return ingredient.name.toLowerCase().includes(query.value.toLowerCase())
-      }),
-)
 
 const units = ['stk', 'pk', 'knsp', 'tsk', 'spsk', 'ml', 'cl', 'dl', 'l', 'g', 'kg']
 
@@ -327,38 +317,24 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
 
                     <div class="col-span-full w-full sm:col-span-2">
-                      <Combobox v-model="section.items[index].ingredient" as="div" @update:model-value="query = ''">
-                        <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">
-                          Ingredient
-                          <span v-if="calculateCalories(ingredient) !== null" class="text-gray-600"> ({{ calculateCalories(ingredient) }} kcal) </span>
-                        </ComboboxLabel>
-                        <div class="relative mt-1">
-                          <ComboboxInput
-                            class="block w-full"
-                            :display-value="(ingredient) => (ingredient as Ingredient)?.name"
-                            @change="query = $event.target.value"
-                            @blur="query = ''"
-                          />
-                          <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                            <Icon icon="heroicons:chevron-up-down-20-solid" class="size-5 text-gray-400" aria-hidden="true" />
-                          </ComboboxButton>
-
-                          <ComboboxOptions v-if="filteredIngredients.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                            <ComboboxOption v-for="filteredIngredient in filteredIngredients" :key="filteredIngredient.id" v-slot="{ active, selected }" :value="filteredIngredient" as="template">
-                              <li class="relative cursor-default select-none py-2 pl-3 pr-9" :class="[active ? 'bg-orange-500 text-white outline-none' : 'text-gray-900']">
-                                <div class="flex">
-                                  <span class="truncate" :class="[selected && 'font-semibold']">{{ filteredIngredient.name }}</span>
-                                  <span class="ml-2 truncate text-gray-500" :class="[active ? 'text-orange-200' : 'text-gray-500']">{{ filteredIngredient.vendor }}</span>
-                                </div>
-
-                                <span v-if="selected" class="absolute inset-y-0 right-0 flex items-center pr-4" :class="[active ? 'text-white' : 'text-orange-500']">
-                                  <Icon icon="heroicons:check-20-solid" class="size-5" aria-hidden="true" />
-                                </span>
-                              </li>
-                            </ComboboxOption>
-                          </ComboboxOptions>
-                        </div>
-                      </Combobox>
+                      <NuggetFormLabel :for="`ingredient-${sectionIndex}-${index}`">
+                        Ingredient
+                        <span v-if="calculateCalories(ingredient) !== null" class="text-gray-600"> ({{ calculateCalories(ingredient) }} kcal) </span>
+                      </NuggetFormLabel>
+                      <div class="mt-1">
+                        <IngredientMultiSelect
+                          :id="`ingredient-${sectionIndex}-${index}`"
+                          v-model="section.items[index].ingredient.id"
+                          :ingredients="ingredients"
+                          :multiple="false"
+                          placeholder="Select ingredient..."
+                          label="Ingredient"
+                          @update:model-value="(id) => {
+                            const ingredient = ingredients.find(i => i.id === id)
+                            if (ingredient) section.items[index].ingredient = ingredient
+                          }"
+                        />
+                      </div>
                     </div>
                     <div class="col-span-2 w-full sm:col-span-1">
                       <NuggetFormInput
