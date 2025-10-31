@@ -78,13 +78,13 @@ useHead({
       />
     </form>
   </div>
-  <div class="sm:flex sm:items-center sm:justify-between">
+  <div class="flex items-center justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Recipes
       </h2>
     </div>
-    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
+    <div class="flex gap-4 ml-4">
       <a
         href="/edit"
         class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-xs ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
@@ -94,7 +94,7 @@ useHead({
       </a>
     </div>
   </div>
-  <div class="flex gap-4">
+  <div class="gap-4 mt-4 hidden @2xl:flex">
     <NuggetFormSelect
       id="sortBy"
       v-model="sortBy"
@@ -114,7 +114,6 @@ useHead({
       name="portions"
       placeholder="portions"
       :full-width="false"
-      class="w-32"
     />
     <IngredientMultiSelect
       v-if="ingredientsData"
