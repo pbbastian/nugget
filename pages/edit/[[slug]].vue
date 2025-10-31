@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
 import { Icon } from '@iconify/vue'
-import DeleteModal from '../components/modals/DeleteModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -586,7 +585,7 @@ function calculateCalories(ingredient: any): number | null {
       </div>
     </form>
   </div>
-  <DeleteModal
+  <ModalsDeleteModal
     :id="deleteId"
     title="Delete recipe?"
     paragraph="Are you sure you want to delete the recipe? The actions can't be undone."

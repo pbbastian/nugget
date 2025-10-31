@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { computed, onMounted, ref, watch } from 'vue'
-import DeleteModal from '../components/modals/DeleteModal.vue'
-import IngredientModal from '../components/modals/IngredientModal.vue'
 
 const { data, refresh } = await useAPI<IngredientsResult>('ingredients')
 
@@ -170,8 +168,8 @@ useHead({
       </li>
     </ul>
   </div>
-  <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
-  <DeleteModal
+  <ModalsIngredientModal :id="editId" @close-modal="editId = null; refresh()" />
+  <ModalsDeleteModal
     :id="deleteId"
     title="Delete ingredient?"
     paragraph="Are you sure you want to delete the ingredient? It will be removed from all recipes."
