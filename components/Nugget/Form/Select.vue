@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
+
 interface SelectOption {
   value: string | number
   label: string
@@ -49,10 +51,11 @@ const normalizedOptions = computed(() => {
 
 const selectClasses = computed(() => {
   const classes: string[] = [
-    'block rounded-md border-orange-300 bg-white px-3 py-1.5',
-    'text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300',
-    'focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500',
-    'sm:text-sm/6 transition-colors',
+    'col-start-1 row-start-1 w-full appearance-none rounded-md bg-white ',
+    'py-1.5 pr-8 pl-3 ',
+    'text-base text-gray-900 outline-1 -outline-offset-1 outline-orange-300 ',
+    'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-500 ',
+    'sm:text-sm/6',
   ]
 
   if (props.fullWidth) {
@@ -82,26 +85,33 @@ function handleChange(event: Event) {
       {{ label }}
     </NuggetFormLabel>
 
-    <select
-      :id="selectId"
-      :name="name"
-      :value="modelValue"
-      :disabled="disabled"
-      :required="required"
-      :class="selectClasses"
-      @change="handleChange"
-    >
-      <option v-if="placeholder" value="" disabled>
-        {{ placeholder }}
-      </option>
-      <option
-        v-for="option in normalizedOptions"
-        :key="typeof option === 'string' ? option : option.value"
-        :value="typeof option === 'string' ? option : option.value"
+    <div class="grid grid-cols-1">
+      <select
+        :id="selectId"
+        :name="name"
+        :value="modelValue"
+        :disabled="disabled"
+        :required="required"
+        :class="selectClasses"
+        @change="handleChange"
       >
-        {{ typeof option === 'string' ? option : option.label }}
-      </option>
-    </select>
+        <option v-if="placeholder" value="" disabled>
+          {{ placeholder }}
+        </option>
+        <option
+          v-for="option in normalizedOptions"
+          :key="typeof option === 'string' ? option : option.value"
+          :value="typeof option === 'string' ? option : option.value"
+        >
+          {{ typeof option === 'string' ? option : option.label }}
+        </option>
+      </select>
+      <Icon
+        icon="heroicons:chevron-down-20-solid"
+        class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4 dark:text-gray-400"
+        aria-hidden="true"
+      />
+    </div>
 
     <p v-if="hint && !error" class="text-xs text-gray-500">
       {{ hint }}

@@ -213,52 +213,35 @@ function calculateCalories(ingredient: any): number | null {
 
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-4">
-              <label for="recipename" class="block text-sm font-medium leading-6 text-gray-900">Recipe
-                name</label>
-              <div class="mt-1">
-                <div
-                  class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500"
-                >
-                  <input
-                    id="recipename" v-model="recipe.name" type="text" name="recipename"
-                    class="block w-full"
-                    placeholder="Nuggets med fritter"
-                  >
-                </div>
-              </div>
+              <NuggetFormInput
+                id="recipename"
+                v-model="recipe.name"
+                type="text"
+                name="recipename"
+                label="Recipe name"
+                placeholder="Nuggets med fritter"
+              />
             </div>
 
             <div class="sm:col-span-2">
-              <label
-                for="portions"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >Portions</label>
-              <div class="mt-1">
-                <div
-                  class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
-                >
-                  <input
-                    id="portions" v-model="recipe.portions" type="number" name="portions"
-                    class="block w-full"
-                    placeholder="4"
-                  >
-                </div>
-              </div>
+              <NuggetFormInput
+                id="portions"
+                v-model="recipe.portions"
+                type="number"
+                name="portions"
+                label="Portions"
+                placeholder="4"
+              />
             </div>
 
             <div class="sm:col-span-full">
-              <label
-                for="portions"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >Recipe photo</label>
-              <div class="mt-1">
-                <div class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500">
-                  <input
-                    id="image" v-model="recipe.image" type="url" name="image"
-                    class="block w-full"
-                  >
-                </div>
-              </div>
+              <NuggetFormInput
+                id="image"
+                v-model="recipe.image"
+                type="url"
+                name="image"
+                label="Recipe photo"
+              />
               <Icon
                 v-if="!recipe.image" icon="f7:photo-fill"
                 class="h-40 w-full text-gray-300" aria-hidden="true"
@@ -311,21 +294,13 @@ function calculateCalories(ingredient: any): number | null {
                 @click="recipe.ingredients.splice(sectionIndex, 1)"
               />
               <div>
-                <div class="grid gap-1">
-                  <label
-                    :for="`section-name-${sectionIndex}`"
-                    class="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Section name
-                  </label>
-                  <input
-                    :id="`section-name-${sectionIndex}`"
-                    v-model="section.name"
-                    type="text"
-                    name="section-name"
-                    class="block w-full"
-                  >
-                </div>
+                <NuggetFormInput
+                  :id="`section-name-${sectionIndex}`"
+                  v-model="section.name"
+                  type="text"
+                  name="section-name"
+                  label="Section name"
+                />
               </div>
               <div>
                 <div class="grid gap-6">
@@ -386,32 +361,25 @@ function calculateCalories(ingredient: any): number | null {
                       </Combobox>
                     </div>
                     <div class="col-span-2 w-full sm:col-span-1">
-                      <label
-                        for="amount"
-                        class="block text-sm font-medium leading-6 text-gray-900"
-                      >Amount</label>
-                      <div class="mt-1">
-                        <div
-                          class="flex rounded-md shadow-xs ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500 sm:max-w-md"
-                        >
-                          <input
-                            id="amount" v-model="ingredient.amount" type="number" name="amount"
-                            class="block w-full"
-                          >
-                        </div>
-                      </div>
+                      <NuggetFormInput
+                        id="amount"
+                        v-model="ingredient.amount"
+                        type="number"
+                        name="amount"
+                        label="Amount"
+                      />
                     </div>
                     <div class="col-span-2 w-full sm:col-span-1">
-                      <label for="unit" class="block text-sm font-medium leading-6 text-gray-900">Unit</label>
+                      <NuggetFormLabel for="unit">
+                        Unit
+                      </NuggetFormLabel>
                       <div class="mt-1 flex items-center gap-2 sm:gap-4">
-                        <select
-                          id="unit" v-model="ingredient.unit" name="unit"
-                          class="block w-full"
-                        >
-                          <option v-for="unit in units" :key="unit">
-                            {{ unit }}
-                          </option>
-                        </select>
+                        <NuggetFormSelect
+                          id="unit"
+                          v-model="ingredient.unit"
+                          name="unit"
+                          :options="units"
+                        />
 
                         <NuggetButton
                           variant="icon"
@@ -490,20 +458,14 @@ function calculateCalories(ingredient: any): number | null {
                 class="absolute bottom-full right-0 rounded-t-md"
                 @click="recipe.steps.splice(sectionIndex, 1)"
               />
-              <div class="grid gap-1">
-                <label
-                  :for="`section-name-${sectionIndex}`"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Section name
-                </label>
-                <input
+              <div>
+                <NuggetFormInput
                   :id="`section-name-${sectionIndex}`"
                   v-model="section.name"
                   type="text"
                   name="section-name"
-                  class="block w-full"
-                >
+                  label="Section name"
+                />
               </div>
               <div>
                 <div class="grid gap-5">
@@ -530,9 +492,9 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
 
                     <div class="flex items-end justify-between">
-                      <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
+                      <NuggetFormLabel :for="`step${stepIndex}`">
                         Step <span>{{ stepIndex + 1 }}</span>
-                      </label>
+                      </NuggetFormLabel>
                       <NuggetButton
                         variant="icon"
                         color="danger"
@@ -543,9 +505,11 @@ function calculateCalories(ingredient: any): number | null {
                       />
                     </div>
                     <div class="mt-1">
-                      <textarea
-                        :id="`step${stepIndex}`" v-model="step.text" :name="`step${stepIndex}`" rows="3"
-                        class="block w-full rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
+                      <NuggetFormTextarea
+                        :id="`step${stepIndex}`"
+                        v-model="step.text"
+                        :name="`step${stepIndex}`"
+                        :rows="3"
                       />
                     </div>
                   </div>

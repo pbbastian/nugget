@@ -33,7 +33,9 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
 
 const inputClasses = computed(() => {
   const classes: string[] = [
-    'block rounded-md text-base text-gray-900 placeholder:text-gray-400 transition-colors',
+    'block rounded-md text-base text-gray-900 placeholder:text-gray-400 outline-transparent transition-colors',
+    'focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500',
+    'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-500',
   ]
 
   if (props.fullWidth) {
@@ -42,23 +44,20 @@ const inputClasses = computed(() => {
 
   if (props.variant === 'default') {
     classes.push(
-      'border-orange-300 bg-white px-3 py-1.5',
-      'outline-1 -outline-offset-1 outline-gray-300',
-      'focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500',
+      'border border-orange-300 bg-white px-3 py-1.5',
+      'outline-1 -outline-offset-1',
       'sm:text-sm/6',
     )
   }
   else if (props.variant === 'shadow') {
     classes.push(
       'border-0 py-1.5 px-3 shadow-xs ring-1 ring-inset ring-gray-300',
-      'focus:ring-2 focus:ring-inset focus:ring-orange-400',
       'sm:text-sm sm:leading-6',
     )
   }
   else if (props.variant === 'borderless') {
     classes.push(
       'border-none py-4 pl-8 pr-0 outline-0',
-      'focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500',
     )
   }
 

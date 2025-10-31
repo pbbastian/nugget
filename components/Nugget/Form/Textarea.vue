@@ -31,7 +31,7 @@ const textareaId = computed(() => props.id || `textarea-${Math.random().toString
 const textareaClasses = computed(() => {
   const classes: string[] = [
     'block rounded-md border-orange-300 bg-white px-3 py-1.5',
-    'text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300',
+    'text-base text-gray-900 outline-1 -outline-offset-1 outline-orange-300',
     'placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2',
     'focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6 transition-colors',
   ]
