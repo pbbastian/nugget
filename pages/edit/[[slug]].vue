@@ -174,34 +174,32 @@ function calculateCalories(ingredient: any): number | null {
         </h2>
       </div>
       <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
-        <button
+        <NuggetButton
           v-if="id != null"
-          type="button"
-          class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-xs ring-1 ring-inset ring-red-400 transition-colors duration-300 hover:bg-red-400 hover:text-white"
-          tabindex="0"
+          variant="outlined"
+          color="danger"
+          icon="teenyicons:bin-outline"
           @click="deleteId = id"
         >
-          <Icon icon="teenyicons:bin-outline" class="size-5 text-inherit" />
           Delete
-        </button>
-        <button
+        </NuggetButton>
+        <NuggetButton
           v-if="id != null"
-          type="button"
-          tabindex="0"
-          class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+          variant="ghost"
+          color="primary"
           @click="$router.push(`/recipes/${route.params.slug}`)"
         >
           View
-        </button>
-        <button
+        </NuggetButton>
+        <NuggetButton
+          variant="filled"
+          color="primary"
           :disabled="saving"
-          type="button"
-          tabindex="0"
-          class="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50"
+          :loading="saving"
           @click="save()"
         >
           Save
-        </button>
+        </NuggetButton>
       </div>
     </div>
   </div>
@@ -283,35 +281,35 @@ function calculateCalories(ingredient: any): number | null {
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
             <div v-for="(section, sectionIndex) in recipe.ingredients" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6 pl-12">
               <div class="absolute left-2 top-8 flex flex-col gap-1">
-                <button
+                <NuggetButton
                   v-if="sectionIndex > 0"
-                  type="button"
-                  tabindex="0"
-                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  variant="icon"
+                  color="primary"
+                  size="xs"
+                  icon="heroicons:chevron-up-20-solid"
+                  icon-only
                   @click="moveIngredientSectionUp(sectionIndex)"
-                >
-                  <Icon icon="heroicons:chevron-up-20-solid" class="size-5" />
-                </button>
-                <button
+                />
+                <NuggetButton
                   v-if="sectionIndex < recipe.ingredients.length - 1"
-                  type="button"
-                  tabindex="0"
-                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  variant="icon"
+                  color="primary"
+                  size="xs"
+                  icon="heroicons:chevron-down-20-solid"
+                  icon-only
                   @click="moveIngredientSectionDown(sectionIndex)"
-                >
-                  <Icon icon="heroicons:chevron-down-20-solid" class="size-5" />
-                </button>
+                />
               </div>
 
-              <button
-                tabindex="0"
-                class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500" type="button" @click="recipe.ingredients.splice(sectionIndex, 1)"
-              >
-                <Icon
-                  icon="teenyicons:bin-outline"
-                  class="size-4 text-white"
-                />
-              </button>
+              <NuggetButton
+                variant="filled"
+                color="danger"
+                size="sm"
+                icon="teenyicons:bin-outline"
+                icon-only
+                class="absolute bottom-full right-0 rounded-t-md"
+                @click="recipe.ingredients.splice(sectionIndex, 1)"
+              />
               <div>
                 <div class="grid gap-1">
                   <label
@@ -333,24 +331,24 @@ function calculateCalories(ingredient: any): number | null {
                 <div class="grid gap-6">
                   <div v-for="(ingredient, index) in section.items" :key="index" class="relative grid grid-cols-4 gap-2 sm:gap-6">
                     <div class="absolute -left-10 top-8 flex flex-col gap-1">
-                      <button
+                      <NuggetButton
                         v-if="index > 0"
-                        type="button"
-                        tabindex="0"
-                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        variant="icon"
+                        color="primary"
+                        size="xs"
+                        icon="heroicons:chevron-up-20-solid"
+                        icon-only
                         @click="moveIngredientUp(sectionIndex, index)"
-                      >
-                        <Icon icon="heroicons:chevron-up-20-solid" class="size-4" />
-                      </button>
-                      <button
+                      />
+                      <NuggetButton
                         v-if="index < section.items.length - 1"
-                        type="button"
-                        tabindex="0"
-                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        variant="icon"
+                        color="primary"
+                        size="xs"
+                        icon="heroicons:chevron-down-20-solid"
+                        icon-only
                         @click="moveIngredientDown(sectionIndex, index)"
-                      >
-                        <Icon icon="heroicons:chevron-down-20-solid" class="size-4" />
-                      </button>
+                      />
                     </div>
 
                     <div class="col-span-full w-full sm:col-span-2">
@@ -415,43 +413,43 @@ function calculateCalories(ingredient: any): number | null {
                           </option>
                         </select>
 
-                        <button
-                          type="button"
-                          tabindex="0"
+                        <Button
+                          variant="icon"
+                          color="danger"
+                          size="sm"
+                          icon="teenyicons:bin-outline"
+                          icon-only
                           @click="section.items.splice(index, 1)"
-                        >
-                          <Icon
-                            icon="teenyicons:bin-outline"
-                            class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
-                          />
-                        </button>
+                        />
                       </div>
                     </div>
                   </div>
                   <div class="col-span-full mt-2">
-                    <button
-                      type="button"
-                      tabindex="0"
-                      class="flex w-full items-center justify-center rounded-md border border-orange-300 px-2.5 py-1.5 text-sm text-orange-300 transition-colors hover:border-orange-500 hover:text-orange-500"
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="sm"
+                      full-width
+                      icon="lets-icons:add-round"
+                      class="border-orange-300 text-orange-300 hover:border-orange-500 hover:text-orange-500"
                       @click="section.items.push({ amount: 0, unit: units[0], ingredient: null })"
                     >
-                      <Icon icon="lets-icons:add-round" class="size-6 text-inherit" />
                       Add ingredient
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-span-full">
-              <button
-                tabindex="0"
-                type="button"
-                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+              <Button
+                variant="filled"
+                color="primary"
+                full-width
+                icon="lets-icons:add-round"
                 @click="recipe.ingredients.push({ name: '', items: [] })"
               >
-                <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                 Add section
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -463,37 +461,35 @@ function calculateCalories(ingredient: any): number | null {
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
             <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6 pl-12">
               <div class="absolute left-2 top-8 flex flex-col gap-1">
-                <button
+                <Button
                   v-if="sectionIndex > 0"
-                  type="button"
-                  tabindex="0"
-                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  variant="icon"
+                  color="primary"
+                  size="xs"
+                  icon="heroicons:chevron-up-20-solid"
+                  icon-only
                   @click="moveStepSectionUp(sectionIndex)"
-                >
-                  <Icon icon="heroicons:chevron-up-20-solid" class="size-5" />
-                </button>
-                <button
+                />
+                <Button
                   v-if="sectionIndex < recipe.steps.length - 1"
-                  type="button"
-                  tabindex="0"
-                  class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                  variant="icon"
+                  color="primary"
+                  size="xs"
+                  icon="heroicons:chevron-down-20-solid"
+                  icon-only
                   @click="moveStepSectionDown(sectionIndex)"
-                >
-                  <Icon icon="heroicons:chevron-down-20-solid" class="size-5" />
-                </button>
+                />
               </div>
 
-              <button
-                tabindex="0"
-                class="absolute bottom-full right-0 rounded-t-md bg-red-400 p-2 transition-colors duration-300 hover:bg-red-500"
-                type="button"
+              <Button
+                variant="filled"
+                color="danger"
+                size="sm"
+                icon="teenyicons:bin-outline"
+                icon-only
+                class="absolute bottom-full right-0 rounded-t-md"
                 @click="recipe.steps.splice(sectionIndex, 1)"
-              >
-                <Icon
-                  icon="teenyicons:bin-outline"
-                  class="size-4 text-white"
-                />
-              </button>
+              />
               <div class="grid gap-1">
                 <label
                   :for="`section-name-${sectionIndex}`"
@@ -513,40 +509,38 @@ function calculateCalories(ingredient: any): number | null {
                 <div class="grid gap-5">
                   <div v-for="(step, stepIndex) in section.items" :key="stepIndex" class="group/item relative">
                     <div class="absolute -left-10 top-8 flex flex-col gap-1">
-                      <button
+                      <Button
                         v-if="stepIndex > 0"
-                        type="button"
-                        tabindex="0"
-                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        variant="icon"
+                        color="primary"
+                        size="xs"
+                        icon="heroicons:chevron-up-20-solid"
+                        icon-only
                         @click="moveStepUp(sectionIndex, stepIndex)"
-                      >
-                        <Icon icon="heroicons:chevron-up-20-solid" class="size-4" />
-                      </button>
-                      <button
+                      />
+                      <Button
                         v-if="stepIndex < section.items.length - 1"
-                        type="button"
-                        tabindex="0"
-                        class="rounded p-1 text-orange-500 transition-colors duration-200 hover:bg-orange-200"
+                        variant="icon"
+                        color="primary"
+                        size="xs"
+                        icon="heroicons:chevron-down-20-solid"
+                        icon-only
                         @click="moveStepDown(sectionIndex, stepIndex)"
-                      >
-                        <Icon icon="heroicons:chevron-down-20-solid" class="size-4" />
-                      </button>
+                      />
                     </div>
 
                     <div class="flex items-end justify-between">
                       <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
                         Step <span>{{ stepIndex + 1 }}</span>
                       </label>
-                      <button
-                        tabindex="0"
-                        type="button"
+                      <Button
+                        variant="icon"
+                        color="danger"
+                        size="sm"
+                        icon="teenyicons:bin-outline"
+                        icon-only
                         @click="section.items.splice(stepIndex, 1)"
-                      >
-                        <Icon
-                          icon="teenyicons:bin-outline"
-                          class="size-5 text-red-400 transition-colors duration-300 hover:text-red-600"
-                        />
-                      </button>
+                      />
                     </div>
                     <div class="mt-1">
                       <textarea
@@ -556,29 +550,31 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
                   </div>
                   <div class="col-span-full">
-                    <button
-                      type="button"
-                      tabindex="0"
-                      class="flex w-full items-center justify-center rounded-md border border-orange-300 px-2.5 py-1.5 text-sm text-orange-300 transition-colors hover:border-orange-500 hover:text-orange-500"
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="sm"
+                      full-width
+                      icon="lets-icons:add-round"
+                      class="border-orange-300 text-orange-300 hover:border-orange-500 hover:text-orange-500"
                       @click="section.items.push({ text: '' })"
                     >
-                      <Icon icon="lets-icons:add-round" class="size-6 text-inherit" />
                       Add step
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-span-full">
-              <button
-                tabindex="0"
-                type="button"
-                class="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors duration-300 hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+              <Button
+                variant="filled"
+                color="primary"
+                full-width
+                icon="lets-icons:add-round"
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
-                <Icon icon="lets-icons:add-round" class="size-6 text-white" />
                 Add section
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
-import { computed, onMounted, ref, watch } from 'vue'
-
 const { data, refresh } = await useAPI<IngredientsResult>('ingredients')
 
 const searchQuery = ref('')
@@ -77,13 +74,14 @@ useHead({
         Ingredients
       </h2>
     </div>
-    <button
-      class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-xs ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
+    <NuggetButton
+      variant="outlined"
+      color="primary"
+      icon="lets-icons:add-round"
       @click="editId = 'add'"
     >
-      <Icon icon="lets-icons:add-round" class="size-6 text-orange-500" />
       Add Ingredient
-    </button>
+    </NuggetButton>
   </div>
   <div class="pt-6">
     <select
@@ -158,12 +156,22 @@ useHead({
           </div>
         </div>
         <div class="col-span-2 flex items-center justify-end gap-2 max-md:order-2 md:col-span-1">
-          <button class="transition-color p-1.5 hover:opacity-60" @click="editId = ingredient.id">
-            <Icon icon="circum:edit" class="size-6 text-orange-950" />
-          </button>
-          <button class="transition-color p-1.5 hover:opacity-60" @click="deleteId = ingredient.id">
-            <Icon icon="teenyicons:bin-outline" class="size-6 text-red-400" />
-          </button>
+          <NuggetButton
+            variant="icon"
+            color="secondary"
+            icon="circum:edit"
+            icon-only
+            size="sm"
+            @click="editId = ingredient.id"
+          />
+          <NuggetButton
+            variant="icon"
+            color="danger"
+            icon="teenyicons:bin-outline"
+            icon-only
+            size="sm"
+            @click="deleteId = ingredient.id"
+          />
         </div>
       </li>
     </ul>

@@ -183,18 +183,22 @@ const { saving, save, success } = useEdit('ingredients', data)
                     </div>
                   </div>
                   <div class="mt-6 flex items-center justify-end gap-x-6">
-                    <button
-                      type="button" class="text-sm font-semibold leading-6 text-gray-900"
+                    <NuggetButton
+                      variant="ghost"
+                      color="secondary"
                       @click="$emit('closeModal')"
                     >
                       Cancel
-                    </button>
-                    <button
-                      type="button" :disabled="saving" class="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+                    </NuggetButton>
+                    <NuggetButton
+                      variant="filled"
+                      color="primary"
+                      :disabled="saving"
+                      :loading="saving"
                       @click="save().then(() => { if (success) emit('closeModal') })"
                     >
                       Save
-                    </button>
+                    </NuggetButton>
                   </div>
                 </form>
               </div>

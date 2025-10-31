@@ -127,13 +127,13 @@ useHead({
         class="w-80"
       />
     </div>
-    <button
-      type="button"
-      class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+    <NuggetButton
+      variant="ghost"
+      color="primary"
       @click="portions = null; searchQuery = ''; sortBy = 'default'; selectedIngredients = []"
     >
       Clear filters
-    </button>
+    </NuggetButton>
   </div>
   <div v-if="data" class="mt-3 grid grid-cols-1 gap-6 @md:grid-cols-2 @3xl:grid-cols-3 @3xl:gap-10 @6xl:grid-cols-4 sm:mt-6">
     <article
