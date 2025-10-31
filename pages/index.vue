@@ -67,14 +67,15 @@ useHead({
           clip-rule="evenodd"
         />
       </svg>
-      <input
+      <NuggetFormInput
         id="search-field"
         v-model="searchQuery"
-        class="block size-full rounded-md border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500"
-        placeholder="Search..."
         type="search"
         name="search"
-      >
+        placeholder="Search..."
+        variant="borderless"
+        class="size-full"
+      />
     </form>
   </div>
   <div class="sm:flex sm:items-center sm:justify-between">
@@ -93,40 +94,34 @@ useHead({
       </a>
     </div>
   </div>
-  <div class="flex justify-between pt-6">
-    <div class="flex gap-4">
-      <select
-        id="sortBy"
-        v-model="sortBy"
-        name="sortBy"
-        class="block w-40 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-      >
-        <option value="default">
-          Default
-        </option>
-        <option value="name">
-          Name
-        </option>
-        <option value="energy">
-          Energy
-        </option>
-      </select>
-      <div class="border-l border-l-gray-300" />
-      <input
-        id="portions"
-        v-model.number="portions"
-        type="number"
-        name="portions"
-        placeholder="portions"
-        class="block w-32 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-      >
-      <IngredientMultiSelect
-        v-if="ingredientsData"
-        v-model="selectedIngredients"
-        :ingredients="ingredientsData.ingredients"
-        class="w-80"
-      />
-    </div>
+  <div class="flex gap-4">
+    <NuggetFormSelect
+      id="sortBy"
+      v-model="sortBy"
+      :options="[
+        { value: 'default', label: 'Default' },
+        { value: 'name', label: 'Name' },
+        { value: 'energy', label: 'Energy' },
+      ]"
+      :full-width="false"
+      class="w-40"
+    />
+    <div class="border-l border-l-gray-300" />
+    <NuggetFormInput
+      id="portions"
+      v-model="portions"
+      type="number"
+      name="portions"
+      placeholder="portions"
+      :full-width="false"
+      class="w-32"
+    />
+    <IngredientMultiSelect
+      v-if="ingredientsData"
+      v-model="selectedIngredients"
+      :ingredients="ingredientsData.ingredients"
+      class="w-80"
+    />
     <NuggetButton
       variant="ghost"
       color="primary"

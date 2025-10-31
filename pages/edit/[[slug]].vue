@@ -413,7 +413,7 @@ function calculateCalories(ingredient: any): number | null {
                           </option>
                         </select>
 
-                        <Button
+                        <NuggetButton
                           variant="icon"
                           color="danger"
                           size="sm"
@@ -425,7 +425,7 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
                   </div>
                   <div class="col-span-full mt-2">
-                    <Button
+                    <NuggetButton
                       variant="outlined"
                       color="primary"
                       size="sm"
@@ -435,13 +435,13 @@ function calculateCalories(ingredient: any): number | null {
                       @click="section.items.push({ amount: 0, unit: units[0], ingredient: null })"
                     >
                       Add ingredient
-                    </Button>
+                    </NuggetButton>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-span-full">
-              <Button
+              <NuggetButton
                 variant="filled"
                 color="primary"
                 full-width
@@ -449,7 +449,7 @@ function calculateCalories(ingredient: any): number | null {
                 @click="recipe.ingredients.push({ name: '', items: [] })"
               >
                 Add section
-              </Button>
+              </NuggetButton>
             </div>
           </div>
         </div>
@@ -461,7 +461,7 @@ function calculateCalories(ingredient: any): number | null {
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
             <div v-for="(section, sectionIndex) in recipe.steps" :key="sectionIndex" class="relative col-span-full grid gap-8 rounded-md rounded-tr-none bg-orange-50 p-6 pl-12">
               <div class="absolute left-2 top-8 flex flex-col gap-1">
-                <Button
+                <NuggetButton
                   v-if="sectionIndex > 0"
                   variant="icon"
                   color="primary"
@@ -470,7 +470,7 @@ function calculateCalories(ingredient: any): number | null {
                   icon-only
                   @click="moveStepSectionUp(sectionIndex)"
                 />
-                <Button
+                <NuggetButton
                   v-if="sectionIndex < recipe.steps.length - 1"
                   variant="icon"
                   color="primary"
@@ -481,7 +481,7 @@ function calculateCalories(ingredient: any): number | null {
                 />
               </div>
 
-              <Button
+              <NuggetButton
                 variant="filled"
                 color="danger"
                 size="sm"
@@ -509,7 +509,7 @@ function calculateCalories(ingredient: any): number | null {
                 <div class="grid gap-5">
                   <div v-for="(step, stepIndex) in section.items" :key="stepIndex" class="group/item relative">
                     <div class="absolute -left-10 top-8 flex flex-col gap-1">
-                      <Button
+                      <NuggetButton
                         v-if="stepIndex > 0"
                         variant="icon"
                         color="primary"
@@ -518,7 +518,7 @@ function calculateCalories(ingredient: any): number | null {
                         icon-only
                         @click="moveStepUp(sectionIndex, stepIndex)"
                       />
-                      <Button
+                      <NuggetButton
                         v-if="stepIndex < section.items.length - 1"
                         variant="icon"
                         color="primary"
@@ -533,7 +533,7 @@ function calculateCalories(ingredient: any): number | null {
                       <label :for="`step${stepIndex}`" class="block text-sm font-medium leading-6 text-gray-900">
                         Step <span>{{ stepIndex + 1 }}</span>
                       </label>
-                      <Button
+                      <NuggetButton
                         variant="icon"
                         color="danger"
                         size="sm"
@@ -550,7 +550,7 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
                   </div>
                   <div class="col-span-full">
-                    <Button
+                    <NuggetButton
                       variant="outlined"
                       color="primary"
                       size="sm"
@@ -560,13 +560,13 @@ function calculateCalories(ingredient: any): number | null {
                       @click="section.items.push({ text: '' })"
                     >
                       Add step
-                    </Button>
+                    </NuggetButton>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-span-full">
-              <Button
+              <NuggetButton
                 variant="filled"
                 color="primary"
                 full-width
@@ -574,7 +574,7 @@ function calculateCalories(ingredient: any): number | null {
                 @click="recipe.steps.push({ name: '', items: [] })"
               >
                 Add section
-              </Button>
+              </NuggetButton>
             </div>
           </div>
         </div>

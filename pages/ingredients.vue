@@ -58,14 +58,15 @@ useHead({
           clip-rule="evenodd"
         />
       </svg>
-      <input
+      <NuggetFormInput
         id="search-field"
         v-model="searchQuery"
-        class="block size-full rounded-md border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500"
-        placeholder="Search..."
         type="search"
         name="search"
-      >
+        placeholder="Search..."
+        variant="borderless"
+        class="size-full"
+      />
     </form>
   </div>
   <div class="flex gap-4 pt-6 max-sm:flex-col max-sm:items-start lg:items-center lg:justify-between">
@@ -84,19 +85,17 @@ useHead({
     </NuggetButton>
   </div>
   <div class="pt-6">
-    <select
+    <NuggetFormSelect
       id="sortBy"
       v-model="sortBy"
       name="sortBy"
-      class="block w-40 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-    >
-      <option value="default">
-        Default
-      </option>
-      <option value="name">
-        Name
-      </option>
-    </select>
+      :options="[
+        { value: 'default', label: 'Default' },
+        { value: 'name', label: 'Name' },
+      ]"
+      :full-width="false"
+      class="w-40"
+    />
   </div>
   <div v-if="data" class="mt-6">
     <ul role="list" class="divide-y divide-gray-100">
