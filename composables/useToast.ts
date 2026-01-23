@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 export interface Toast {
   id: number
   type: 'success' | 'error' | 'info' | 'warning'
@@ -18,7 +16,7 @@ export function useToast() {
     if (index !== -1) {
       const toast = toasts.value[index]
 
-      if (toast._timer) {
+      if (toast?._timer) {
         clearTimeout(toast._timer)
       }
 

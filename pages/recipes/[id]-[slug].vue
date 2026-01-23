@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Collapse } from 'vue-collapsed'
-import DeleteModal from '../components/modals/DeleteModal.vue'
 
 const route = useRoute()
 
@@ -18,7 +17,6 @@ async function onDelete() {
   await navigateTo('/')
 }
 
-const deleteModalOpen = ref(false)
 const showIngredientsList = ref(true)
 
 useHead({
@@ -37,25 +35,17 @@ useHead({
       </h2>
     </div>
     <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
-      <button
-        type="button" class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-400 shadow-sm ring-1 ring-inset ring-red-400 hover:bg-red-50"
+      <NuggetButton
+        variant="outlined"
+        color="danger"
+        icon="teenyicons:bin-outline"
         @click="deleteId = route.params.id"
       >
-        <Icon icon="teenyicons:bin-outline" class="size-5 text-red-400" />
         Delete
-      </button>
-      <!--
-      Duplicate not possible yet
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-      >
-        <Icon icon="lets-icons:folder-dublicate-light" class="size-6 text-gray-700" />
-        Duplicate
-      </button> -->
+      </NuggetButton>
       <a
         :href="`/edit/${route.params.id}-${route.params.slug}`"
-        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <Icon icon="circum:edit" class="size-6 text-gray-700" />
         Edit
@@ -123,20 +113,15 @@ useHead({
               <button class="text-2xl font-semibold" @click="showIngredientsList = !showIngredientsList;">
                 Ingredients
               </button>
-              <!-- Ingredients copy button
-                                <button class="p-1.5 text-orange-400 hover:text-orange-200 transition-color duration-500">
-                                    <Icon icon="fluent:clipboard-bullet-list-rtl-20-regular" class="h-6 w-6" />
-                                </button>
-                            -->
             </div>
             <Collapse :when="showIngredientsList" :base-height="50" class="v-collapse">
               <div class="grid gap-4">
-                <div v-for="section in recipe.ingredients">
+                <div v-for="section in recipe.ingredients" :key="section.id">
                   <h4 v-if="section.name" class="font-bold">
                     {{ section.name }}
                   </h4>
                   <ul class="grid gap-1 lg:gap-3">
-                    <li v-for="ingredient in section.items" class="leading-normal">
+                    <li v-for="ingredient in section.items" :key="ingredient.id" class="leading-normal">
                       {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient?.name }}
                     </li>
                   </ul>
@@ -151,12 +136,12 @@ useHead({
             Steps
           </h3>
           <div class="grid gap-6">
-            <div v-for="section in recipe.steps">
+            <div v-for="section in recipe.steps" :key="section.id">
               <h4 v-if="section.name" class="font-bold">
                 {{ section.name }}
               </h4>
               <ol class="grid list-inside list-decimal gap-3 leading-normal marker:font-semibold marker:text-orange-950/80 lg:gap-4">
-                <li v-for="step in section.items">
+                <li v-for="step in section.items" :key="step.id">
                   {{ step.text }}
                 </li>
               </ol>
@@ -166,7 +151,7 @@ useHead({
       </div>
     </article>
   </div>
-  <DeleteModal
+  <ModalsDeleteModal
     :id="deleteId"
     title="Delete recipe?"
     paragraph="Are you sure you want to delete the recipe? The actions can't be undone."

@@ -55,7 +55,7 @@ useHead({
 
 <template>
   <div class="sticky inset-x-0 top-10 z-30 -mx-1 mb-8 bg-white px-1 pt-4 lg:top-0">
-    <form class="relative flex-1 border-b" action="#" method="GET">
+    <form class="relative flex-1 border-b border-b-gray-300" action="#" method="GET">
       <label for="search-field" class="sr-only">Search</label>
       <svg
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -67,79 +67,73 @@ useHead({
           clip-rule="evenodd"
         />
       </svg>
-      <input
+      <NuggetFormInput
         id="search-field"
         v-model="searchQuery"
-        class="block size-full rounded-md border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500"
-        placeholder="Search..."
         type="search"
         name="search"
-      >
+        placeholder="Search..."
+        variant="borderless"
+        class="size-full"
+      />
     </form>
   </div>
-  <div class="sm:flex sm:items-center sm:justify-between">
+  <div class="flex items-center justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Recipes
       </h2>
     </div>
-    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
+    <div class="flex gap-4 ml-4">
       <a
         href="/edit"
-        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-sm ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
+        class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-xs ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
       >
         <Icon icon="lets-icons:add-round" class="size-6 text-orange-500" />
         Add recipe
       </a>
     </div>
   </div>
-  <div class="flex justify-between pt-6">
-    <div class="flex gap-4">
-      <select
-        id="sortBy"
-        v-model="sortBy"
-        name="sortBy"
-        class="block w-40 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-      >
-        <option value="default">
-          Default
-        </option>
-        <option value="name">
-          Name
-        </option>
-        <option value="energy">
-          Energy
-        </option>
-      </select>
-      <div class="border-l border-l-gray-400" />
-      <input
-        id="portions"
-        v-model.number="portions"
-        type="number"
-        name="portions"
-        placeholder="portions"
-        class="block w-32 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-      >
-      <IngredientMultiSelect
-        v-if="ingredientsData"
-        v-model="selectedIngredients"
-        :ingredients="ingredientsData.ingredients"
-        class="w-80"
-      />
-    </div>
-    <button
-      type="button"
-      class="transparent rounded-md px-3 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+  <div class="gap-4 mt-4 hidden @2xl:flex">
+    <NuggetFormSelect
+      id="sortBy"
+      v-model="sortBy"
+      :options="[
+        { value: 'default', label: 'Default' },
+        { value: 'name', label: 'Name' },
+        { value: 'energy', label: 'Energy' },
+      ]"
+      :full-width="false"
+      class="w-40"
+    />
+    <div class="border-l border-l-gray-300" />
+    <NuggetFormInput
+      id="portions"
+      v-model="portions"
+      type="number"
+      name="portions"
+      placeholder="portions"
+      :full-width="false"
+    />
+    <IngredientMultiSelect
+      v-if="ingredientsData"
+      v-model="selectedIngredients"
+      :ingredients="ingredientsData.ingredients"
+      class="w-80"
+    />
+    <NuggetButton
+      variant="ghost"
+      color="primary"
       @click="portions = null; searchQuery = ''; sortBy = 'default'; selectedIngredients = []"
     >
       Clear filters
-    </button>
+    </NuggetButton>
   </div>
   <div v-if="data" class="mt-3 grid grid-cols-1 gap-6 @md:grid-cols-2 @3xl:grid-cols-3 @3xl:gap-10 @6xl:grid-cols-4 sm:mt-6">
     <article
       v-for="recipe in filteredRecipes"
       :key="recipe.id"
-      class="relative overflow-hidden rounded-md border bg-white transition-all duration-500 hover:shadow-md"
+      class="relative overflow-hidden rounded-md border border-gray-300 bg-white transition-all duration-500 hover:shadow-md"
     >
       <div class="absolute right-2 top-2 z-10 rounded-md bg-orange-400 px-4 py-1.5 text-white shadow-md">
         {{ recipe.portions }} portions

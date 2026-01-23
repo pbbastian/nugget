@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
-import { computed, onMounted, ref, watch } from 'vue'
-import DeleteModal from '../components/modals/DeleteModal.vue'
-import IngredientModal from '../components/modals/IngredientModal.vue'
-
 const { data, refresh } = await useAPI<IngredientsResult>('ingredients')
 
 const searchQuery = ref('')
@@ -51,7 +46,7 @@ useHead({
 
 <template>
   <div class="sticky inset-x-0 top-10 z-30 -mx-1 mb-8 bg-white px-1 pt-4 lg:top-0">
-    <form class="relative flex-1 border-b" action="#" method="GET">
+    <form class="relative flex-1 border-b border-b-gray-300" action="#" method="GET">
       <label for="search-field" class="sr-only">Search</label>
       <svg
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -63,44 +58,44 @@ useHead({
           clip-rule="evenodd"
         />
       </svg>
-      <input
+      <NuggetFormInput
         id="search-field"
         v-model="searchQuery"
-        class="block size-full rounded-md border-none py-4 pl-8 pr-0 text-sm text-gray-900 outline-0 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500"
-        placeholder="Search..."
         type="search"
         name="search"
-      >
+        placeholder="Search..."
+        variant="borderless"
+        class="size-full"
+      />
     </form>
   </div>
-  <div class="flex gap-4 pt-6 max-sm:flex-col max-sm:items-start lg:items-center lg:justify-between">
+  <div class="flex gap-4 pt-6 lg:items-center lg:justify-between">
     <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
+      <h2 class="text-2xl font-bold leading-10 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Ingredients
       </h2>
     </div>
-    <button
-      class="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-orange-500 shadow-sm ring-1 ring-inset ring-orange-400 transition-colors duration-300 hover:bg-orange-50"
+    <NuggetButton
+      variant="outlined"
+      color="primary"
+      icon="lets-icons:add-round"
       @click="editId = 'add'"
     >
-      <Icon icon="lets-icons:add-round" class="size-6 text-orange-500" />
       Add Ingredient
-    </button>
+    </NuggetButton>
   </div>
-  <div class="pt-6">
-    <select
+  <div class="pt-6 max-sm:hidden">
+    <NuggetFormSelect
       id="sortBy"
       v-model="sortBy"
       name="sortBy"
-      class="block w-40 rounded-md border-orange-300 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
-    >
-      <option value="default">
-        Default
-      </option>
-      <option value="name">
-        Name
-      </option>
-    </select>
+      :options="[
+        { value: 'default', label: 'Default' },
+        { value: 'name', label: 'Name' },
+      ]"
+      :full-width="false"
+      class="w-40"
+    />
   </div>
   <div v-if="data" class="mt-6">
     <ul role="list" class="divide-y divide-gray-100">
@@ -160,18 +155,28 @@ useHead({
           </div>
         </div>
         <div class="col-span-2 flex items-center justify-end gap-2 max-md:order-2 md:col-span-1">
-          <button class="transition-color p-1.5 hover:opacity-60" @click="editId = ingredient.id">
-            <Icon icon="circum:edit" class="size-6 text-orange-950" />
-          </button>
-          <button class="transition-color p-1.5 hover:opacity-60" @click="deleteId = ingredient.id">
-            <Icon icon="teenyicons:bin-outline" class="size-6 text-red-400" />
-          </button>
+          <NuggetButton
+            variant="icon"
+            color="secondary"
+            icon="circum:edit"
+            icon-only
+            size="sm"
+            @click="editId = ingredient.id"
+          />
+          <NuggetButton
+            variant="icon"
+            color="danger"
+            icon="teenyicons:bin-outline"
+            icon-only
+            size="sm"
+            @click="deleteId = ingredient.id"
+          />
         </div>
       </li>
     </ul>
   </div>
-  <IngredientModal :id="editId" @close-modal="editId = null; refresh()" />
-  <DeleteModal
+  <ModalsIngredientModal :id="editId" @close-modal="editId = null; refresh()" />
+  <ModalsDeleteModal
     :id="deleteId"
     title="Delete ingredient?"
     paragraph="Are you sure you want to delete the ingredient? It will be removed from all recipes."
