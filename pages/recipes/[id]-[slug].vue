@@ -4,17 +4,27 @@ import { Collapse } from 'vue-collapsed'
 
 const route = useRoute()
 
-const { data } = await useFetch<RecipeResult>(`recipes/${route.params.id}`, {
+const { data, refresh: refreshRecipe } = await useFetch<RecipeResult>(`recipes/${route.params.id}`, {
   $fetch: useNuxtApp().$api,
   default: () => ({ recipe: null }),
 })
-const { recipe } = toRefs(data.value)
+
+const recipe = computed(() => data.value?.recipe ?? null)
 
 const deleteId: Ref<any> = ref(null)
+const ingredientId: Ref<number | null> = ref(null)
 
 async function onDelete() {
   deleteId.value = null
   await navigateTo('/')
+}
+
+function viewIngredient(id: number | string) {
+  ingredientId.value = typeof id === 'string' ? Number.parseInt(id) : id
+}
+
+function onIngredientSaved() {
+  refreshRecipe()
 }
 
 const showIngredientsList = ref(true)
@@ -121,7 +131,12 @@ useHead({
                     {{ section.name }}
                   </h4>
                   <ul class="grid gap-1 lg:gap-3">
-                    <li v-for="ingredient in section.items" :key="ingredient.id" class="leading-normal">
+                    <li
+                      v-for="ingredient in section.items"
+                      :key="ingredient.id"
+                      class="leading-normal cursor-pointer hover:text-orange-500 transition-colors"
+                      @click="ingredient.ingredient?.id && viewIngredient(ingredient.ingredient.id)"
+                    >
                       {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient?.name }}
                     </li>
                   </ul>
@@ -158,6 +173,12 @@ useHead({
     resource="recipes"
     @on-delete="onDelete"
     @on-cancel="deleteId = null"
+  />
+  <ModalsIngredientModal
+    :id="ingredientId"
+    :readonly="true"
+    @close-modal="ingredientId = null"
+    @saved="onIngredientSaved"
   />
 </template>
 
