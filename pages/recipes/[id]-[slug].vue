@@ -48,7 +48,7 @@ async function markMadeToday() {
   catch {
     addToast({
       type: 'error',
-      title: 'Fejl ved opdatatering af historik',
+      title: 'Fejl ved opdatering af historik',
       message: 'Kunne ikke markere opskriften',
     })
   }
