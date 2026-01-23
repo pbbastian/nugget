@@ -344,7 +344,7 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
                     <div class="col-span-2 w-full sm:col-span-1">
                       <NuggetFormInput
-                        id="amount"
+                        :id="`amount-${sectionIndex}-${index}`"
                         v-model="ingredient.amount"
                         type="number"
                         name="amount"
@@ -357,7 +357,7 @@ function calculateCalories(ingredient: any): number | null {
                       </NuggetFormLabel>
                       <div class="mt-1 flex items-center gap-2 sm:gap-4">
                         <NuggetFormSelect
-                          id="unit"
+                          :id="`unit-${sectionIndex}-${index}`"
                           v-model="ingredient.unit"
                           name="unit"
                           :options="units"
