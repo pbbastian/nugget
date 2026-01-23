@@ -27,6 +27,55 @@ function onIngredientSaved() {
   refreshRecipe()
 }
 
+const { addToast } = useToast()
+
+async function markMadeToday() {
+  try {
+    const api = useNuxtApp().$api
+    await api(`recipes/${route.params.id}/mark-made`, {
+      method: 'POST',
+      body: {
+        madeAt: new Date().toISOString(),
+      },
+    })
+    await refreshRecipe()
+    addToast({
+      type: 'success',
+      title: 'Historik opdateret',
+      message: 'Opskriften er markeret som lavet i dag',
+    })
+  }
+  catch {
+    addToast({
+      type: 'error',
+      title: 'Fejl ved opdatering af historik',
+      message: 'Kunne ikke markere opskriften',
+    })
+  }
+}
+
+async function deleteHistory(historyId: number) {
+  try {
+    const api = useNuxtApp().$api
+    await api(`recipes/${route.params.id}/history/${historyId}`, {
+      method: 'DELETE',
+    })
+    await refreshRecipe()
+    addToast({
+      type: 'success',
+      title: 'Historik slettet',
+      message: 'Historik entry er blevet slettet',
+    })
+  }
+  catch {
+    addToast({
+      type: 'error',
+      title: 'Fejl',
+      message: 'Kunne ikke slette historik entry',
+    })
+  }
+}
+
 const showIngredientsList = ref(true)
 
 useHead({
@@ -44,7 +93,15 @@ useHead({
         {{ recipe.name }}
       </h2>
     </div>
-    <div class="mt-5 flex gap-4 sm:ml-4 sm:mt-0">
+    <div class="mt-5 flex flex-wrap gap-4 sm:ml-4 sm:mt-0">
+      <NuggetButton
+        variant="outlined"
+        color="primary"
+        icon="mdi:check-circle-outline"
+        @click="markMadeToday"
+      >
+        Lavet i dag
+      </NuggetButton>
       <NuggetButton
         variant="outlined"
         color="danger"
@@ -164,6 +221,32 @@ useHead({
           </div>
         </div>
       </div>
+    </article>
+    <article v-if="recipe.history && recipe.history.length > 0" class="mt-10 rounded-lg bg-white p-6 shadow-sm ring-1 ring-gray-200">
+      <h3 class="mb-4 text-xl font-semibold text-gray-800">
+        Historik
+      </h3>
+      <p class="mb-4 text-sm text-gray-600">
+        Lavet {{ recipe.history.length }} {{ recipe.history.length === 1 ? 'gang' : 'gange' }}
+      </p>
+      <ul class="grid gap-2">
+        <li
+          v-for="entry in recipe.history"
+          :key="entry.id"
+          class="flex items-center justify-between rounded-md px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+        >
+          <span>
+            {{ new Date(entry.madeAt).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' }) }}
+          </span>
+          <button
+            class="text-gray-400 transition-colors hover:text-red-500 cursor-pointer"
+            title="Slet"
+            @click="deleteHistory(entry.id)"
+          >
+            <Icon icon="teenyicons:bin-outline" class="size-5" />
+          </button>
+        </li>
+      </ul>
     </article>
   </div>
   <ModalsDeleteModal

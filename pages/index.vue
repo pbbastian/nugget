@@ -6,19 +6,28 @@ const { data: ingredientsData } = await useAPI<{ ingredients: any[] }>('ingredie
 
 const portions = ref<number | null>(null)
 const searchQuery = ref('')
-const sortBy = ref<'default' | 'name' | 'energy'>('default')
+const sortBy = ref<'default' | 'name' | 'energy' | 'lastMade'>('default')
 const selectedIngredients = ref<number[]>([])
 
 onMounted(() => {
   const savedSortBy = localStorage.getItem('recipes-sortBy')
-  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name' || savedSortBy === 'energy')) {
-    sortBy.value = savedSortBy as 'default' | 'name' | 'energy'
+  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name' || savedSortBy === 'energy' || savedSortBy === 'lastMade')) {
+    sortBy.value = savedSortBy as 'default' | 'name' | 'energy' | 'lastMade'
   }
 })
 
 watch(sortBy, (newValue) => {
   localStorage.setItem('recipes-sortBy', newValue)
 })
+
+function formatLastMade(lastMadeAt: string | null | undefined): string {
+  if (!lastMadeAt) {
+    return ''
+  }
+
+  const date = new Date(lastMadeAt)
+  return date.toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' })
+}
 
 const filteredRecipes = computed(() => {
   if (!data.value)
@@ -43,6 +52,21 @@ const filteredRecipes = computed(() => {
   }
   else if (sortBy.value === 'energy') {
     filtered = [...filtered].sort((a, b) => a.energy - b.energy)
+  }
+  else if (sortBy.value === 'lastMade') {
+    filtered = [...filtered].sort((a, b) => {
+      // Recipes with lastMadeAt come first, sorted by most recent
+      if (a.lastMadeAt && b.lastMadeAt) {
+        return new Date(b.lastMadeAt).getTime() - new Date(a.lastMadeAt).getTime()
+      }
+      // Recipes with lastMadeAt come before those without
+      if (a.lastMadeAt && !b.lastMadeAt)
+        return -1
+      if (!a.lastMadeAt && b.lastMadeAt)
+        return 1
+      // Both null, maintain order
+      return 0
+    })
   }
 
   return filtered
@@ -102,6 +126,7 @@ useHead({
         { value: 'default', label: 'Default' },
         { value: 'name', label: 'Name' },
         { value: 'energy', label: 'Energy' },
+        { value: 'lastMade', label: 'Last Made' },
       ]"
       :full-width="false"
       class="w-40"
@@ -137,6 +162,9 @@ useHead({
     >
       <div class="absolute right-2 top-2 z-10 rounded-md bg-orange-400 px-4 py-1.5 text-white shadow-md">
         {{ recipe.portions }} portions
+      </div>
+      <div v-if="recipe.lastMadeAt" class="absolute left-2 top-2 z-10 rounded-md bg-green-500 px-3 py-1 text-xs text-white shadow-md">
+        {{ formatLastMade(recipe.lastMadeAt) }}
       </div>
       <a :href="`/recipes/${recipe.id}-${recipe.slug}`">
         <div class="relative h-52 w-full overflow-hidden">
