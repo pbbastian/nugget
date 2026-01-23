@@ -1,12 +1,8 @@
 <script setup lang="ts">
+import type { Ingredient } from '~/composables/ingredients'
+
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxLabel, ComboboxOption, ComboboxOptions } from '@headlessui/vue'
 import { Icon } from '@iconify/vue'
-
-export interface Ingredient {
-  id: number
-  name: string
-  vendor?: string
-}
 
 const props = withDefaults(defineProps<{
   modelValue: number | number[] | null
@@ -38,11 +34,11 @@ const filteredIngredients = computed(() => {
 const selectedIngredients = computed(() => {
   if (props.multiple) {
     const ids = Array.isArray(props.modelValue) ? props.modelValue : []
-    return props.ingredients.filter(ing => ids.includes(ing.id))
+    return props.ingredients.filter(ing => ing.id != null && ids.includes(Number(ing.id)))
   }
   else {
     const id = typeof props.modelValue === 'number' ? props.modelValue : null
-    return id ? props.ingredients.filter(ing => ing.id === id) : []
+    return id ? props.ingredients.filter(ing => Number(ing.id) === id) : []
   }
 })
 
@@ -57,11 +53,11 @@ const selectedIngredient = computed({
   },
   set: (value) => {
     if (props.multiple) {
-      const ids = Array.isArray(value) ? value.map((v: Ingredient) => v.id) : []
+      const ids = Array.isArray(value) ? value.map((v: Ingredient) => v.id != null ? Number(v.id) : 0).filter(id => id !== 0) : []
       emit('update:modelValue', ids)
     }
     else {
-      const id = value ? (value as Ingredient).id : null
+      const id = value && (value as Ingredient).id != null ? Number((value as Ingredient).id) : null
       emit('update:modelValue', id)
     }
   },
@@ -77,13 +73,16 @@ const displayValue = computed(() => {
   return selectedIngredients.value[0]?.name || ''
 })
 
-function isSelected(ingredientId: number): boolean {
+function isSelected(ingredientId: number | string | undefined): boolean {
+  if (ingredientId == null)
+    return false
+  const numId = Number(ingredientId)
   if (props.multiple) {
     const ids = Array.isArray(props.modelValue) ? props.modelValue : []
-    return ids.includes(ingredientId)
+    return ids.includes(numId)
   }
   else {
-    return props.modelValue === ingredientId
+    return props.modelValue === numId
   }
 }
 </script>

@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import type { Ingredient } from '~/composables/ingredients'
+import type { Recipe } from '~/composables/recipes'
+
 import { Icon } from '@iconify/vue'
 
 const route = useRoute()
 const router = useRouter()
-const divider = route.params.slug.indexOf('-')
-const id = divider !== -1 ? route.params.slug.slice(0, divider) : null
-const slug = divider !== -1 ? route.params.slug.slice(divider + 1) : null
+const slug = route.params.slug as string
+const divider = slug?.indexOf('-') ?? -1
+const id = divider !== -1 ? slug.slice(0, divider) : null
+const slugPart = divider !== -1 ? slug.slice(divider + 1) : null
 const recipe: Ref<Recipe | null> = ref(null)
 const ingredients: Ref<Ingredient[]> = ref([])
 if (id) {
@@ -37,7 +41,7 @@ else {
   ingredients.value = data.value.ingredients
 }
 const { saving, save } = useEdit('recipes', recipe, async (newId, newSlug) => {
-  if (newSlug !== slug) {
+  if (newSlug !== slugPart) {
     await router.replace(`/edit/${newId}-${newSlug}`)
   }
 })
@@ -88,13 +92,13 @@ function moveIngredientSectionDown(index: number) {
 }
 
 function moveIngredientUp(sectionIndex: number, itemIndex: number) {
-  if (recipe.value) {
+  if (recipe.value && recipe.value.ingredients[sectionIndex]?.items) {
     moveItem(recipe.value.ingredients[sectionIndex].items, itemIndex, 'up')
   }
 }
 
 function moveIngredientDown(sectionIndex: number, itemIndex: number) {
-  if (recipe.value) {
+  if (recipe.value && recipe.value.ingredients[sectionIndex]?.items) {
     moveItem(recipe.value.ingredients[sectionIndex].items, itemIndex, 'down')
   }
 }
@@ -110,13 +114,13 @@ function moveStepSectionDown(index: number) {
 }
 
 function moveStepUp(sectionIndex: number, itemIndex: number) {
-  if (recipe.value) {
+  if (recipe.value && recipe.value.steps[sectionIndex]?.items) {
     moveItem(recipe.value.steps[sectionIndex].items, itemIndex, 'up')
   }
 }
 
 function moveStepDown(sectionIndex: number, itemIndex: number) {
-  if (recipe.value) {
+  if (recipe.value && recipe.value.steps[sectionIndex]?.items) {
     moveItem(recipe.value.steps[sectionIndex].items, itemIndex, 'down')
   }
 }
@@ -324,14 +328,16 @@ function calculateCalories(ingredient: any): number | null {
                       <div class="mt-1">
                         <IngredientMultiSelect
                           :id="`ingredient-${sectionIndex}-${index}`"
-                          v-model="section.items[index].ingredient.id"
+                          :model-value="ingredient.ingredient?.id ? Number(ingredient.ingredient.id) : null"
                           :ingredients="ingredients"
                           :multiple="false"
                           placeholder="Select ingredient..."
                           label="Ingredient"
-                          @update:model-value="(id) => {
-                            const ingredient = ingredients.find(i => i.id === id)
-                            if (ingredient) section.items[index].ingredient = ingredient
+                          @update:model-value="(selectedId) => {
+                            const foundIngredient = ingredients.find(i => Number(i.id) === selectedId)
+                            if (foundIngredient) {
+                              section.items[index]!.ingredient = foundIngredient
+                            }
                           }"
                         />
                       </div>
@@ -376,7 +382,7 @@ function calculateCalories(ingredient: any): number | null {
                       full-width
                       icon="lets-icons:add-round"
                       class="border-orange-300 text-orange-300 hover:border-orange-500 hover:text-orange-500"
-                      @click="section.items.push({ amount: 0, unit: units[0], ingredient: null })"
+                      @click="section.items.push({ amount: 0, unit: units[0] || 'stk', ingredient: null })"
                     >
                       Add ingredient
                     </NuggetButton>
