@@ -36,6 +36,8 @@ export interface Recipe {
   ingredients: IngredientSection[]
   steps: StepSection[]
   ingredient_ids?: number[]
+  lastMadeAt?: string | null
+  history?: Array<{ id: number, madeAt: string }>
 }
 
 export interface RecipeResult {

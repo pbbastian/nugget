@@ -41,4 +41,9 @@ export const Recipe = z.object({
   steps: z.array(RecipeStepSection),
   ingredients: z.array(RecipeIngredientSection),
   ingredient_ids: z.array(z.number()).optional(),
+  lastMadeAt: z.coerce.date().nullable().optional(),
+  history: z.array(z.object({
+    id: z.number(),
+    madeAt: z.coerce.date(),
+  })).optional(),
 })

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
         WHERE "id" = ${params.id}
     `)
 
-  if (recipesResult.rowCount == 0) {
+  if (recipesResult.rowCount === 0) {
     setResponseStatus(event, 404)
     return {}
   }
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
         ORDER BY s.order
     `)
 
-  const ingredientsResult = query.ingredients == 'necessary'
+  const ingredientsResult = query.ingredients === 'necessary'
     ? await pool.query(sql`
             SELECT ri.id, ri.amount, ri.unit,
                    to_jsonb(i) as ingredient
@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
 
   let ingredients: any[] = []
   const recipeIngredients = ingredientsResult.rows
-  if (query.ingredients == 'all') {
+  if (query.ingredients === 'all') {
     const all = await pool.query(sql`
             SELECT * FROM "ingredients"
             ORDER BY "name" DESC
@@ -102,5 +102,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return dedupe(query.ingredients == 'necessary' ? { recipe } : { recipe, ingredients })
+  const historyResult = await pool.query(sql`
+    SELECT id, "madeAt"
+    FROM recipe_history
+    WHERE recipe = ${params.id}
+    ORDER BY "madeAt" DESC
+  `)
+  recipe.history = historyResult.rows
+
+  return dedupe(query.ingredients === 'necessary' ? { recipe } : { recipe, ingredients })
 })
