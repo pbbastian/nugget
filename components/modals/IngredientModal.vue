@@ -3,11 +3,22 @@ import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessu
 
 const props = defineProps<{
   id: 'add' | number | null
+  readonly?: boolean
 }>()
 
 const emit = defineEmits<{
   closeModal: []
+  saved: []
 }>()
+
+const isEditing = ref(false)
+
+// Reset editing mode when modal opens/closes
+watch(toRef(props, 'id'), (value) => {
+  if (value === null) {
+    isEditing.value = false
+  }
+})
 
 const { data, refresh, clear } = await useAPI<Ingredient>(computed(() => `ingredients/${props.id}`), { immediate: false, watch: false })
 watch(toRef(props, 'id'), (value, _) => {
@@ -60,9 +71,20 @@ const { saving, save, success } = useEdit('ingredients', data)
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <form class="space-y-6" action="#" method="POST">
                   <div class="border-b border-gray-900/10 pb-12">
-                    <h2 class="mb-2 text-base font-semibold leading-7 text-orange-950">
-                      Ingredient Information
-                    </h2>
+                    <div class="mb-2 flex items-center justify-between">
+                      <h2 class="text-base font-semibold leading-7 text-orange-950">
+                        {{ (props.readonly && !isEditing) ? 'Ingredient Details' : 'Ingredient Information' }}
+                      </h2>
+                      <NuggetButton
+                        v-if="props.readonly && !isEditing"
+                        variant="ghost"
+                        color="primary"
+                        icon="circum:edit"
+                        @click="isEditing = true"
+                      >
+                        Edit
+                      </NuggetButton>
+                    </div>
                     <div class="grid grid-cols-2 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
                       <div class="col-span-2 sm:col-span-5">
                         <NuggetFormInput
@@ -73,6 +95,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Name"
                           placeholder="Beef"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -85,6 +108,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Vendor (optional)"
                           placeholder="Rema 1000"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -97,6 +121,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Density (g/ml) (optional)"
                           placeholder="None"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -109,6 +134,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Weight (g/pc) (optional)"
                           placeholder="None"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -121,6 +147,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Calories"
                           placeholder="700"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -133,6 +160,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Fat"
                           placeholder="15"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -145,6 +173,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Carbs"
                           placeholder="15"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -157,6 +186,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Fibers"
                           placeholder="4"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
 
@@ -169,24 +199,35 @@ const { saving, save, success } = useEdit('ingredients', data)
                           label="Protein"
                           placeholder="30"
                           variant="shadow"
+                          :readonly="props.readonly && !isEditing"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="mt-6 flex items-center justify-end gap-x-6">
                     <NuggetButton
+                      v-if="!props.readonly || (props.readonly && isEditing)"
                       variant="ghost"
                       color="secondary"
-                      @click="$emit('closeModal')"
+                      @click="props.readonly && isEditing ? (isEditing = false, refresh()) : $emit('closeModal')"
                     >
                       Cancel
                     </NuggetButton>
                     <NuggetButton
+                      v-if="props.readonly && !isEditing"
+                      variant="filled"
+                      color="primary"
+                      @click="$emit('closeModal')"
+                    >
+                      Close
+                    </NuggetButton>
+                    <NuggetButton
+                      v-if="!props.readonly || (props.readonly && isEditing)"
                       variant="filled"
                       color="primary"
                       :disabled="saving"
                       :loading="saving"
-                      @click="save().then(() => { if (success) emit('closeModal') })"
+                      @click="save().then(() => { if (success) { emit('saved'); isEditing = false; if (!props.readonly) emit('closeModal') } })"
                     >
                       Save
                     </NuggetButton>
