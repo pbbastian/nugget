@@ -77,20 +77,6 @@ const displayValue = computed(() => {
   return selectedIngredients.value[0]?.name || ''
 })
 
-function handleSelect(ingredient: Ingredient) {
-  if (!props.multiple) {
-    emit('update:modelValue', ingredient.id)
-    query.value = ''
-    return
-  }
-
-  const ids = Array.isArray(props.modelValue) ? props.modelValue : []
-  const newValue = ids.includes(ingredient.id)
-    ? ids.filter(i => i !== ingredient.id)
-    : [...ids, ingredient.id]
-  emit('update:modelValue', newValue)
-}
-
 function isSelected(ingredientId: number): boolean {
   if (props.multiple) {
     const ids = Array.isArray(props.modelValue) ? props.modelValue : []
@@ -112,6 +98,7 @@ function isSelected(ingredientId: number): boolean {
         class="block w-full rounded-md bg-white px-3 py-[7px] text-base text-gray-900 outline-1 -outline-offset-1 outline-orange-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-500 focus:ring-orange-500 sm:text-sm/6"
         :display-value="() => displayValue"
         :placeholder="placeholder"
+        autocomplete="off"
         @change="query = $event.target.value"
         @blur="query = ''"
       />
@@ -123,14 +110,13 @@ function isSelected(ingredientId: number): boolean {
         <ComboboxOption
           v-for="ingredient in filteredIngredients"
           :key="ingredient.id"
-          v-slot="{ active, selected }"
+          v-slot="{ active }"
           :value="ingredient"
           as="template"
-          @click="handleSelect(ingredient)"
         >
           <li class="relative cursor-default select-none py-2 pl-3 pr-9" :class="[active ? 'bg-orange-500 text-white outline-none' : 'text-gray-900']">
             <div class="flex">
-              <span class="truncate" :class="[selected && 'font-semibold']">{{ ingredient.name }}</span>
+              <span class="truncate" :class="[isSelected(ingredient.id) && 'font-semibold']">{{ ingredient.name }}</span>
               <span v-if="ingredient.vendor" class="ml-2 truncate text-gray-500" :class="[active ? 'text-orange-200' : 'text-gray-500']">{{ ingredient.vendor }}</span>
             </div>
 
