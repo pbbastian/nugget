@@ -26,7 +26,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const textareaId = computed(() => props.id || `textarea-${Math.random().toString(36).substr(2, 9)}`)
+const textareaId = computed(() => props.id || `textarea-${Math.random().toString(36).substring(2, 11)}`)
 
 const textareaClasses = computed(() => {
   const classes: string[] = [

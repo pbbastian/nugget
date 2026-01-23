@@ -29,7 +29,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | number | null]
 }>()
 
-const inputId = computed(() => props.id || `input-${Math.random().toString(36).substr(2, 9)}`)
+const inputId = computed(() => props.id || `input-${Math.random().toString(36).slice(2, 11)}`)
 
 const inputClasses = computed(() => {
   const classes: string[] = [

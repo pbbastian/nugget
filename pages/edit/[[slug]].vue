@@ -289,7 +289,7 @@ function calculateCalories(ingredient: any): number | null {
               />
               <div>
                 <NuggetFormInput
-                  :id="`section-name-${sectionIndex}`"
+                  :id="`ingredient-section-name-${sectionIndex}`"
                   v-model="section.name"
                   type="text"
                   name="section-name"
@@ -442,7 +442,7 @@ function calculateCalories(ingredient: any): number | null {
               />
               <div>
                 <NuggetFormInput
-                  :id="`section-name-${sectionIndex}`"
+                  :id="`step-section-name-${sectionIndex}`"
                   v-model="section.name"
                   type="text"
                   name="section-name"
@@ -488,7 +488,7 @@ function calculateCalories(ingredient: any): number | null {
                     </div>
                     <div class="mt-1">
                       <NuggetFormTextarea
-                        :id="`step${stepIndex}`"
+                        :id="`step-${sectionIndex}-${stepIndex}`"
                         v-model="step.text"
                         :name="`step${stepIndex}`"
                         :rows="3"

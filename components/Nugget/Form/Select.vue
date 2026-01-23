@@ -31,7 +31,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | number]
 }>()
 
-const selectId = computed(() => props.id || `select-${Math.random().toString(36).substr(2, 9)}`)
+const selectId = computed(() => props.id || `select-${Math.random().toString(36).slice(2, 11)}`)
 
 const normalizedOptions = computed(() => {
   if (!props.options || props.options.length === 0)
@@ -51,7 +51,7 @@ const normalizedOptions = computed(() => {
 
 const selectClasses = computed(() => {
   const classes: string[] = [
-    'col-start-1 row-start-1 w-full appearance-none rounded-md bg-white ',
+    'col-start-1 row-start-1 appearance-none rounded-md bg-white ',
     'py-1.5 pr-8 pl-3 ',
     'text-base text-gray-900 outline-1 -outline-offset-1 outline-orange-300 ',
     'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-500 ',
