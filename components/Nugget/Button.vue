@@ -40,85 +40,68 @@ const buttonClasses = computed(() => {
   classes.push(sizeMap[props.size])
 
   // Variant and color combinations
-  if (props.variant === 'filled') {
-    if (props.color === 'primary') {
-      classes.push(
+  const variantColorMap: Record<string, Record<string, string[]>> = {
+    filled: {
+      primary: [
         'bg-orange-500 text-white shadow-xs hover:bg-orange-400',
         'focus-visible:outline-orange-500',
-      )
-    }
-    else if (props.color === 'secondary') {
-      classes.push(
+      ],
+      secondary: [
         'bg-white text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
         'focus-visible:outline-gray-500',
-      )
-    }
-    else if (props.color === 'danger') {
-      classes.push(
+      ],
+      danger: [
         'bg-red-600 text-white shadow-xs hover:bg-red-500',
         'focus-visible:outline-red-600',
-      )
-    }
-  }
-  else if (props.variant === 'outlined') {
-    if (props.color === 'primary') {
-      classes.push(
+      ],
+    },
+    outlined: {
+      primary: [
         'bg-white text-orange-500 shadow-xs ring-1 ring-inset ring-orange-400 hover:bg-orange-50',
         'focus-visible:outline-orange-500',
-      )
-    }
-    else if (props.color === 'secondary') {
-      classes.push(
+      ],
+      secondary: [
         'bg-white text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
         'focus-visible:outline-gray-500',
-      )
-    }
-    else if (props.color === 'danger') {
-      classes.push(
+      ],
+      danger: [
         'bg-white text-red-400 shadow-xs ring-1 ring-inset ring-red-400 hover:bg-red-50',
         'focus-visible:outline-red-400',
-      )
-    }
-  }
-  else if (props.variant === 'ghost') {
-    if (props.color === 'primary') {
-      classes.push(
-        'transparent text-gray-900 hover:bg-orange-100 hover:text-orange-400',
+      ],
+    },
+    ghost: {
+      primary: [
+        'text-gray-900 hover:bg-orange-100 hover:text-orange-400',
         'focus-visible:outline-orange-500',
-      )
-    }
-    else if (props.color === 'secondary') {
-      classes.push(
-        'transparent text-gray-900 hover:bg-gray-100',
+      ],
+      secondary: [
+        'text-gray-900 hover:bg-gray-100',
         'focus-visible:outline-gray-500',
-      )
-    }
-    else if (props.color === 'danger') {
-      classes.push(
-        'transparent text-red-400 hover:text-red-600',
-        'focus-visible:outline-red-400',
-      )
-    }
-  }
-  else if (props.variant === 'icon') {
-    if (props.color === 'primary') {
-      classes.push(
-        'text-orange-500 hover:bg-orange-200',
-        'focus-visible:outline-orange-500',
-      )
-    }
-    else if (props.color === 'secondary') {
-      classes.push(
-        'hover:opacity-60',
-        'focus-visible:outline-gray-500',
-      )
-    }
-    else if (props.color === 'danger') {
-      classes.push(
+      ],
+      danger: [
         'text-red-400 hover:text-red-600',
         'focus-visible:outline-red-400',
-      )
-    }
+      ],
+    },
+    icon: {
+      primary: [
+        'text-orange-500 hover:bg-orange-200',
+        'focus-visible:outline-orange-500',
+      ],
+      secondary: [
+        'hover:opacity-60',
+        'focus-visible:outline-gray-500',
+      ],
+      danger: [
+        'text-red-400 hover:text-red-600',
+        'focus-visible:outline-red-400',
+      ],
+    },
+  }
+
+  const variantClasses = variantColorMap[props.variant]?.[props.color]
+  if (variantClasses) {
+    classes.push(...variantClasses)
   }
 
   // Full width
