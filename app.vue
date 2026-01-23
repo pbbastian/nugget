@@ -56,7 +56,7 @@ const isIngredientsActive = computed(() => route.path.startsWith('/ingredients')
       </div>
     </aside>
     <main class="relative max-lg:pt-16 lg:min-h-screen lg:pl-72">
-      <div class="mx-auto max-w-screen-xl px-8 pb-10 @container">
+      <div class="mx-auto max-w-7xl px-4 sm:px-8 pb-10 @container">
         <NuxtPage />
       </div>
     </main>

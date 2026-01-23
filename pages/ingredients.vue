@@ -69,7 +69,7 @@ useHead({
       />
     </form>
   </div>
-  <div class="flex gap-4 pt-6 max-sm:flex-col max-sm:items-start lg:items-center lg:justify-between">
+  <div class="flex gap-4 pt-6 lg:items-center lg:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-10 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Ingredients
@@ -84,7 +84,7 @@ useHead({
       Add Ingredient
     </NuggetButton>
   </div>
-  <div class="pt-6">
+  <div class="pt-6 max-sm:hidden">
     <NuggetFormSelect
       id="sortBy"
       v-model="sortBy"

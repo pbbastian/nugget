@@ -63,8 +63,8 @@ const { saving, save, success } = useEdit('ingredients', data)
                     <h2 class="mb-2 text-base font-semibold leading-7 text-orange-950">
                       Ingredient Information
                     </h2>
-                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
-                      <div class="sm:col-span-5">
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-8 border-t border-gray-900/10 pt-6 sm:grid-cols-10">
+                      <div class="col-span-2 sm:col-span-5">
                         <NuggetFormInput
                           id="name"
                           v-model="data.name"
@@ -76,7 +76,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                         />
                       </div>
 
-                      <div class="sm:col-span-5">
+                      <div class="col-span-2 sm:col-span-5">
                         <NuggetFormInput
                           id="vendor"
                           v-model="data.vendor"
