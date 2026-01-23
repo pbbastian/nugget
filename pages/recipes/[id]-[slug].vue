@@ -38,7 +38,7 @@ async function markMadeToday() {
         madeAt: new Date().toISOString(),
       },
     })
-    await refresh()
+    await refreshRecipe()
     addToast({
       type: 'success',
       title: 'Historik opdateret',
@@ -60,7 +60,7 @@ async function deleteHistory(historyId: number) {
     await api(`recipes/${route.params.id}/history/${historyId}`, {
       method: 'DELETE',
     })
-    await refresh()
+    await refreshRecipe()
     addToast({
       type: 'success',
       title: 'Historik slettet',
