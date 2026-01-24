@@ -72,7 +72,7 @@ const { saving, save, success } = useEdit('ingredients', data)
                 <form class="space-y-6" action="#" method="POST">
                   <div class="border-b border-gray-900/10 pb-12">
                     <div class="mb-2 flex items-center justify-between">
-                      <h2 class="text-base font-semibold leading-7 text-orange-950">
+                      <h2 class="text-base font-semibold text-orange-950">
                         {{ (props.readonly && !isEditing) ? 'Ingredient Details' : 'Ingredient Information' }}
                       </h2>
                       <NuggetButton

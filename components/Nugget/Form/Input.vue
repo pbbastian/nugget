@@ -35,7 +35,7 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
 
 const variantClasses = {
   default: 'border border-orange-300 bg-white px-3 py-1.5 outline-1 -outline-offset-1 sm:text-sm/6',
-  shadow: 'border-0 py-1.5 px-3 shadow-xs ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6',
+  shadow: 'border-0 py-1.5 px-3 shadow-xs ring-1 ring-inset ring-gray-300 sm:text-sm',
   borderless: 'border-none py-4 pl-8 pr-0 outline-0',
 }
 

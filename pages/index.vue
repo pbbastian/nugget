@@ -104,7 +104,7 @@ useHead({
   </div>
   <div class="flex items-center justify-between">
     <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
+      <h2 class="text-2xl font-bold text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight ">
         Recipes
       </h2>
     </div>

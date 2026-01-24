@@ -56,7 +56,7 @@ async function handleDelete() {
                     <Icon icon="octicon:alert-24" class="-mt-1 size-5 text-red-600" />
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
+                    <DialogTitle as="h3" class="text-base font-semibold text-gray-900">
                       {{ title }}
                     </DialogTitle>
                     <div class="mt-2">

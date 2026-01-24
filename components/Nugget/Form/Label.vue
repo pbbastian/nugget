@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <label
     :for="props.for"
-    class="block text-sm font-medium leading-6 text-gray-900"
+    class="block text-sm font-medium text-gray-900"
   >
     <slot />
     <span v-if="required" class="text-red-500">*</span>

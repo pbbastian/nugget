@@ -163,7 +163,7 @@ function calculateCalories(ingredient: any): number | null {
   <div class="sticky inset-x-0 top-12 z-10 w-full border-b border-gray-900/10 bg-white py-6 lg:top-0">
     <div class="w-full sm:flex sm:items-center sm:justify-between">
       <div class="min-w-0 flex-1">
-        <h2 class="text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
+        <h2 class="text-2xl font-bold text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight">
           {{ recipe?.name || 'Create new recipe' }}
         </h2>
       </div>
@@ -201,7 +201,7 @@ function calculateCalories(ingredient: any): number | null {
     <form>
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-lg font-semibold leading-7 text-gray-900">
+          <h2 class="text-lg font-semibold text-gray-900">
             General information
           </h2>
 
@@ -252,7 +252,7 @@ function calculateCalories(ingredient: any): number | null {
         </div>
 
         <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-lg font-semibold leading-7 text-gray-900">
+          <h2 class="text-lg font-semibold text-gray-900">
             Ingredient sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
@@ -405,7 +405,7 @@ function calculateCalories(ingredient: any): number | null {
         </div>
 
         <div>
-          <h2 class="text-lg font-semibold leading-7 text-gray-900">
+          <h2 class="text-lg font-semibold text-gray-900">
             Step sections
           </h2>
           <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-6">
