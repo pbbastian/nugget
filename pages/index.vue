@@ -6,13 +6,13 @@ const { data: ingredientsData } = await useAPI<{ ingredients: any[] }>('ingredie
 
 const portions = ref<number | null>(null)
 const searchQuery = ref('')
-const sortBy = ref<'default' | 'name' | 'energy' | 'lastMade'>('default')
+const sortBy = ref<'default' | 'name' | 'energy' | 'protein' | 'fibres' | 'lastMade'>('default')
 const selectedIngredients = ref<number[]>([])
 
 onMounted(() => {
   const savedSortBy = localStorage.getItem('recipes-sortBy')
-  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name' || savedSortBy === 'energy' || savedSortBy === 'lastMade')) {
-    sortBy.value = savedSortBy as 'default' | 'name' | 'energy' | 'lastMade'
+  if (savedSortBy && (savedSortBy === 'default' || savedSortBy === 'name' || savedSortBy === 'energy' || savedSortBy === 'protein' || savedSortBy === 'fibres' || savedSortBy === 'lastMade')) {
+    sortBy.value = savedSortBy as 'default' | 'name' | 'energy' | 'protein' | 'fibres' | 'lastMade'
   }
 })
 
@@ -52,6 +52,12 @@ const filteredRecipes = computed(() => {
   }
   else if (sortBy.value === 'energy') {
     filtered = [...filtered].sort((a, b) => a.energy - b.energy)
+  }
+  else if (sortBy.value === 'protein') {
+    filtered = [...filtered].sort((a, b) => b.protein - a.protein)
+  }
+  else if (sortBy.value === 'fibres') {
+    filtered = [...filtered].sort((a, b) => b.fibres - a.fibres)
   }
   else if (sortBy.value === 'lastMade') {
     filtered = [...filtered].sort((a, b) => {
@@ -126,6 +132,8 @@ useHead({
         { value: 'default', label: 'Default' },
         { value: 'name', label: 'Name' },
         { value: 'energy', label: 'Energy' },
+        { value: 'protein', label: 'Protein' },
+        { value: 'fibres', label: 'Fibres' },
         { value: 'lastMade', label: 'Last Made' },
       ]"
       :full-width="false"
