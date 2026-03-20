@@ -13,6 +13,8 @@ const recipe = computed(() => data.value?.recipe ?? null)
 
 const deleteId: Ref<any> = ref(null)
 const ingredientId: Ref<number | null> = ref(null)
+const isMarkMadeModalOpen = ref(false)
+const isSavingMadeAt = ref(false)
 
 async function onDelete() {
   deleteId.value = null
@@ -29,20 +31,37 @@ function onIngredientSaved() {
 
 const { addToast } = useToast()
 
-async function markMadeToday() {
+function formatMadeAt(dateValue: string) {
+  return new Date(`${dateValue}T12:00:00`).toLocaleDateString('da-DK', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+function toMadeAtIso(dateValue: string) {
+  return new Date(`${dateValue}T12:00:00`).toISOString()
+}
+
+async function markMade(dateValue: string) {
+  isSavingMadeAt.value = true
+
   try {
     const api = useNuxtApp().$api
     await api(`recipes/${route.params.id}/mark-made`, {
       method: 'POST',
       body: {
-        madeAt: new Date().toISOString(),
+        madeAt: toMadeAtIso(dateValue),
       },
     })
+
+    isMarkMadeModalOpen.value = false
     await refreshRecipe()
+
     addToast({
       type: 'success',
       title: 'Historik opdateret',
-      message: 'Opskriften er markeret som lavet i dag',
+      message: `Opskriften er markeret som lavet ${formatMadeAt(dateValue)}`,
     })
   }
   catch {
@@ -51,6 +70,9 @@ async function markMadeToday() {
       title: 'Fejl ved opdatering af historik',
       message: 'Kunne ikke markere opskriften',
     })
+  }
+  finally {
+    isSavingMadeAt.value = false
   }
 }
 
@@ -98,9 +120,9 @@ useHead({
         variant="outlined"
         color="primary"
         icon="mdi:check-circle-outline"
-        @click="markMadeToday"
+        @click="isMarkMadeModalOpen = true"
       >
-        Lavet i dag
+        Sæt dato
       </NuggetButton>
       <NuggetButton
         variant="outlined"
@@ -199,7 +221,7 @@ useHead({
                   </ul>
                 </div>
               </div>
-              <div v-if="!showIngredientsList" class="absolute bottom-0 h-20 w-full bg-gradient-to-t from-orange-50 to-transparent" />
+              <div v-if="!showIngredientsList" class="absolute bottom-0 h-20 w-full bg-linear-to-t from-orange-50 to-transparent" />
             </Collapse>
           </div>
         </div>
@@ -262,6 +284,12 @@ useHead({
     :readonly="true"
     @close-modal="ingredientId = null"
     @saved="onIngredientSaved"
+  />
+  <ModalsMarkMadeModal
+    :open="isMarkMadeModalOpen"
+    :loading="isSavingMadeAt"
+    @close="isMarkMadeModalOpen = false"
+    @save="markMade"
   />
 </template>
 
